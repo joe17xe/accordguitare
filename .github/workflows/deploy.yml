@@ -53,38 +53,39 @@ jobs:
         uses: actions/deploy-pages@v4
 
   # 2. JOB DE DÉPLOIEMENT VERS HOSTINGER
-  # Ce job ne s'exécutera QUE si vous configurez le secret FTP_SERVER dans les paramètres de votre dépôt GitHub.
-  deploy-hostinger:
-    name: 🚀 Deploy to Hostinger
-    runs-on: ubuntu-latest
-    if: ${{ secrets.FTP_SERVER != '' }}
-    steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v4
+  # (Commenté pour le moment car vous n'avez pas encore de compte Hostinger.
+  # Il suffira de décommenter ces lignes et configurer vos secrets GitHub quand vous l'aurez !)
+  # deploy-hostinger:
+  #   name: 🚀 Deploy to Hostinger
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 📥 Checkout repository
+  #       uses: actions/checkout@v4
+  #
+  #     - name: 🟢 Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #         cache: 'npm'
+  #
+  #     - name: 📦 Install dependencies
+  #       run: npm install
+  #
+  #     - name: 🔨 Build project for Hostinger
+  #       run: npm run build
+  #       env:
+  #         VITE_APP_BASE_PATH: /
+  #
+  #     - name: 🚀 Deploy via FTP to Hostinger
+  #       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+  #       with:
+  #         server: ${{ secrets.FTP_SERVER }}
+  #         username: ${{ secrets.FTP_USERNAME }}
+  #         password: ${{ secrets.FTP_PASSWORD }}
+  #         local-dir: ./dist/
+  #         server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
+  #         exclude: |
+  #           **/.git*
+  #           **/.git*/**
+  #           **/node_modules/**
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: 📦 Install dependencies
-        run: npm ci
-
-      - name: 🔨 Build project for Hostinger
-        run: npm run build
-        env:
-          VITE_APP_BASE_PATH: /
-
-      - name: 🚀 Deploy via FTP to Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
