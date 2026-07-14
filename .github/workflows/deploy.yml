@@ -1,14 +1,27 @@
-name: Deploy to Hostinger
+name: Multi-Deploy (GitHub Pages & Hostinger)
 
 on:
   push:
     branches:
       - main
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 1. JOB DE DÉPLOIEMENT VERS GITHUB PAGES
+  deploy-github-pages:
+    name: 🌐 Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -22,8 +35,46 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🔨 Build project
+      - name: 🔨 Build project for GitHub Pages
         run: npm run build
+        env:
+          VITE_APP_BASE_PATH: /accordguitare/
+
+      - name: ⚙️ Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: 📤 Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # 2. JOB DE DÉPLOIEMENT VERS HOSTINGER
+  # Ce job ne s'exécutera QUE si vous configurez le secret FTP_SERVER dans les paramètres de votre dépôt GitHub.
+  deploy-hostinger:
+    name: 🚀 Deploy to Hostinger
+    runs-on: ubuntu-latest
+    if: ${{ secrets.FTP_SERVER != '' }}
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔨 Build project for Hostinger
+        run: npm run build
+        env:
+          VITE_APP_BASE_PATH: /
 
       - name: 🚀 Deploy via FTP to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -32,8 +83,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          # Par défaut, Hostinger déploie dans le dossier public_html.
-          # Vous pouvez ajuster cette variable si votre projet est dans un sous-dossier.
           server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
           exclude: |
             **/.git*
