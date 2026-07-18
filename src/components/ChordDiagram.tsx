@@ -8,9 +8,10 @@ interface ChordDiagramProps {
   rootNote?: string;
   showRootNote?: boolean;
   scale?: number;
+  tuningMidis?: number[]; // accordage utilisé au moment de la sauvegarde de l'accord
 }
 
-export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, lightMode = false, rootNote, showRootNote = false, scale = 1.0 }) => {
+export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, lightMode = false, rootNote, showRootNote = false, scale = 1.0, tuningMidis }) => {
   // 1. Map to layout array: Standard vertical diagrams are Low E (string 6) on the left to High E (string 1) on the right.
   // So we reverse the strings state array.
   const displayStrings = [...strings].reverse();
@@ -51,7 +52,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, light
   const checkRoot = (displayIdx: number, fret: number) => {
     if (!showRootNote || !rootNote) return false;
     const stringIdx = 5 - displayIdx; // displayIdx 0 is Low E (stringIdx 5)
-    const note = getNoteAtFret(stringIdx, fret);
+    const note = getNoteAtFret(stringIdx, fret, tuningMidis);
     return note?.pc === rootNote;
   };
 

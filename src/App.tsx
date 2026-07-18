@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { 
-  STRING_TUNINGS, 
+  TUNING_PRESETS, 
   detectGuitarChord, 
   getNoteAtFret, 
   getScaleDegree, 
@@ -8,6 +8,7 @@ import {
   suggestGuitarVoicing, 
   suggestPianoVoicing 
 } from './utils/music';
+import { NOTE_FR, NOTE_EN } from './utils/pitch';
 import type { StringState } from './utils/music';
 import { Fretboard } from './components/Fretboard';
 import { ChordDiagram } from './components/ChordDiagram';
@@ -17,27 +18,15 @@ import { ChordSheet } from './components/ChordSheet';
 import type { SavedChord } from './components/ChordSheet';
 import { ChordGenerator } from './components/ChordGenerator';
 import { ChordProgressions } from './components/ChordProgressions';
-import { Music, Plus, RotateCcw, Volume2, Sparkles, HelpCircle, Layers, Search } from 'lucide-react';
+import { Tuner } from './components/Tuner';
+import { Metronome } from './components/Metronome';
+import { ScaleExplorer } from './components/ScaleExplorer';
+import { Songbook } from './components/Songbook';
+import { Music, Plus, RotateCcw, Volume2, Sparkles, HelpCircle, Layers, Search, Mic, Timer, AudioLines, BookOpen } from 'lucide-react';
 import { Chord } from 'tonal';
-import { Soundfont } from 'smplr';
+import { initAudio, getAudioCtx, getGuitar, getPiano } from './utils/audio';
 
 // Audio Context and Samplers Initialization
-let audioCtx: AudioContext | null = null;
-let acousticGuitar: Soundfont | null = null;
-let acousticPiano: Soundfont | null = null;
-
-export const initAudio = () => {
-  if (!audioCtx) {
-    const AC = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AC) return;
-    audioCtx = new AC();
-    acousticGuitar = new Soundfont(audioCtx, { instrument: 'acoustic_guitar_steel' });
-    acousticPiano = new Soundfont(audioCtx, { instrument: 'acoustic_grand_piano' });
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-};
 
 // Preset definitions (from String 1 [high E] to String 6 [low E])
 const CHORD_PRESETS = [
@@ -51,7 +40,10 @@ const CHORD_PRESETS = [
 ];
 
 export default function App() {
-  const [appPage, setAppPage] = useState<'workspace' | 'progressions'>('workspace');
+  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook'>('workspace');
+
+  // Tonalité + gamme suggérée envoyées vers l'explorateur de gammes
+  const [scaleTarget, setScaleTarget] = useState<{ root: string; type: string } | null>(null);
   const [progressionRoot, setProgressionRoot] = useState<string>('');
   const [inputMode, setInputMode] = useState<'guitar' | 'piano' | 'generator'>('guitar');
 
@@ -65,11 +57,67 @@ export default function App() {
   // Alternative chord index selection
   const [selectedChordIdx, setSelectedChordIdx] = useState<number>(0);
   
-  // Partition list
-  const [savedChords, setSavedChords] = useState<SavedChord[]>([]);
+  // Partition list (persistée : la partition survit au rechargement de la page)
+  const [savedChords, setSavedChords] = useState<SavedChord[]>(() => {
+    try {
+      const raw = localStorage.getItem('fretbywood-partition-v1');
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  });
 
-  // Global setting for root note highlighting
-  const [showRootNote, setShowRootNote] = useState<boolean>(true);
+  // Global setting for root note highlighting (persisté)
+  const [showRootNote, setShowRootNote] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('fretbywood-show-root') !== '0';
+    } catch {
+      return true;
+    }
+  });
+
+  // Sauvegarde automatique en localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('fretbywood-partition-v1', JSON.stringify(savedChords));
+    } catch { /* stockage indisponible : on continue sans persistance */ }
+  }, [savedChords]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('fretbywood-show-root', showRootNote ? '1' : '0');
+    } catch { /* stockage indisponible */ }
+  }, [showRootNote]);
+
+  // Accordage & capo (persistés)
+  const [tuningId, setTuningId] = useState<string>(() => {
+    try {
+      return localStorage.getItem('fretbywood-tuning') || 'standard';
+    } catch {
+      return 'standard';
+    }
+  });
+  const [capo, setCapo] = useState<number>(() => {
+    try {
+      const c = Number(localStorage.getItem('fretbywood-capo'));
+      return Number.isFinite(c) ? Math.min(9, Math.max(0, c)) : 0;
+    } catch {
+      return 0;
+    }
+  });
+  useEffect(() => {
+    try { localStorage.setItem('fretbywood-tuning', tuningId); } catch { /* ignore */ }
+  }, [tuningId]);
+  useEffect(() => {
+    try { localStorage.setItem('fretbywood-capo', String(capo)); } catch { /* ignore */ }
+  }, [capo]);
+
+  const tuningPreset = TUNING_PRESETS.find((t) => t.id === tuningId) || TUNING_PRESETS[0];
+  const isStandardTuning = tuningPreset.id === 'standard';
+  // Accordage effectif = accordage de base décalé par le capo (les frettes restent relatives au capo)
+  const effectiveMidis = tuningPreset.midis.map((m) => m + capo);
+  const tuningLabel = `${tuningPreset.label}${capo > 0 ? ` · Capo ${capo}` : ''}`;
 
   // Automatically reset selected chord index when inputs change
   useEffect(() => {
@@ -102,6 +150,8 @@ export default function App() {
   // Synchronize: Piano Keyboard -> Guitar Fretboard
   useEffect(() => {
     if (inputMode === 'piano') {
+      // Les formes suggérées sont pensées pour l'accordage standard (capo OK)
+      if (!isStandardTuning) return;
       const tempDetection = detectChordFromMidis(activeMidiNotes);
       const chordName = tempDetection.chords[0];
       if (chordName) {
@@ -111,12 +161,12 @@ export default function App() {
         setStrings(['X', 'X', 'X', 'X', 'X', 'X']);
       }
     }
-  }, [activeMidiNotes, inputMode]);
+  }, [activeMidiNotes, inputMode, isStandardTuning]);
 
   // Perform detection on current state depending on mode
   const detection = inputMode === 'piano'
     ? detectChordFromMidis(activeMidiNotes)
-    : detectGuitarChord(strings);
+    : detectGuitarChord(strings, effectiveMidis);
 
   const activeChordName = detection.chords[selectedChordIdx] || '';
 
@@ -166,6 +216,18 @@ export default function App() {
     setAppPage('progressions');
   };
 
+  // Ouvre l'explorateur de gammes sur la tonalité de l'accord détecté,
+  // avec une gamme adaptée à sa couleur (mineur -> penta mineure, 7 -> mixolydien…)
+  const handleFindScales = () => {
+    const info = Chord.get(activeChordName);
+    let suggestedType = 'major';
+    if (info.type.includes('dominant')) suggestedType = 'mixolydian';
+    else if (info.quality === 'Minor') suggestedType = 'minor pentatonic';
+    else if (info.quality === 'Diminished') suggestedType = 'locrian';
+    setScaleTarget({ root: detection.tonic || 'C', type: suggestedType });
+    setAppPage('scales');
+  };
+
   // Add the current chord to the sheet partition
   const handleAddChord = (customStrings?: StringState[], customMidis?: number[], customName?: string, customRoot?: string) => {
     const finalStrings = Array.isArray(customStrings) ? customStrings : strings;
@@ -184,7 +246,9 @@ export default function App() {
       name: finalName,
       strings: [...finalStrings],
       pianoNotes: [...finalMidis],
-      rootNote: customRoot || detection.tonic
+      rootNote: customRoot || detection.tonic,
+      tuningMidis: [...effectiveMidis],
+      tuningLabel: isStandardTuning && capo === 0 ? undefined : tuningLabel
     };
     setSavedChords((prev) => [...prev, newChord]);
   };
@@ -245,9 +309,7 @@ export default function App() {
   const playMidiNote = (midi: number) => {
     try {
       initAudio();
-      if (acousticGuitar && audioCtx) {
-        acousticGuitar.start({ note: midi, velocity: 85, duration: 2.5 });
-      }
+      getGuitar()?.start({ note: midi, velocity: 85, duration: 2.5 });
     } catch (e) {
       console.warn("AudioContext blocké ou non supporté :", e);
     }
@@ -257,9 +319,11 @@ export default function App() {
   const strumChord = (stringsToPlay = strings) => {
     try {
       initAudio();
-      if (!acousticGuitar || !audioCtx) return;
+      const guitar = getGuitar();
+      const ctx = getAudioCtx();
+      if (!guitar || !ctx) return;
       
-      const currentTime = audioCtx.currentTime;
+      const currentTime = ctx.currentTime;
       const activeStringIndices = [5, 4, 3, 2, 1, 0];
       let delay = 0;
       
@@ -267,10 +331,10 @@ export default function App() {
         const fret = stringsToPlay[stringIdx];
         if (fret === 'X') return;
         
-        const midi = STRING_TUNINGS[stringIdx].midi + fret;
+        const midi = effectiveMidis[stringIdx] + fret;
         
         // Pluck the string
-        acousticGuitar!.start({ 
+        guitar.start({ 
           note: midi, 
           velocity: 80 + Math.random() * 15, 
           time: currentTime + delay, 
@@ -294,9 +358,7 @@ export default function App() {
   const playPianoNote = (midi: number) => {
     try {
       initAudio();
-      if (acousticPiano && audioCtx) {
-        acousticPiano.start({ note: midi, velocity: 80, duration: 2.0 });
-      }
+      getPiano()?.start({ note: midi, velocity: 80, duration: 2.0 });
     } catch (e) {
       console.warn("AudioContext suspendu ou bloqué :", e);
     }
@@ -306,12 +368,14 @@ export default function App() {
   const playPianoChord = (midis = activeMidiNotes) => {
     try {
       initAudio();
-      if (!acousticPiano || !audioCtx) return;
+      const piano = getPiano();
+      const ctx = getAudioCtx();
+      if (!piano || !ctx) return;
       
-      const currentTime = audioCtx.currentTime;
+      const currentTime = ctx.currentTime;
       
       midis.forEach((midi, idx) => {
-        acousticPiano!.start({ 
+        piano.start({ 
           note: midi, 
           velocity: 75 + Math.random() * 10, 
           time: currentTime + idx * 0.008, 
@@ -340,7 +404,7 @@ export default function App() {
       if (newStrings[i] !== strings[i]) {
         const fret = newStrings[i];
         if (fret !== 'X') {
-          playMidiNote(STRING_TUNINGS[i].midi + fret);
+          playMidiNote(effectiveMidis[i] + fret);
           setPlayedString(i);
           setTimeout(() => setPlayedString(null), 200);
         }
@@ -384,7 +448,7 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-2xl font-black text-zinc-100 tracking-tight flex items-center gap-1.5 uppercase">
-                FRETBYW00D <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold">v1.2</span>
+                FRETBYW00D <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold">v1.9</span>
               </h1>
               <p className="text-xs text-zinc-400 font-medium">Assistant de composition & détecteur d'accords</p>
             </div>
@@ -392,10 +456,10 @@ export default function App() {
 
           {/* Main Navigation Tabs & Global Actions */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <div className="flex bg-zinc-900/80 p-1 rounded-xl border border-zinc-800 shadow-xl backdrop-blur-md">
+            <div className="flex flex-wrap justify-center bg-zinc-900/80 p-1 rounded-xl border border-zinc-800 shadow-xl backdrop-blur-md">
               <button
                 onClick={() => setAppPage('workspace')}
-                className={`flex items-center gap-2 py-2 px-6 rounded-lg font-bold text-sm transition-all cursor-pointer ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer ${
                   appPage === 'workspace'
                     ? 'bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/20'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
@@ -406,7 +470,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setAppPage('progressions')}
-                className={`flex items-center gap-2 py-2 px-6 rounded-lg font-bold text-sm transition-all cursor-pointer ${
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer ${
                   appPage === 'progressions'
                     ? 'bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/20'
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
@@ -414,6 +478,50 @@ export default function App() {
               >
                 <Layers className="w-4 h-4" />
                 Suites d'Accords
+              </button>
+              <button
+                onClick={() => setAppPage('scales')}
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer ${
+                  appPage === 'scales'
+                    ? 'bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/20'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                }`}
+              >
+                <AudioLines className="w-4 h-4" />
+                Gammes
+              </button>
+              <button
+                onClick={() => setAppPage('songbook')}
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer ${
+                  appPage === 'songbook'
+                    ? 'bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/20'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                Chansonnier
+              </button>
+              <button
+                onClick={() => setAppPage('tuner')}
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer ${
+                  appPage === 'tuner'
+                    ? 'bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/20'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                }`}
+              >
+                <Mic className="w-4 h-4" />
+                Accordeur
+              </button>
+              <button
+                onClick={() => setAppPage('metronome')}
+                className={`flex items-center gap-2 py-2 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer ${
+                  appPage === 'metronome'
+                    ? 'bg-emerald-500 text-zinc-950 shadow-md shadow-emerald-500/20'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                }`}
+              >
+                <Timer className="w-4 h-4" />
+                Métronome
               </button>
             </div>
 
@@ -432,7 +540,7 @@ export default function App() {
         </div>
 
         {/* Presets List (only in workspace) */}
-        {appPage === 'workspace' && (
+        {appPage === 'workspace' && isStandardTuning && (
           <div className="flex flex-wrap items-center gap-1.5 justify-center w-full">
             <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider mr-1.5">Favoris :</span>
             {CHORD_PRESETS.map((preset, idx) => (
@@ -448,7 +556,21 @@ export default function App() {
         )}
       </header>
 
-      {appPage === 'progressions' ? (
+      {appPage === 'tuner' ? (
+        <Tuner tuningMidis={tuningPreset.midis} tuningLabel={tuningPreset.label} />
+      ) : appPage === 'metronome' ? (
+        <Metronome />
+      ) : appPage === 'songbook' ? (
+        <Songbook />
+      ) : appPage === 'scales' ? (
+        <ScaleExplorer
+          initialRoot={scaleTarget?.root}
+          initialType={scaleTarget?.type}
+          onPlayNote={playMidiNote}
+          tuningMidis={effectiveMidis}
+          tuningLabel={tuningLabel}
+        />
+      ) : appPage === 'progressions' ? (
         <ChordProgressions 
           initialChord={progressionRoot} 
           onPlayChord={(chord) => {
@@ -499,6 +621,41 @@ export default function App() {
             </button>
           </div>
 
+          {/* Accordage & Capo */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-4 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-850 backdrop-blur-md">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Accordage</span>
+              <select
+                value={tuningId}
+                onChange={(e) => setTuningId(e.target.value)}
+                className="bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1 text-xs font-bold text-zinc-200 cursor-pointer focus:outline-none focus:border-emerald-500/60"
+              >
+                {TUNING_PRESETS.map((t) => (
+                  <option key={t.id} value={t.id}>{t.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Capo</span>
+              <button
+                onClick={() => setCapo((c) => Math.max(0, c - 1))}
+                className="w-6 h-6 rounded-md bg-zinc-800 border border-zinc-700 text-zinc-300 font-bold text-sm hover:bg-zinc-700 transition cursor-pointer"
+              >
+                −
+              </button>
+              <span className={`w-5 text-center text-sm font-extrabold ${capo > 0 ? 'text-emerald-400' : 'text-zinc-400'}`}>{capo}</span>
+              <button
+                onClick={() => setCapo((c) => Math.min(9, c + 1))}
+                className="w-6 h-6 rounded-md bg-zinc-800 border border-zinc-700 text-zinc-300 font-bold text-sm hover:bg-zinc-700 transition cursor-pointer"
+              >
+                +
+              </button>
+            </div>
+            <span className="text-xs font-semibold text-zinc-500" title="Cordes 6 à 1 (capo inclus)">
+              {effectiveMidis.slice().reverse().map((m) => NOTE_FR[m % 12]).join(' · ')}
+            </span>
+          </div>
+
           {/* Instrument Card */}
           {inputMode === 'guitar' ? (
             <div className="p-6 rounded-2xl glass-panel animate-fadeIn">
@@ -533,6 +690,7 @@ export default function App() {
                 playedString={playedString} 
                 showRootNote={showRootNote}
                 rootNote={detection.tonic}
+                tuningMidis={effectiveMidis}
               />
             </div>
           ) : inputMode === 'piano' ? (
@@ -566,6 +724,16 @@ export default function App() {
                 activeNotes={activeMidiNotes} 
                 onToggleNote={handleTogglePianoNote} 
               />
+            </div>
+          ) : !isStandardTuning ? (
+            <div className="p-6 rounded-2xl glass-panel animate-fadeIn text-center">
+              <p className="text-sm text-amber-400 font-semibold">
+                Le générateur propose des positions pensées pour l'accordage standard.
+              </p>
+              <p className="text-xs text-zinc-500 mt-1.5">
+                Repassez en Standard pour l'utiliser — le capo, lui, reste compatible. La
+                génération multi-accordages viendra dans une prochaine version.
+              </p>
             </div>
           ) : (
             <ChordGenerator
@@ -602,9 +770,9 @@ export default function App() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800/50">
-                    {STRING_TUNINGS.map((tuning, index) => {
+                    {effectiveMidis.map((midi, index) => {
                       const fret = strings[index];
-                      const noteInfo = getNoteAtFret(index, fret);
+                      const noteInfo = getNoteAtFret(index, fret, effectiveMidis);
                       const isMuted = fret === 'X';
                       
                       const degree = noteInfo && activeChordName 
@@ -617,10 +785,10 @@ export default function App() {
                           className={`hover:bg-zinc-900/40 transition ${isMuted ? 'opacity-40' : ''}`}
                         >
                           <td className="py-2.5 px-3 font-extrabold text-zinc-400">
-                            Corde {tuning.stringNum} ({tuning.name})
+                            Corde {index + 1} ({NOTE_EN[midi % 12]})
                           </td>
                           <td className="py-2.5 px-3 text-zinc-500 font-medium">
-                            {tuning.name}{tuning.octave}
+                            {NOTE_EN[midi % 12]}{Math.floor(midi / 12) - 1}
                           </td>
                           <td className="py-2.5 px-3 text-center font-mono font-bold">
                             {isMuted ? (
@@ -747,6 +915,7 @@ export default function App() {
                   strings={strings} 
                   name={activeChordName || (detection.notesPlayed.length > 0 ? 'Custom' : '')} 
                   lightMode={false}
+                  tuningMidis={effectiveMidis}
                 />
               )}
 
@@ -768,6 +937,16 @@ export default function App() {
               >
                 <Layers className="w-5 h-5 stroke-[2.5]" />
                 Créer une suite avec cet accord
+              </button>
+
+              <button
+                onClick={handleFindScales}
+                disabled={detection.chords.length === 0}
+                className="w-full py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed
+                  bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/50 hover:scale-102"
+              >
+                <AudioLines className="w-5 h-5 stroke-[2.5]" />
+                Gammes pour improviser dessus
               </button>
             </div>
           </div>

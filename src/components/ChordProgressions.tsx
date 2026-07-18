@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Plus, ChevronRight, X, Layers, Settings2, CheckCircle2 } from 'lucide-react';
+import { Play, Plus, ChevronRight, X, Layers, Settings2, CheckCircle2, Repeat } from 'lucide-react';
+import { ProgressionPlayer } from './ProgressionPlayer';
 import { Chord, Progression, RomanNumeral, Note, Interval } from 'tonal';
 
 interface ChordProgressionsProps {
@@ -114,6 +115,9 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
   const [customProgression, setCustomProgression] = useState<string[]>([]);
   const [isEditingTonic, setIsEditingTonic] = useState<boolean>(false);
 
+  // Boucle d'entraînement (lecteur avec tempo)
+  const [looper, setLooper] = useState<{ title: string; chords: string[] } | null>(null);
+
   // Sequencer Logic
   const [isPlayingSeq, setIsPlayingSeq] = useState<boolean>(false);
   const isPlayingRef = React.useRef(false);
@@ -199,6 +203,15 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
 
   return (
     <div className="w-full max-w-[1200px] mx-auto animate-fadeIn pb-12 space-y-8">
+      {looper && (
+        <ProgressionPlayer
+          key={looper.title + looper.chords.join('|')}
+          title={looper.title}
+          chords={looper.chords}
+          onClose={() => setLooper(null)}
+        />
+      )}
+
       {/* HEADER SECTION */}
       <div className="bg-zinc-900/60 p-6 md:p-8 rounded-3xl border border-zinc-850 backdrop-blur-md shadow-2xl relative z-20">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
@@ -379,6 +392,17 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
                   <X className="w-4 h-4" />
                 </button>
                 <button
+                  onClick={() => {
+                    setLooper({ title: 'Ma suite personnalisée', chords: [...customProgression] });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-bold text-xs bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-zinc-950 border border-emerald-500/20 hover:border-emerald-500 transition-all cursor-pointer"
+                  title="Travailler en boucle avec tempo"
+                >
+                  <Repeat className="w-4 h-4" />
+                  Boucler
+                </button>
+                <button
                   onClick={() => handlePlaySequence(customProgression)}
                   disabled={isPlayingSeq}
                   className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg font-bold text-xs transition-all cursor-pointer ${
@@ -498,6 +522,16 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
                     </h4>
                   </div>
                   <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setLooper({ title: prog.name, chords });
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl font-bold text-sm border bg-zinc-800/50 text-emerald-400 border-emerald-500/20 hover:border-emerald-500 hover:bg-emerald-500 hover:text-zinc-950 transition-all cursor-pointer"
+                      title="Travailler en boucle avec tempo"
+                    >
+                      <Repeat className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => handlePlaySequence(chords)}
                       disabled={isPlayingSeq}

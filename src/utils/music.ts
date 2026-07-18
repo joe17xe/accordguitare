@@ -19,6 +19,24 @@ export const STRING_TUNINGS: StringTuning[] = [
   { stringNum: 6, name: 'E', midi: 40, octave: 2 }, // Low E
 ];
 
+/** Accordage standard sous forme de tableau MIDI (index 0 = corde 1, Mi aigu) */
+export const STANDARD_MIDIS: number[] = STRING_TUNINGS.map((t) => t.midi);
+
+export interface TuningPreset {
+  id: string;
+  label: string;
+  midis: number[]; // index 0 = corde 1 (aiguë) … index 5 = corde 6 (grave)
+}
+
+export const TUNING_PRESETS: TuningPreset[] = [
+  { id: 'standard', label: 'Standard', midis: [64, 59, 55, 50, 45, 40] },
+  { id: 'drop-d', label: 'Drop D', midis: [64, 59, 55, 50, 45, 38] },
+  { id: 'eb', label: 'Mib (½ ton plus bas)', midis: [63, 58, 54, 49, 44, 39] },
+  { id: 'dadgad', label: 'DADGAD', midis: [62, 57, 55, 50, 45, 38] },
+  { id: 'open-g', label: 'Open G', midis: [62, 59, 55, 50, 43, 38] },
+  { id: 'open-d', label: 'Open D', midis: [62, 57, 54, 50, 45, 38] },
+];
+
 export interface DetectedChordInfo {
   chords: string[];
   notesPlayed: string[];
@@ -30,10 +48,9 @@ export interface DetectedChordInfo {
 /**
  * Returns the note name (pitch class + octave) at a given fret for a given string
  */
-export function getNoteAtFret(stringIndex: number, fret: StringState): { name: string; pc: string; midi: number } | null {
+export function getNoteAtFret(stringIndex: number, fret: StringState, tuningMidis: number[] = STANDARD_MIDIS): { name: string; pc: string; midi: number } | null {
   if (fret === 'X') return null;
-  const baseTuning = STRING_TUNINGS[stringIndex];
-  const midi = baseTuning.midi + fret;
+  const midi = tuningMidis[stringIndex] + fret;
   const noteName = Note.fromMidi(midi);
   const noteDetails = Note.get(noteName);
   return {
@@ -99,13 +116,13 @@ export function getScaleDegree(notePc: string, tonic: string): string {
 /**
  * Detects the chord played based on the current fret states of the 6 strings
  */
-export function detectGuitarChord(strings: StringState[]): DetectedChordInfo {
+export function detectGuitarChord(strings: StringState[], tuningMidis: number[] = STANDARD_MIDIS): DetectedChordInfo {
   // 1. Gather all active MIDI notes
   const activeMidiInfo = strings
     .map((fret, index) => {
       if (fret === 'X') return null;
       return {
-        midi: STRING_TUNINGS[index].midi + fret,
+        midi: tuningMidis[index] + fret,
         stringIndex: index
       };
     })

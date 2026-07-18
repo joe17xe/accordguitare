@@ -14,6 +14,8 @@ export interface SavedChord {
   pianoNotes?: number[];
   rootNote?: string;
   textSize?: number;
+  tuningMidis?: number[];  // accordage effectif au moment de l'ajout (capo inclus)
+  tuningLabel?: string;    // ex. "Drop D · Capo 2" si différent du standard
 }
 
 interface ChordSheetProps {
@@ -109,7 +111,7 @@ export const ChordSheet: React.FC<ChordSheetProps> = ({ savedChords, onDeleteCho
     }
   };
 
-  const drawPdfGuitarDiagram = (pdf: any, stringsState: StringState[], colCenter: number, rowY: number, chordRoot?: string, currentScale: number = 1.0) => {
+  const drawPdfGuitarDiagram = (pdf: any, stringsState: StringState[], colCenter: number, rowY: number, chordRoot?: string, currentScale: number = 1.0, tuningMidis?: number[]) => {
     const scale = 0.6 * currentScale;
     const fretSpacing = 5.5 * scale;
     const stringSpacing = 5.0 * scale;
@@ -179,7 +181,7 @@ export const ChordSheet: React.FC<ChordSheetProps> = ({ savedChords, onDeleteCho
         pdf.line(x - 1.0 * scale, y - 1.0 * scale, x + 1.0 * scale, y + 1.0 * scale);
         pdf.line(x + 1.0 * scale, y - 1.0 * scale, x - 1.0 * scale, y + 1.0 * scale);
       } else if (fret === 0) {
-        const isRoot = showRootNote && chordRoot && chordRoot === getNoteAtFret(stringIdx, 0)?.pc;
+        const isRoot = showRootNote && chordRoot && chordRoot === getNoteAtFret(stringIdx, 0, tuningMidis)?.pc;
         if (isRoot) {
           pdf.setDrawColor(244, 63, 94); // rose-500
         } else {
@@ -218,7 +220,7 @@ export const ChordSheet: React.FC<ChordSheetProps> = ({ savedChords, onDeleteCho
           const x = startX + i * stringSpacing;
           const y = yStart + fretPos * fretSpacing + fretSpacing / 2;
           
-          const isRoot = showRootNote && chordRoot && chordRoot === getNoteAtFret(stringIdx, fret)?.pc;
+          const isRoot = showRootNote && chordRoot && chordRoot === getNoteAtFret(stringIdx, fret, tuningMidis)?.pc;
           if (isRoot) {
             pdf.setFillColor(244, 63, 94); // rose-500
           } else {
@@ -363,11 +365,11 @@ export const ChordSheet: React.FC<ChordSheetProps> = ({ savedChords, onDeleteCho
 
         if (isDouble) {
           pdf.text(chord.name, colCenter, rowY, { align: "center" });
-          drawPdfGuitarDiagram(pdf, chord.strings, colCenter - 18 * chordScale, rowY, chord.rootNote, chordScale);
+          drawPdfGuitarDiagram(pdf, chord.strings, colCenter - 18 * chordScale, rowY, chord.rootNote, chordScale, chord.tuningMidis);
           drawPdfPianoDiagram(pdf, chord.pianoNotes || [], colCenter + 18 * chordScale, rowY + 6 * chordScale, chordScale);
         } else if (isGuitarOnly) {
           pdf.text(chord.name, colCenter, rowY, { align: "center" });
-          drawPdfGuitarDiagram(pdf, chord.strings, colCenter, rowY, chord.rootNote, chordScale);
+          drawPdfGuitarDiagram(pdf, chord.strings, colCenter, rowY, chord.rootNote, chordScale, chord.tuningMidis);
         } else if (isPianoOnly) {
           pdf.text(chord.name, colCenter, rowY, { align: "center" });
           drawPdfPianoDiagram(pdf, chord.pianoNotes || [], colCenter, rowY + 5 * chordScale, chordScale);
@@ -593,9 +595,15 @@ export const ChordSheet: React.FC<ChordSheetProps> = ({ savedChords, onDeleteCho
                         name={chord.name} 
                         lightMode={true} 
                         rootNote={chord.rootNote}
+                        tuningMidis={chord.tuningMidis}
                         showRootNote={showRootNote}
                         scale={chordScale}
                       />
+                    )}
+                    {sheetFormat === 'guitar' && chord.tuningLabel && (
+                      <div className="text-[9px] font-bold text-amber-600 text-center leading-tight">
+                        {chord.tuningLabel}
+                      </div>
                     )}
                     {sheetFormat === 'piano' && (
                       <div className="flex flex-col items-center">
@@ -616,6 +624,7 @@ export const ChordSheet: React.FC<ChordSheetProps> = ({ savedChords, onDeleteCho
                             name="" 
                             lightMode={true} 
                             rootNote={chord.rootNote}
+                            tuningMidis={chord.tuningMidis}
                             showRootNote={showRootNote}
                             scale={chordScale}
                           />
