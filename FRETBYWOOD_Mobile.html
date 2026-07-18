@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#E9E7E2;font-family:'Outfit',system-ui,sans-serif;color:#1a1a1a}
+  a{color:#0B7A5B}
+  a:hover{color:#10B981}
+  @keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.45}}
+</style>
+</head>
+<body>
+<section style="padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08)" id="t3">
+  <div style="display:flex;align-items:baseline;gap:10px;margin:0 0 6px"><a style="font:700 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#111;color:#fff;border-radius:5px;text-decoration:none" href="#t3">3</a><span style="font:700 14px/1.2 'Outfit',sans-serif;color:#111">Direction <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1c">1c</a> — Chansonnier, Accordeur, Métronome + jumeau iOS Gammes</span></div>
+  <p style="max-width:680px;margin:0 0 26px;font:400 13px/1.6 'Outfit',sans-serif;color:rgba(0,0,0,.55)">Le reste de l'app dans la même langue : le <strong>Chansonnier</strong> (accords au-dessus des paroles, sortie de l'arrangement), l'<strong>Accordeur</strong> au micro, le <strong>Métronome</strong>, et le jumeau <strong>iOS</strong> des Gammes en anglais. L'app mobile complète : 5 onglets (Accords · Suites · Gammes · Accordeur · Plus), Chansonnier &amp; Métronome sous « Plus ».</p>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start">
+
+    <!-- ===== 3a : ANDROID · CHANSONNIER ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="3a">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#3a">3a</a><span><b>Android · Chansonnier.</b> Accords au-dessus des paroles (ChordPro), en-tête tonalité/capo/tempo, défilement auto.</span></div>
+      <div style="width:320px;height:690px;border-radius:40px;background:linear-gradient(150deg,#26262a,#060606);padding:9px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 100% 0%,rgba(16,185,129,.12),transparent 52%),radial-gradient(120% 55% at 0% 100%,rgba(240,178,75,.07),transparent 52%)">
+          <div style="height:32px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative"><span style="font:600 13px 'Outfit';color:#EAF0EC">9:41</span><div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:9px;height:9px;background:#000;border-radius:50%"></div><div style="display:flex;align-items:center;gap:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><path d="M12 3C7 3 3 6 1 9l11 12L23 9c-2-3-6-6-11-6z" opacity=".9"></path></svg><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><rect x="4" y="7" width="16" height="10" rx="2"></rect></svg></div></div>
+          <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.3px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Chansonnier</span></div><div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:20px"><span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 8px;border-radius:20px">FR</span><span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">EN</span></div></div>
+          <div style="margin:4px 16px 0;flex:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 14px">
+            <div style="font:700 16px 'Outfit';color:#EAF0EC">Ma composition</div>
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <span style="font:700 10px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);padding:3px 8px;border-radius:7px">Tonalité Sol</span>
+              <span style="font:600 10px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:3px 8px;border-radius:7px">Capo 2</span>
+              <span style="font:600 10px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:3px 8px;border-radius:7px">92 BPM</span>
+            </div>
+          </div>
+          <div style="margin:14px 16px 0;flex:1;min-height:0;overflow:hidden">
+            <div style="display:flex;flex-wrap:wrap;gap:0 9px;margin-bottom:16px">
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Sol</span><span style="font:500 15px 'Outfit';color:#EAF0EC">Sur</span></div>
+              <div style="display:flex;flex-direction:column"><span style="height:16px"></span><span style="font:500 15px 'Outfit';color:#EAF0EC">la route</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Ré</span><span style="font:500 15px 'Outfit';color:#EAF0EC">au</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Em</span><span style="font:500 15px 'Outfit';color:#EAF0EC">petit</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">C</span><span style="font:500 15px 'Outfit';color:#EAF0EC">matin</span></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:0 9px;margin-bottom:16px">
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Sol</span><span style="font:500 15px 'Outfit';color:#EAF0EC">Je</span></div>
+              <div style="display:flex;flex-direction:column"><span style="height:16px"></span><span style="font:500 15px 'Outfit';color:#EAF0EC">fredonne</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Ré</span><span style="font:500 15px 'Outfit';color:#EAF0EC">un air</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">C</span><span style="font:500 15px 'Outfit';color:#EAF0EC">d'un</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Sol</span><span style="font:500 15px 'Outfit';color:#EAF0EC">temps ancien</span></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:0 9px">
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#FB7185;height:16px;line-height:16px">Am</span><span style="font:500 15px 'Outfit';color:#EAF0EC">Les</span></div>
+              <div style="display:flex;flex-direction:column"><span style="height:16px"></span><span style="font:500 15px 'Outfit';color:#EAF0EC">accords</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">D</span><span style="font:500 15px 'Outfit';color:#EAF0EC">glissent sous</span></div>
+              <div style="display:flex;flex-direction:column"><span style="font:700 11px 'JetBrains Mono';color:#34D399;height:16px;line-height:16px">Sol</span><span style="font:500 15px 'Outfit';color:#EAF0EC">mes doigts</span></div>
+            </div>
+          </div>
+          <div style="margin:0 16px 8px;flex:none;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:8px 10px 8px 9px">
+            <div style="width:40px;height:40px;flex:none;border-radius:50%;background:linear-gradient(180deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(16,185,129,.6)"><svg width="15" height="15" viewBox="0 0 24 24" fill="#052018"><path d="M8 5v14l11-7z"></path></svg></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:700 12px 'Outfit';color:#EAF0EC">Défilement auto</span><span style="font:600 10px 'JetBrains Mono';color:#6B726F">Accord courant · Sol</span></div>
+            <div style="width:36px;height:36px;flex:none;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><span style="font:800 13px 'Outfit';color:#9BA3A0">A−</span></div>
+            <div style="width:36px;height:36px;flex:none;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><span style="font:800 15px 'Outfit';color:#EAF0EC">A+</span></div>
+          </div>
+          <div style="flex:none;padding:8px 6px 4px;background:rgba(12,14,13,.75);border-top:1px solid rgba(255,255,255,.06)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Suites</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Gammes</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accordeur</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:rgba(16,185,129,.18)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg></div><span style="font-family:Outfit;font-weight:700;font-size:9px;color:#10B981">Plus</span></div>
+            </div>
+            <div style="width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.3);margin:6px auto 2px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3b : ANDROID · ACCORDEUR ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="3b">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#3b">3b</a><span><b>Android · Accordeur.</b> Accordage au micro : note géante, aiguille en cents, sélecteur de corde, état « juste ».</span></div>
+      <div style="width:320px;height:690px;border-radius:40px;background:linear-gradient(150deg,#26262a,#060606);padding:9px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(130% 60% at 50% 0%,rgba(16,185,129,.16),transparent 55%)">
+          <div style="height:32px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative"><span style="font:600 13px 'Outfit';color:#EAF0EC">9:41</span><div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:9px;height:9px;background:#000;border-radius:50%"></div><div style="display:flex;align-items:center;gap:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><path d="M12 3C7 3 3 6 1 9l11 12L23 9c-2-3-6-6-11-6z" opacity=".9"></path></svg><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><rect x="4" y="7" width="16" height="10" rx="2"></rect></svg></div></div>
+          <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.3px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Accordeur · Standard</span></div><span style="display:flex;align-items:center;gap:5px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:4px 9px"><span style="width:6px;height:6px;border-radius:50%;background:#10B981;box-shadow:0 0 8px #10B981;animation:pulseDot 1.6s infinite"></span><span style="font:700 9px 'Outfit';color:#34D399">Micro actif</span></span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:0">
+            <div style="font:600 12px 'Outfit';color:#6B726F;letter-spacing:.5px">Corde 5 · La</div>
+            <div style="font:800 92px/0.9 'Outfit';color:#34D399;letter-spacing:-2px">La</div>
+            <div style="display:flex;align-items:baseline;gap:8px"><span style="font:700 14px 'JetBrains Mono';color:#EAF0EC">A2</span><span style="font:600 13px 'JetBrains Mono';color:#9BA3A0">110.3 Hz</span></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:2px;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.35);border-radius:20px;padding:5px 13px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg><span style="font:800 12px 'Outfit';color:#34D399">Juste</span></div>
+          </div>
+          <div style="margin:0 22px;flex:none">
+            <div style="position:relative;height:44px">
+              <div style="position:absolute;top:20px;left:0;right:0;height:6px;border-radius:3px;background:rgba(255,255,255,.08)"></div>
+              <div style="position:absolute;top:18px;left:calc(50% - 24px);width:48px;height:10px;border-radius:5px;background:rgba(16,185,129,.28)"></div>
+              <div style="position:absolute;top:8px;left:6px;width:2px;height:12px;background:rgba(255,255,255,.15)"></div>
+              <div style="position:absolute;top:8px;left:26%;width:2px;height:12px;background:rgba(255,255,255,.15)"></div>
+              <div style="position:absolute;top:6px;left:calc(50% - 1px);width:2px;height:16px;background:rgba(255,255,255,.3)"></div>
+              <div style="position:absolute;top:8px;right:26%;width:2px;height:12px;background:rgba(255,255,255,.15)"></div>
+              <div style="position:absolute;top:8px;right:6px;width:2px;height:12px;background:rgba(255,255,255,.15)"></div>
+              <div style="position:absolute;top:10px;left:calc(52% - 8px);width:16px;height:16px;border-radius:50%;background:#10B981;box-shadow:0 0 14px rgba(16,185,129,.7);border:2px solid #0A0C0B"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font:600 9px 'JetBrains Mono';color:#6B726F;padding:0 2px"><span>−50</span><span style="color:#34D399">0 cents</span><span>+50</span></div>
+          </div>
+          <div style="margin:20px 16px 0;flex:none">
+            <div style="font:700 9px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F;margin-bottom:9px;text-align:center">Cordes · Mi La Ré Sol Si Mi</div>
+            <div style="display:flex;justify-content:space-between">
+              <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font:800 13px 'Outfit';color:#9BA3A0">Mi</div>
+              <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(180deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;font:800 13px 'Outfit';color:#052018;box-shadow:0 6px 14px -4px rgba(16,185,129,.6)">La</div>
+              <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font:800 13px 'Outfit';color:#9BA3A0">Ré</div>
+              <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font:800 12px 'Outfit';color:#9BA3A0">Sol</div>
+              <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font:800 13px 'Outfit';color:#9BA3A0">Si</div>
+              <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font:800 13px 'Outfit';color:#9BA3A0">Mi</div>
+            </div>
+          </div>
+          <div style="flex:1;min-height:10px"></div>
+          <div style="margin:0 16px 10px;flex:none;display:flex;align-items:flex-end;justify-content:center;gap:3px;height:26px">
+            <div style="width:3px;height:8px;border-radius:2px;background:rgba(16,185,129,.5)"></div><div style="width:3px;height:16px;border-radius:2px;background:rgba(16,185,129,.6)"></div><div style="width:3px;height:22px;border-radius:2px;background:#10B981"></div><div style="width:3px;height:13px;border-radius:2px;background:rgba(16,185,129,.6)"></div><div style="width:3px;height:19px;border-radius:2px;background:#10B981"></div><div style="width:3px;height:9px;border-radius:2px;background:rgba(16,185,129,.5)"></div><div style="width:3px;height:24px;border-radius:2px;background:#10B981"></div><div style="width:3px;height:12px;border-radius:2px;background:rgba(16,185,129,.6)"></div><div style="width:3px;height:17px;border-radius:2px;background:#10B981"></div><div style="width:3px;height:7px;border-radius:2px;background:rgba(16,185,129,.5)"></div><div style="width:3px;height:15px;border-radius:2px;background:rgba(16,185,129,.6)"></div><div style="width:3px;height:10px;border-radius:2px;background:rgba(16,185,129,.5)"></div>
+          </div>
+          <div style="flex:none;padding:8px 6px 4px;background:rgba(12,14,13,.75);border-top:1px solid rgba(255,255,255,.06)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Suites</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Gammes</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:rgba(16,185,129,.18)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg></div><span style="font-family:Outfit;font-weight:700;font-size:9px;color:#10B981">Accordeur</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Plus</span></div>
+            </div>
+            <div style="width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.3);margin:6px auto 2px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3c : ANDROID · MÉTRONOME ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="3c">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#3c">3c</a><span><b>Android · Métronome.</b> BPM géant, battements accentués, signature rythmique, gros bouton démarrer.</span></div>
+      <div style="width:320px;height:690px;border-radius:40px;background:linear-gradient(150deg,#26262a,#060606);padding:9px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(130% 60% at 50% 0%,rgba(16,185,129,.13),transparent 55%)">
+          <div style="height:32px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative"><span style="font:600 13px 'Outfit';color:#EAF0EC">9:41</span><div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:9px;height:9px;background:#000;border-radius:50%"></div><div style="display:flex;align-items:center;gap:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><path d="M12 3C7 3 3 6 1 9l11 12L23 9c-2-3-6-6-11-6z" opacity=".9"></path></svg><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><rect x="4" y="7" width="16" height="10" rx="2"></rect></svg></div></div>
+          <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.3px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Métronome</span></div><div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:20px"><span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 8px;border-radius:20px">FR</span><span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">EN</span></div></div>
+          <div style="flex:none;display:flex;justify-content:center;gap:14px;margin-top:14px">
+            <div style="width:16px;height:16px;border-radius:50%;background:#34D399;box-shadow:0 0 14px rgba(16,185,129,.7)"></div>
+            <div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.12)"></div>
+            <div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.12)"></div>
+            <div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.12)"></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0">
+            <div style="font:800 108px/0.85 'Outfit';color:#EAF0EC;letter-spacing:-3px">92</div>
+            <div style="font:700 13px 'Outfit';letter-spacing:3px;text-transform:uppercase;color:#34D399;margin-top:4px">BPM · Modéré</div>
+          </div>
+          <div style="margin:0 20px;flex:none">
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:52px;height:52px;flex:none;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EAF0EC" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"></path></svg></div>
+              <div style="flex:1;position:relative;height:6px;background:rgba(255,255,255,.1);border-radius:3px"><div style="position:absolute;left:0;top:0;bottom:0;width:46%;background:linear-gradient(90deg,#059669,#34D399);border-radius:3px"></div><div style="position:absolute;left:calc(46% - 9px);top:-6px;width:18px;height:18px;border-radius:50%;background:#10B981;border:3px solid #0A0C0B;box-shadow:0 0 10px rgba(16,185,129,.6)"></div></div>
+              <div style="width:52px;height:52px;flex:none;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EAF0EC" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:8px;margin-top:18px">
+              <span style="font:700 12px 'Outfit';color:#9BA3A0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 14px;border-radius:10px">3/4</span>
+              <span style="font:800 12px 'Outfit';color:#052018;background:#10B981;padding:6px 14px;border-radius:10px">4/4</span>
+              <span style="font:700 12px 'Outfit';color:#9BA3A0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:6px 14px;border-radius:10px">6/8</span>
+            </div>
+          </div>
+          <div style="margin:20px 16px 10px;flex:none;display:flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(180deg,#10B981,#059669);color:#052018;font:800 15px 'Outfit';padding:15px 0;border-radius:18px;box-shadow:0 10px 22px -6px rgba(16,185,129,.55)"><svg width="18" height="18" viewBox="0 0 24 24" fill="#052018"><path d="M8 5v14l11-7z"></path></svg>Démarrer</div>
+          <div style="flex:none;padding:8px 6px 4px;background:rgba(12,14,13,.75);border-top:1px solid rgba(255,255,255,.06)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Suites</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Gammes</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accordeur</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:rgba(16,185,129,.18)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg></div><span style="font-family:Outfit;font-weight:700;font-size:9px;color:#10B981">Plus</span></div>
+            </div>
+            <div style="width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.3);margin:6px auto 2px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3d : iOS · SCALE EXPLORER (twin of 2c, EN) ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="3d">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#3d">3d</a><span><b>iOS · Scale explorer (EN twin of <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2c">2c</a>).</b> Gammes en anglais, chrome iOS.</span></div>
+      <div style="width:320px;height:690px;border-radius:48px;background:linear-gradient(150deg,#232326,#050505);padding:11px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 0% 0%,rgba(16,185,129,.14),transparent 55%),radial-gradient(120% 50% at 100% 100%,rgba(16,185,129,.06),transparent 55%)">
+          <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;position:relative"><span style="font:600 15px 'Outfit';color:#EAF0EC;letter-spacing:.3px">9:41</span><div style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:92px;height:27px;background:#000;border-radius:16px"></div><div style="display:flex;align-items:center;gap:6px"><div style="display:flex;align-items:flex-end;gap:1.5px;height:11px"><div style="width:3px;height:5px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:7px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:9px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:11px;background:#EAF0EC;border-radius:1px"></div></div><div style="width:22px;height:11px;border:1.5px solid rgba(234,240,236,.6);border-radius:3px;padding:1.5px;box-sizing:border-box"><div style="width:75%;height:100%;background:#EAF0EC;border-radius:1px"></div></div></div></div>
+          <div style="height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.4px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Scale explorer</span></div><div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px"><span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">FR</span><span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 7px;border-radius:6px">EN</span></div></div>
+          <div style="margin:6px 16px 0;flex:none">
+            <div style="font:800 22px 'Outfit';color:#EAF0EC;letter-spacing:-.3px">A minor <span style="color:#34D399">pentatonic</span></div>
+            <div style="display:flex;gap:7px;margin-top:9px">
+              <span style="display:flex;align-items:center;gap:5px;font:700 11px 'Outfit';color:#EAF0EC;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:9px"><span style="width:8px;height:8px;border-radius:50%;background:#FB7185"></span>Root A</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:9px">5 notes</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:9px">Blues</span>
+            </div>
+          </div>
+          <div style="margin:14px 14px 0;flex:none;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.16);border-radius:20px;padding:12px 12px 10px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="width:7px;height:7px;border-radius:50%;background:#10B981"></span><span style="font:700 9.5px 'Outfit';letter-spacing:1px;text-transform:uppercase;color:#34D399">Fretboard · position 1</span><span style="margin-left:auto;font:600 9px 'JetBrains Mono';color:#6B726F">E A D G B E</span></div>
+            <svg viewBox="0 0 268 176" style="width:100%;height:auto;display:block">
+              <defs><linearGradient id="woodGi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1410"></stop><stop offset=".5" stop-color="#2c211a"></stop><stop offset="1" stop-color="#1c1410"></stop></linearGradient></defs>
+              <rect x="38" y="14" width="220" height="140" rx="10" fill="url(#woodGi)" stroke="rgba(255,255,255,.05)"></rect>
+              <circle cx="120" cy="84" r="5.5" fill="rgba(255,255,255,.12)"></circle><circle cx="200" cy="84" r="5.5" fill="rgba(255,255,255,.12)"></circle>
+              <rect x="38" y="18" width="6" height="132" rx="2" fill="#d9d5cc"></rect>
+              <line x1="80" y1="18" x2="80" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="120" y1="18" x2="120" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="160" y1="18" x2="160" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="200" y1="18" x2="200" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="240" y1="18" x2="240" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line>
+              <line x1="44" y1="24" x2="258" y2="24" stroke="#cfcfcf" stroke-width="1"></line><line x1="44" y1="48" x2="258" y2="48" stroke="#cfcfcf" stroke-width="1.3"></line><line x1="44" y1="72" x2="258" y2="72" stroke="#cfcfcf" stroke-width="1.7"></line><line x1="44" y1="96" x2="258" y2="96" stroke="#c7c7c7" stroke-width="2.1"></line><line x1="44" y1="120" x2="258" y2="120" stroke="#c7c7c7" stroke-width="2.6"></line><line x1="44" y1="144" x2="258" y2="144" stroke="#bfbfbf" stroke-width="3.1"></line>
+              <text x="30" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">0</text><text x="62" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">1</text><text x="100" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">2</text><text x="140" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">3</text>
+              <g><circle cx="30" cy="24" r="10" fill="#34D399"></circle><text x="30" y="27.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">5</text></g>
+              <g><circle cx="30" cy="72" r="10" fill="#34D399"></circle><text x="30" y="75.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭7</text></g>
+              <g><circle cx="30" cy="96" r="10" fill="#34D399"></circle><text x="30" y="99.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">4</text></g>
+              <g><circle cx="30" cy="120" r="10" fill="#FB7185"></circle><text x="30" y="123.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">1</text></g>
+              <g><circle cx="30" cy="144" r="10" fill="#34D399"></circle><text x="30" y="147.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">5</text></g>
+              <g><circle cx="140" cy="24" r="11" fill="#34D399"></circle><text x="140" y="27.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭7</text></g>
+              <g><circle cx="62" cy="48" r="11" fill="#34D399"></circle><text x="62" y="51.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭3</text></g>
+              <g><circle cx="140" cy="48" r="11" fill="#34D399"></circle><text x="140" y="51.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">4</text></g>
+              <g><circle cx="100" cy="72" r="11" fill="#FB7185"></circle><text x="100" y="75.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">1</text></g>
+              <g><circle cx="100" cy="96" r="11" fill="#34D399"></circle><text x="100" y="99.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">5</text></g>
+              <g><circle cx="140" cy="120" r="11" fill="#34D399"></circle><text x="140" y="123.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭3</text></g>
+              <g><circle cx="140" cy="144" r="11" fill="#34D399"></circle><text x="140" y="147.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭7</text></g>
+            </svg>
+            <div style="display:flex;gap:14px;margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)"><span style="display:flex;align-items:center;gap:5px;font:600 9px 'Outfit';color:#9BA3A0"><span style="width:9px;height:9px;border-radius:50%;background:#FB7185"></span>Root</span><span style="display:flex;align-items:center;gap:5px;font:600 9px 'Outfit';color:#9BA3A0"><span style="width:9px;height:9px;border-radius:50%;background:#34D399"></span>Scale note</span></div>
+          </div>
+          <div style="margin:14px 16px 0;flex:none">
+            <div style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F;margin-bottom:8px">Scale chords</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <span style="display:flex;align-items:center;gap:5px;font:700 12px 'Outfit';color:#050505;background:#10B981;padding:6px 12px;border-radius:10px"><span style="width:6px;height:6px;border-radius:50%;background:#FB7185"></span>Am</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">C</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Dm</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Em</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">G</span>
+            </div>
+          </div>
+          <div style="flex:1;min-height:8px"></div>
+          <div style="margin:0 16px 6px;flex:none;display:flex;align-items:center;gap:9px">
+            <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:6px 6px"><div style="width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"></path></svg></div><span style="font:700 11px 'Outfit';color:#EAF0EC;padding:0 6px">Pos. 1</span><div style="width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2.4" stroke-linecap="round"><path d="M9 18l6-6-6-6"></path></svg></div></div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,#10B981,#059669);color:#052018;font:800 13px 'Outfit';padding:12px 0;border-radius:14px;box-shadow:0 8px 18px -6px rgba(16,185,129,.5)"><svg width="15" height="15" viewBox="0 0 24 24" fill="#052018"><path d="M8 5v14l11-7z"></path></svg>Play scale</div>
+          </div>
+          <div style="flex:none;padding:8px 12px 6px;background:rgba(10,12,11,.65);border-top:1px solid rgba(255,255,255,.07)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Chords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Progr.</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:20px;height:3px;border-radius:2px;background:#10B981;margin-bottom:1px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg><span style="font-family:Outfit;font-weight:700;font-size:9.5px;color:#10B981">Scales</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Tuner</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">More</span></div>
+            </div>
+            <div style="width:130px;height:5px;border-radius:3px;background:rgba(255,255,255,.28);margin:8px auto 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p style="margin:26px 0 0;font:400 12px/1.6 'Outfit',sans-serif;color:rgba(0,0,0,.5)">L'app mobile est maintenant couverte de bout en bout. À essayer : « transforme <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1c">1c</a> en prototype cliquable » · « exporte une planche de specs pour les devs » · « ajoute un écran Réglages (accordage, capo, thème) ».</p>
+</section>
+<section style="padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08)" id="t2">
+  <div style="display:flex;align-items:baseline;gap:10px;margin:0 0 6px"><a style="font:700 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#111;color:#fff;border-radius:5px;text-decoration:none" href="#t2">2</a><span style="font:700 14px/1.2 'Outfit',sans-serif;color:#111">Direction <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1c">1c</a> — Suites d'accords &amp; Gammes (iOS + Android)</span></div>
+  <p style="max-width:680px;margin:0 0 26px;font:400 13px/1.6 'Outfit',sans-serif;color:rgba(0,0,0,.55)">La langue visuelle du <strong>studio sync 1c</strong> appliquée à d'autres écrans : <strong>vert = guitare, ambre = clavier, rose = tonique</strong>, panneaux vitrés, Material 3 &amp; iOS. La <strong>Suite d'accords</strong> est montrée en jumeaux <strong>Android + iOS</strong> pour valider la direction sur les deux plateformes.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start">
+
+    <!-- ===== 2a : ANDROID · SUITES D'ACCORDS ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="2a">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2a">2a</a><span><b>Android · Suites d'accords.</b> Construire &amp; jouer une progression, aperçu guitare + clavier synchronisé, transport en bas.</span></div>
+      <div style="width:320px;height:690px;border-radius:40px;background:linear-gradient(150deg,#26262a,#060606);padding:9px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 100% 0%,rgba(16,185,129,.13),transparent 52%),radial-gradient(120% 55% at 0% 100%,rgba(240,178,75,.08),transparent 52%)">
+          <div style="height:32px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative"><span style="font:600 13px 'Outfit';color:#EAF0EC">9:41</span><div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:9px;height:9px;background:#000;border-radius:50%"></div><div style="display:flex;align-items:center;gap:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><path d="M12 3C7 3 3 6 1 9l11 12L23 9c-2-3-6-6-11-6z" opacity=".9"></path></svg><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><rect x="4" y="7" width="16" height="10" rx="2"></rect></svg></div></div>
+          <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.3px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Suite d'accords</span></div><div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:20px"><span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 8px;border-radius:20px">FR</span><span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">EN</span></div></div>
+          <div style="margin:4px 16px 0;flex:none;display:flex;gap:8px">
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:7px 11px"><span style="font:600 9px 'Outfit';color:#6B726F;text-transform:uppercase;letter-spacing:.5px">Tonalité</span><span style="font:700 12px 'Outfit';color:#EAF0EC">Sol maj.</span></div>
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:7px 11px"><span style="font:600 9px 'Outfit';color:#6B726F;text-transform:uppercase;letter-spacing:.5px">Style</span><span style="font:700 12px 'Outfit';color:#EAF0EC">Pop</span></div>
+            <div style="margin-left:auto;display:flex;align-items:center;justify-content:center;width:36px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:11px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2" stroke-linecap="round"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg></div>
+          </div>
+          <div style="margin:16px 16px 0;flex:none">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><span style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F">Progression · I–V–vi–IV</span><span style="font:600 9.5px 'Outfit';color:#34D399">4 accords</span></div>
+            <div style="display:flex;gap:8px">
+              <div style="flex:1;background:rgba(16,185,129,.10);border:1.5px solid rgba(16,185,129,.5);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 8px 18px -9px rgba(16,185,129,.6)"><span style="width:5px;height:5px;border-radius:50%;background:#10B981;box-shadow:0 0 8px #10B981"></span><span style="font:800 22px 'Outfit';color:#34D399;line-height:1">G</span><span style="font:700 10px 'JetBrains Mono';color:#10B981">I</span></div>
+              <div style="flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:transparent"></span><span style="font:800 22px 'Outfit';color:#EAF0EC;line-height:1">D</span><span style="font:700 10px 'JetBrains Mono';color:#6B726F">V</span></div>
+              <div style="flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:transparent"></span><span style="font:800 22px 'Outfit';color:#EAF0EC;line-height:1">Em</span><span style="font:700 10px 'JetBrains Mono';color:#6B726F">vi</span></div>
+              <div style="flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:transparent"></span><span style="font:800 22px 'Outfit';color:#EAF0EC;line-height:1">C</span><span style="font:700 10px 'JetBrains Mono';color:#6B726F">IV</span></div>
+            </div>
+          </div>
+          <div style="margin:16px 16px 0;flex:none">
+            <div style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F;margin-bottom:8px">Accords suivants suggérés</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <span style="display:flex;align-items:center;gap:4px;font:700 12px 'Outfit';color:#050505;background:#10B981;padding:6px 11px;border-radius:10px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#052018" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Am7</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Bm</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">C</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">D7</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Cmaj7</span>
+            </div>
+          </div>
+          <div style="margin:16px 16px 0;flex:none;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:11px 12px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><span style="font:700 9px 'Outfit';letter-spacing:.8px;text-transform:uppercase;color:#9BA3A0">Aperçu synchronisé</span><span style="margin-left:auto;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px 8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.2" stroke-linecap="round"><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8"></path></svg><span style="font:700 9px 'JetBrains Mono';color:#C7CFCB">G</span></span></div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="flex:none;display:flex;flex-direction:column;gap:5px;align-items:flex-start">
+                <span style="display:flex;align-items:center;gap:5px;font:700 8.5px 'Outfit';text-transform:uppercase;letter-spacing:.5px;color:#34D399"><span style="width:6px;height:6px;border-radius:50%;background:#10B981"></span>Guitare</span>
+                <span style="font:700 13px 'JetBrains Mono';letter-spacing:2px"><span style="color:#FB7185">3</span><span style="color:#C7CFCB">200 0</span><span style="color:#FB7185">3</span></span>
+              </div>
+              <div style="flex:1">
+                <span style="display:flex;align-items:center;gap:5px;margin-bottom:5px;font:700 8.5px 'Outfit';text-transform:uppercase;letter-spacing:.5px;color:#F0B24B"><span style="width:6px;height:6px;border-radius:50%;background:#F0B24B"></span>Clavier</span>
+                <svg viewBox="0 0 208 58" style="width:100%;height:auto;display:block"><rect x="0" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="26" y="0" width="24" height="56" rx="3" fill="#F0B24B" stroke="#0A0C0B" stroke-width="1"></rect><rect x="52" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="78" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="104" y="0" width="24" height="56" rx="3" fill="#E0952A" stroke="#0A0C0B" stroke-width="1"></rect><rect x="130" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="156" y="0" width="24" height="56" rx="3" fill="#F0B24B" stroke="#0A0C0B" stroke-width="1"></rect><rect x="182" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="17" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="43" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="95" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="121" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="147" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect></svg>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-height:8px"></div>
+          <div style="margin:0 16px 8px;flex:none;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:9px 10px 9px 9px">
+            <div style="width:42px;height:42px;flex:none;border-radius:50%;background:linear-gradient(180deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(16,185,129,.6)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#052018"><path d="M8 5v14l11-7z"></path></svg></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:700 12px 'Outfit';color:#EAF0EC">Lecture en boucle</span><span style="font:600 10px 'JetBrains Mono';color:#6B726F">90 BPM · 4/4</span></div>
+            <div style="width:38px;height:38px;flex:none;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
+            <div style="width:38px;height:38px;flex:none;border-radius:11px;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+          </div>
+          <div style="flex:none;padding:8px 6px 4px;background:rgba(12,14,13,.75);border-top:1px solid rgba(255,255,255,.06)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:rgba(16,185,129,.18)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg></div><span style="font-family:Outfit;font-weight:700;font-size:9px;color:#10B981">Suites</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Gammes</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accordeur</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Plus</span></div>
+            </div>
+            <div style="width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.3);margin:6px auto 2px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2b : iOS · CHORD PROGRESSION (twin, EN) ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="2b">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2b">2b</a><span><b>iOS · Chord progression (EN twin of <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2a">2a</a>).</b> Same flow, iOS chrome &amp; English UI — the direction holds on both platforms.</span></div>
+      <div style="width:320px;height:690px;border-radius:48px;background:linear-gradient(150deg,#232326,#050505);padding:11px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 0% 0%,rgba(16,185,129,.13),transparent 55%),radial-gradient(120% 50% at 100% 100%,rgba(240,178,75,.08),transparent 55%)">
+          <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;position:relative"><span style="font:600 15px 'Outfit';color:#EAF0EC;letter-spacing:.3px">9:41</span><div style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:92px;height:27px;background:#000;border-radius:16px"></div><div style="display:flex;align-items:center;gap:6px"><div style="display:flex;align-items:flex-end;gap:1.5px;height:11px"><div style="width:3px;height:5px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:7px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:9px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:11px;background:#EAF0EC;border-radius:1px"></div></div><div style="width:22px;height:11px;border:1.5px solid rgba(234,240,236,.6);border-radius:3px;padding:1.5px;box-sizing:border-box"><div style="width:75%;height:100%;background:#EAF0EC;border-radius:1px"></div></div></div></div>
+          <div style="height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.4px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Chord progression</span></div><div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px"><span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">FR</span><span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 7px;border-radius:6px">EN</span></div></div>
+          <div style="margin:4px 16px 0;flex:none;display:flex;gap:8px">
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:7px 11px"><span style="font:600 9px 'Outfit';color:#6B726F;text-transform:uppercase;letter-spacing:.5px">Key</span><span style="font:700 12px 'Outfit';color:#EAF0EC">G major</span></div>
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:7px 11px"><span style="font:600 9px 'Outfit';color:#6B726F;text-transform:uppercase;letter-spacing:.5px">Style</span><span style="font:700 12px 'Outfit';color:#EAF0EC">Pop</span></div>
+          </div>
+          <div style="margin:16px 16px 0;flex:none">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><span style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F">Progression · I–V–vi–IV</span><span style="font:600 9.5px 'Outfit';color:#34D399">4 chords</span></div>
+            <div style="display:flex;gap:8px">
+              <div style="flex:1;background:rgba(16,185,129,.10);border:1.5px solid rgba(16,185,129,.5);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 8px 18px -9px rgba(16,185,129,.6)"><span style="width:5px;height:5px;border-radius:50%;background:#10B981;box-shadow:0 0 8px #10B981"></span><span style="font:800 22px 'Outfit';color:#34D399;line-height:1">G</span><span style="font:700 10px 'JetBrains Mono';color:#10B981">I</span></div>
+              <div style="flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:transparent"></span><span style="font:800 22px 'Outfit';color:#EAF0EC;line-height:1">D</span><span style="font:700 10px 'JetBrains Mono';color:#6B726F">V</span></div>
+              <div style="flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:transparent"></span><span style="font:800 22px 'Outfit';color:#EAF0EC;line-height:1">Em</span><span style="font:700 10px 'JetBrains Mono';color:#6B726F">vi</span></div>
+              <div style="flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:transparent"></span><span style="font:800 22px 'Outfit';color:#EAF0EC;line-height:1">C</span><span style="font:700 10px 'JetBrains Mono';color:#6B726F">IV</span></div>
+            </div>
+          </div>
+          <div style="margin:16px 16px 0;flex:none">
+            <div style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F;margin-bottom:8px">Next chords</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <span style="display:flex;align-items:center;gap:4px;font:700 12px 'Outfit';color:#050505;background:#10B981;padding:6px 11px;border-radius:10px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#052018" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Am7</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Bm</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">C</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">D7</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Cmaj7</span>
+            </div>
+          </div>
+          <div style="margin:16px 16px 0;flex:none;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:11px 12px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><span style="font:700 9px 'Outfit';letter-spacing:.8px;text-transform:uppercase;color:#9BA3A0">Synced preview</span><span style="margin-left:auto;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px 8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.2" stroke-linecap="round"><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8"></path></svg><span style="font:700 9px 'JetBrains Mono';color:#C7CFCB">G</span></span></div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="flex:none;display:flex;flex-direction:column;gap:5px;align-items:flex-start">
+                <span style="display:flex;align-items:center;gap:5px;font:700 8.5px 'Outfit';text-transform:uppercase;letter-spacing:.5px;color:#34D399"><span style="width:6px;height:6px;border-radius:50%;background:#10B981"></span>Guitar</span>
+                <span style="font:700 13px 'JetBrains Mono';letter-spacing:2px"><span style="color:#FB7185">3</span><span style="color:#C7CFCB">200 0</span><span style="color:#FB7185">3</span></span>
+              </div>
+              <div style="flex:1">
+                <span style="display:flex;align-items:center;gap:5px;margin-bottom:5px;font:700 8.5px 'Outfit';text-transform:uppercase;letter-spacing:.5px;color:#F0B24B"><span style="width:6px;height:6px;border-radius:50%;background:#F0B24B"></span>Keys</span>
+                <svg viewBox="0 0 208 58" style="width:100%;height:auto;display:block"><rect x="0" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="26" y="0" width="24" height="56" rx="3" fill="#F0B24B" stroke="#0A0C0B" stroke-width="1"></rect><rect x="52" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="78" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="104" y="0" width="24" height="56" rx="3" fill="#E0952A" stroke="#0A0C0B" stroke-width="1"></rect><rect x="130" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="156" y="0" width="24" height="56" rx="3" fill="#F0B24B" stroke="#0A0C0B" stroke-width="1"></rect><rect x="182" y="0" width="24" height="56" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="17" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="43" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="95" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="121" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="147" y="0" width="16" height="35" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect></svg>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-height:8px"></div>
+          <div style="margin:0 16px 6px;flex:none;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:9px 10px 9px 9px">
+            <div style="width:42px;height:42px;flex:none;border-radius:50%;background:linear-gradient(180deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -4px rgba(16,185,129,.6)"><svg width="16" height="16" viewBox="0 0 24 24" fill="#052018"><path d="M8 5v14l11-7z"></path></svg></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:700 12px 'Outfit';color:#EAF0EC">Loop playback</span><span style="font:600 10px 'JetBrains Mono';color:#6B726F">90 BPM · 4/4</span></div>
+            <div style="width:38px;height:38px;flex:none;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"></path></svg></div>
+            <div style="width:38px;height:38px;flex:none;border-radius:11px;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+          </div>
+          <div style="flex:none;padding:8px 12px 6px;background:rgba(10,12,11,.65);border-top:1px solid rgba(255,255,255,.07)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Chords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:20px;height:3px;border-radius:2px;background:#10B981;margin-bottom:1px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg><span style="font-family:Outfit;font-weight:700;font-size:9.5px;color:#10B981">Progr.</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Scales</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Tuner</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">More</span></div>
+            </div>
+            <div style="width:130px;height:5px;border-radius:3px;background:rgba(255,255,255,.28);margin:8px auto 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2c : ANDROID · GAMMES ===== -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="2c">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2c">2c</a><span><b>Android · Gammes.</b> Explorateur de gammes : le manche affiche les degrés (tonique en rose), accords de la gamme, jouer la position.</span></div>
+      <div style="width:320px;height:690px;border-radius:40px;background:linear-gradient(150deg,#26262a,#060606);padding:9px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 0% 0%,rgba(16,185,129,.14),transparent 52%),radial-gradient(120% 55% at 100% 100%,rgba(16,185,129,.06),transparent 52%)">
+          <div style="height:32px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative"><span style="font:600 13px 'Outfit';color:#EAF0EC">9:41</span><div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:9px;height:9px;background:#000;border-radius:50%"></div><div style="display:flex;align-items:center;gap:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><path d="M12 3C7 3 3 6 1 9l11 12L23 9c-2-3-6-6-11-6z" opacity=".9"></path></svg><svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><rect x="4" y="7" width="16" height="10" rx="2"></rect></svg></div></div>
+          <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px"><div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.3px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Explorateur de gammes</span></div><div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:20px"><span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 8px;border-radius:20px">FR</span><span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">EN</span></div></div>
+          <div style="margin:6px 16px 0;flex:none">
+            <div style="font:800 22px 'Outfit';color:#EAF0EC;letter-spacing:-.3px">La mineur <span style="color:#34D399">pentatonique</span></div>
+            <div style="display:flex;gap:7px;margin-top:9px">
+              <span style="display:flex;align-items:center;gap:5px;font:700 11px 'Outfit';color:#EAF0EC;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:9px"><span style="width:8px;height:8px;border-radius:50%;background:#FB7185"></span>Tonique La</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:9px">5 notes</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:5px 11px;border-radius:9px">Blues</span>
+            </div>
+          </div>
+          <div style="margin:14px 14px 0;flex:none;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.16);border-radius:20px;padding:12px 12px 10px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="width:7px;height:7px;border-radius:50%;background:#10B981"></span><span style="font:700 9.5px 'Outfit';letter-spacing:1px;text-transform:uppercase;color:#34D399">Manche · position 1</span><span style="margin-left:auto;font:600 9px 'JetBrains Mono';color:#6B726F">E A D G B E</span></div>
+            <svg viewBox="0 0 268 176" style="width:100%;height:auto;display:block">
+              <defs><linearGradient id="woodG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1410"></stop><stop offset=".5" stop-color="#2c211a"></stop><stop offset="1" stop-color="#1c1410"></stop></linearGradient></defs>
+              <rect x="38" y="14" width="220" height="140" rx="10" fill="url(#woodG)" stroke="rgba(255,255,255,.05)"></rect>
+              <circle cx="120" cy="84" r="5.5" fill="rgba(255,255,255,.12)"></circle><circle cx="200" cy="84" r="5.5" fill="rgba(255,255,255,.12)"></circle>
+              <rect x="38" y="18" width="6" height="132" rx="2" fill="#d9d5cc"></rect>
+              <line x1="80" y1="18" x2="80" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="120" y1="18" x2="120" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="160" y1="18" x2="160" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="200" y1="18" x2="200" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line><line x1="240" y1="18" x2="240" y2="150" stroke="rgba(210,210,210,.3)" stroke-width="2"></line>
+              <line x1="44" y1="24" x2="258" y2="24" stroke="#cfcfcf" stroke-width="1"></line><line x1="44" y1="48" x2="258" y2="48" stroke="#cfcfcf" stroke-width="1.3"></line><line x1="44" y1="72" x2="258" y2="72" stroke="#cfcfcf" stroke-width="1.7"></line><line x1="44" y1="96" x2="258" y2="96" stroke="#c7c7c7" stroke-width="2.1"></line><line x1="44" y1="120" x2="258" y2="120" stroke="#c7c7c7" stroke-width="2.6"></line><line x1="44" y1="144" x2="258" y2="144" stroke="#bfbfbf" stroke-width="3.1"></line>
+              <text x="30" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">0</text><text x="62" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">1</text><text x="100" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">2</text><text x="140" y="168" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">3</text>
+              <g><circle cx="30" cy="24" r="10" fill="#34D399"></circle><text x="30" y="27.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">5</text></g>
+              <g><circle cx="30" cy="72" r="10" fill="#34D399"></circle><text x="30" y="75.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭7</text></g>
+              <g><circle cx="30" cy="96" r="10" fill="#34D399"></circle><text x="30" y="99.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">4</text></g>
+              <g><circle cx="30" cy="120" r="10" fill="#FB7185"></circle><text x="30" y="123.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">1</text></g>
+              <g><circle cx="30" cy="144" r="10" fill="#34D399"></circle><text x="30" y="147.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">5</text></g>
+              <g><circle cx="140" cy="24" r="11" fill="#34D399"></circle><text x="140" y="27.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭7</text></g>
+              <g><circle cx="62" cy="48" r="11" fill="#34D399"></circle><text x="62" y="51.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭3</text></g>
+              <g><circle cx="140" cy="48" r="11" fill="#34D399"></circle><text x="140" y="51.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">4</text></g>
+              <g><circle cx="100" cy="72" r="11" fill="#FB7185"></circle><text x="100" y="75.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">1</text></g>
+              <g><circle cx="100" cy="96" r="11" fill="#34D399"></circle><text x="100" y="99.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="8" text-anchor="middle">5</text></g>
+              <g><circle cx="140" cy="120" r="11" fill="#34D399"></circle><text x="140" y="123.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭3</text></g>
+              <g><circle cx="140" cy="144" r="11" fill="#34D399"></circle><text x="140" y="147.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="7.5" text-anchor="middle">♭7</text></g>
+            </svg>
+            <div style="display:flex;gap:14px;margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)"><span style="display:flex;align-items:center;gap:5px;font:600 9px 'Outfit';color:#9BA3A0"><span style="width:9px;height:9px;border-radius:50%;background:#FB7185"></span>Tonique</span><span style="display:flex;align-items:center;gap:5px;font:600 9px 'Outfit';color:#9BA3A0"><span style="width:9px;height:9px;border-radius:50%;background:#34D399"></span>Note de gamme</span></div>
+          </div>
+          <div style="margin:14px 16px 0;flex:none">
+            <div style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F;margin-bottom:8px">Accords de la gamme</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <span style="display:flex;align-items:center;gap:5px;font:700 12px 'Outfit';color:#050505;background:#10B981;padding:6px 12px;border-radius:10px"><span style="width:6px;height:6px;border-radius:50%;background:#FB7185"></span>Am</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">C</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Dm</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">Em</span>
+              <span style="font:600 12px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:10px">G</span>
+            </div>
+          </div>
+          <div style="flex:1;min-height:8px"></div>
+          <div style="margin:0 16px 8px;flex:none;display:flex;align-items:center;gap:9px">
+            <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:6px 6px"><div style="width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"></path></svg></div><span style="font:700 11px 'Outfit';color:#EAF0EC;padding:0 6px">Pos. 1</span><div style="width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2.4" stroke-linecap="round"><path d="M9 18l6-6-6-6"></path></svg></div></div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,#10B981,#059669);color:#052018;font:800 13px 'Outfit';padding:12px 0;border-radius:14px;box-shadow:0 8px 18px -6px rgba(16,185,129,.5)"><svg width="15" height="15" viewBox="0 0 24 24" fill="#052018"><path d="M8 5v14l11-7z"></path></svg>Jouer la gamme</div>
+          </div>
+          <div style="flex:none;padding:8px 6px 4px;background:rgba(12,14,13,.75);border-top:1px solid rgba(255,255,255,.06)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accords</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Suites</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:rgba(16,185,129,.18)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg></div><span style="font-family:Outfit;font-weight:700;font-size:9px;color:#10B981">Gammes</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accordeur</span></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Plus</span></div>
+            </div>
+            <div style="width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.3);margin:6px auto 2px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p style="margin:26px 0 0;font:400 12px/1.6 'Outfit',sans-serif;color:rgba(0,0,0,.5)">À essayer : « ajoute le <b>Chansonnier</b> (chords over lyrics) &amp; l'<b>Accordeur</b> » · « fais le jumeau iOS de <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2c">2c</a> » · « le <b>Métronome</b> dans cette langue » · « transforme <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#2a">2a</a> en prototype cliquable »</p>
+</section>
+<section style="padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08)" id="t1">
+  <div style="display:flex;align-items:baseline;gap:10px;margin:0 0 6px"><a style="font:700 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#111;color:#fff;border-radius:5px;text-decoration:none" href="#t1">1</a><span style="font:700 14px/1.2 'Outfit',sans-serif;color:#111">Écran principal — Accords / Chord workspace</span></div>
+  <p style="max-width:680px;margin:0 0 26px;font:400 13px/1.6 'Outfit',sans-serif;color:rgba(0,0,0,.55)">Refonte mobile de <strong>FRETBYWOOD</strong> — même ADN sombre + vert émeraude, la typo <strong>Outfit</strong> conservée, mais repensé pour le pouce et pour deux usages : le compositeur qui synchronise <strong>guitare ↔ clavier</strong>, et l'amateur qui apprend accords &amp; gammes. Trois pistes pour l'écran d'accords, en <strong>iOS + Android</strong> et <strong>FR/EN</strong>. Le vert = guitare, l'ambre = piano, le rose = tonique.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start">
+
+    <!-- ============ 1a : iOS · MANCHE VERTICAL (Am, FR) ============ -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="1a">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1a">1a</a><span><b>iOS · Manche vertical.</b> Le manche tourné en portrait — on joue au pouce, la fiche d'accord en haut. Détection live.</span></div>
+      <div style="width:320px;height:690px;border-radius:48px;background:linear-gradient(150deg,#232326,#050505);padding:11px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 60% at 100% 0%,rgba(16,185,129,.14),transparent 55%),radial-gradient(120% 50% at 0% 100%,rgba(5,120,90,.10),transparent 55%)">
+          <!-- status bar -->
+          <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;position:relative">
+            <span style="font:600 15px 'Outfit';color:#EAF0EC;letter-spacing:.3px">9:41</span>
+            <div style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:92px;height:27px;background:#000;border-radius:16px"></div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="display:flex;align-items:flex-end;gap:1.5px;height:11px">
+                <div style="width:3px;height:5px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:7px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:9px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:11px;background:#EAF0EC;border-radius:1px"></div>
+              </div>
+              <div style="width:22px;height:11px;border:1.5px solid rgba(234,240,236,.6);border-radius:3px;padding:1.5px;box-sizing:border-box"><div style="width:75%;height:100%;background:#EAF0EC;border-radius:1px"></div></div>
+            </div>
+          </div>
+          <!-- app header -->
+          <div style="height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px">
+            <div style="font:800 17px 'Outfit';letter-spacing:.5px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px">
+                <span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 7px;border-radius:6px">FR</span>
+                <span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">EN</span>
+              </div>
+              <div style="width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9BA3A0" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"></path></svg>
+              </div>
+            </div>
+          </div>
+          <!-- detection hero -->
+          <div style="margin:6px 16px 0;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);flex:none">
+            <div style="display:flex;align-items:center;gap:6px;color:#10B981;font:700 9.5px 'Outfit';letter-spacing:1.4px;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:50%;background:#10B981;box-shadow:0 0 8px #10B981;animation:pulseDot 1.8s infinite"></span>Moteur harmonique</div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:8px">
+              <div style="display:flex;align-items:baseline;gap:2px"><span style="font:800 46px/1 'Outfit';color:#34D399;letter-spacing:-1px">Am</span></div>
+              <div style="text-align:right;font:500 10.5px/1.5 'Outfit';color:#9BA3A0">Basse <b style="color:#EAF0EC;font-weight:700">Mi</b><br>Tonique <b style="color:#FB7185;font-weight:700">La</b></div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:12px">
+              <span style="font:700 11px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.22);padding:4px 10px;border-radius:8px">La</span><span style="font:700 11px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.22);padding:4px 10px;border-radius:8px">Do</span><span style="font:700 11px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.22);padding:4px 10px;border-radius:8px">Mi</span>
+              <span style="margin-left:auto;font:600 9.5px 'Outfit';color:#6B726F;align-self:center;letter-spacing:.4px">STANDARD · CAPO 0</span>
+            </div>
+          </div>
+          <!-- instrument mode switch -->
+          <div style="margin:12px 16px 0;display:flex;gap:4px;padding:4px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:13px;flex:none">
+            <div style="flex:1;text-align:center;font:700 11.5px 'Outfit';color:#050505;background:linear-gradient(180deg,#10B981,#059669);padding:8px 0;border-radius:9px;box-shadow:0 4px 12px -3px rgba(16,185,129,.5)">Guitare</div>
+            <div style="flex:1;text-align:center;font:600 11.5px 'Outfit';color:#9BA3A0;padding:8px 0">Piano</div>
+            <div style="flex:1;text-align:center;font:600 11.5px 'Outfit';color:#9BA3A0;padding:8px 0">Accord</div>
+          </div>
+          <!-- vertical neck -->
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:8px 16px 0;min-height:0">
+            <div style="width:214px">
+              <svg viewBox="0 0 240 316" style="width:100%;height:auto;display:block">
+                <defs><linearGradient id="woodV" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1c1410"></stop><stop offset=".5" stop-color="#2c211a"></stop><stop offset="1" stop-color="#1c1410"></stop></linearGradient></defs>
+                <rect x="14" y="30" width="212" height="286" rx="14" fill="url(#woodV)" stroke="rgba(255,255,255,.05)"></rect>
+                <!-- inlays -->
+                <circle cx="120" cy="170" r="6" fill="rgba(255,255,255,.14)"></circle>
+                <circle cx="120" cy="274" r="6" fill="rgba(255,255,255,.14)"></circle>
+                <!-- nut -->
+                <rect x="28" y="37" width="184" height="6" rx="2" fill="#d9d5cc"></rect>
+                <!-- frets -->
+                <line x1="30" y1="92" x2="210" y2="92" stroke="rgba(210,210,210,.35)" stroke-width="2"></line>
+                <line x1="30" y1="144" x2="210" y2="144" stroke="rgba(210,210,210,.35)" stroke-width="2"></line>
+                <line x1="30" y1="196" x2="210" y2="196" stroke="rgba(210,210,210,.35)" stroke-width="2"></line>
+                <line x1="30" y1="248" x2="210" y2="248" stroke="rgba(210,210,210,.35)" stroke-width="2"></line>
+                <line x1="30" y1="300" x2="210" y2="300" stroke="rgba(210,210,210,.35)" stroke-width="2"></line>
+                <!-- strings -->
+                <line x1="30" y1="43" x2="30" y2="300" stroke="#cfcfcf" stroke-width="1"></line>
+                <line x1="66" y1="43" x2="66" y2="300" stroke="#cfcfcf" stroke-width="1.4"></line>
+                <line x1="102" y1="43" x2="102" y2="300" stroke="#cfcfcf" stroke-width="1.8"></line>
+                <line x1="138" y1="43" x2="138" y2="300" stroke="#c7c7c7" stroke-width="2.2"></line>
+                <line x1="174" y1="43" x2="174" y2="300" stroke="#c7c7c7" stroke-width="2.7"></line>
+                <line x1="210" y1="43" x2="210" y2="300" stroke="#bfbfbf" stroke-width="3.2"></line>
+                <!-- fret numbers -->
+                <text x="18" y="70" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">1</text>
+                <text x="18" y="122" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">2</text>
+                <text x="18" y="174" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">3</text>
+                <text x="18" y="226" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">4</text>
+                <text x="18" y="278" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">5</text>
+                <!-- open / mute markers -->
+                <circle cx="66" cy="22" r="6.5" fill="none" stroke="#FB7185" stroke-width="2"></circle>
+                <circle cx="210" cy="22" r="6.5" fill="none" stroke="#34D399" stroke-width="2"></circle>
+                <g stroke="#FB7185" stroke-width="2" stroke-linecap="round"><line x1="26" y1="16" x2="34" y2="28"></line><line x1="34" y1="16" x2="26" y2="28"></line></g>
+                <!-- finger dots -->
+                <g><circle cx="102" cy="118" r="13" fill="#34D399"></circle><text x="102" y="122" fill="#052018" font-family="Outfit" font-weight="800" font-size="10.5" text-anchor="middle">Mi</text></g>
+                <g><circle cx="138" cy="118" r="13" fill="#FB7185"></circle><text x="138" y="122" fill="#052018" font-family="Outfit" font-weight="800" font-size="10.5" text-anchor="middle">La</text></g>
+                <g><circle cx="174" cy="66" r="13" fill="#34D399"></circle><text x="174" y="70" fill="#052018" font-family="Outfit" font-weight="800" font-size="10.5" text-anchor="middle">Do</text></g>
+              </svg>
+            </div>
+          </div>
+          <!-- action row -->
+          <div style="flex:none;padding:10px 16px 6px;display:flex;gap:9px;align-items:center">
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,#10B981,#059669);color:#052018;font:800 13px 'Outfit';padding:12px 0;border-radius:14px;box-shadow:0 8px 18px -6px rgba(16,185,129,.5)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#052018" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ajouter à la partition
+            </div>
+            <div style="width:46px;height:46px;flex:none;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg>
+            </div>
+          </div>
+          <!-- bottom nav -->
+          <div style="flex:none;padding:8px 12px 6px;background:rgba(10,12,11,.65);border-top:1px solid rgba(255,255,255,.07)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:20px;height:3px;border-radius:2px;background:#10B981;margin-bottom:1px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#10B981">Accords</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Suites</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Gammes</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Accordeur</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Plus</span></div>
+            </div>
+            <div style="width:130px;height:5px;border-radius:3px;background:rgba(255,255,255,.28);margin:8px auto 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1b : iOS · FICHE D'ACCORD D'ABORD (C, EN) ============ -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="1b">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1b">1b</a><span><b>iOS · Diagram-first (EN).</b> Look up a chord: big diagram + scrubbable mini-neck + alternate voicings. For learners.</span></div>
+      <div style="width:320px;height:690px;border-radius:48px;background:linear-gradient(150deg,#232326,#050505);padding:11px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 0% 0%,rgba(16,185,129,.13),transparent 55%),radial-gradient(120% 50% at 100% 100%,rgba(5,120,90,.10),transparent 55%)">
+          <div style="height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px 0 30px;position:relative">
+            <span style="font:600 15px 'Outfit';color:#EAF0EC;letter-spacing:.3px">9:41</span>
+            <div style="position:absolute;left:50%;top:11px;transform:translateX(-50%);width:92px;height:27px;background:#000;border-radius:16px"></div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="display:flex;align-items:flex-end;gap:1.5px;height:11px"><div style="width:3px;height:5px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:7px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:9px;background:#EAF0EC;border-radius:1px"></div><div style="width:3px;height:11px;background:#EAF0EC;border-radius:1px"></div></div>
+              <div style="width:22px;height:11px;border:1.5px solid rgba(234,240,236,.6);border-radius:3px;padding:1.5px;box-sizing:border-box"><div style="width:75%;height:100%;background:#EAF0EC;border-radius:1px"></div></div>
+            </div>
+          </div>
+          <!-- search-style header -->
+          <div style="padding:2px 16px 0;flex:none">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <div style="font:800 17px 'Outfit';letter-spacing:.5px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</div>
+              <div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px">
+                <span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">FR</span>
+                <span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 7px;border-radius:6px">EN</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:10px 14px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+              <span style="font:500 13px 'Outfit';color:#EAF0EC">C major</span><span style="margin-left:auto;font:600 10px 'JetBrains Mono';color:#6B726F">C E G</span>
+            </div>
+          </div>
+          <!-- big diagram card -->
+          <div style="margin:14px 16px 0;flex:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:16px 16px 14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <span style="font:800 22px 'Outfit';color:#EAF0EC">C</span>
+              <span style="font:600 10px 'Outfit';color:#9BA3A0;letter-spacing:.4px">OPEN · EASY</span>
+            </div>
+            <svg viewBox="0 0 172 150" style="width:100%;height:auto;display:block">
+              <!-- fret grid -->
+              <rect x="26" y="34" width="120" height="96" fill="none"></rect>
+              <rect x="20" y="30" width="132" height="4" rx="1" fill="#d9d5cc"></rect>
+              <line x1="26" y1="58" x2="146" y2="58" stroke="rgba(210,210,210,.28)" stroke-width="1.5"></line>
+              <line x1="26" y1="82" x2="146" y2="82" stroke="rgba(210,210,210,.28)" stroke-width="1.5"></line>
+              <line x1="26" y1="106" x2="146" y2="106" stroke="rgba(210,210,210,.28)" stroke-width="1.5"></line>
+              <line x1="26" y1="130" x2="146" y2="130" stroke="rgba(210,210,210,.28)" stroke-width="1.5"></line>
+              <line x1="26" y1="34" x2="26" y2="130" stroke="rgba(210,210,210,.32)" stroke-width="1.5"></line>
+              <line x1="50" y1="34" x2="50" y2="130" stroke="rgba(210,210,210,.32)" stroke-width="1.5"></line>
+              <line x1="74" y1="34" x2="74" y2="130" stroke="rgba(210,210,210,.32)" stroke-width="1.5"></line>
+              <line x1="98" y1="34" x2="98" y2="130" stroke="rgba(210,210,210,.32)" stroke-width="1.5"></line>
+              <line x1="122" y1="34" x2="122" y2="130" stroke="rgba(210,210,210,.32)" stroke-width="1.5"></line>
+              <line x1="146" y1="34" x2="146" y2="130" stroke="rgba(210,210,210,.32)" stroke-width="1.5"></line>
+              <circle cx="98" cy="20" r="5" fill="none" stroke="#34D399" stroke-width="2"></circle><circle cx="146" cy="20" r="5" fill="none" stroke="#34D399" stroke-width="2"></circle>
+              <g stroke="#FB7185" stroke-width="2" stroke-linecap="round"><line x1="22" y1="15" x2="30" y2="25"></line><line x1="30" y1="15" x2="22" y2="25"></line></g>
+              <g><circle cx="50" cy="94" r="10" fill="#FB7185"></circle><text x="50" y="97.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="9" text-anchor="middle">C</text></g><g><circle cx="74" cy="70" r="10" fill="#34D399"></circle><text x="74" y="73.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="9" text-anchor="middle">E</text></g><g><circle cx="122" cy="46" r="10" fill="#FB7185"></circle><text x="122" y="49.5" fill="#052018" font-family="Outfit" font-weight="800" font-size="9" text-anchor="middle">C</text></g>
+            </svg>
+          </div>
+          <!-- alternate voicings -->
+          <div style="margin:14px 16px 0;flex:none">
+            <div style="font:700 9.5px 'Outfit';letter-spacing:1.2px;text-transform:uppercase;color:#6B726F;margin-bottom:8px">Other voicings</div>
+            <div style="display:flex;gap:8px">
+              <span style="font:700 11px 'Outfit';color:#050505;background:#10B981;padding:6px 12px;border-radius:9px">C</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9px">Cadd9</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9px">Cmaj7</span>
+              <span style="font:600 11px 'Outfit';color:#C7CFCB;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:6px 12px;border-radius:9px">C/G</span>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+          <!-- action -->
+          <div style="flex:none;padding:6px 16px 8px;display:flex;gap:9px">
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;background:linear-gradient(180deg,#10B981,#059669);color:#052018;font:800 13px 'Outfit';padding:13px 0;border-radius:14px;box-shadow:0 8px 18px -6px rgba(16,185,129,.5)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#052018" stroke-width="2.6" stroke-linecap="round"><path d="M11 5 6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg>Play &amp; add
+            </div>
+            <div style="width:48px;height:48px;flex:none;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+            </div>
+          </div>
+          <div style="flex:none;padding:8px 12px 6px;background:rgba(10,12,11,.65);border-top:1px solid rgba(255,255,255,.07)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:20px;height:3px;border-radius:2px;background:#10B981;margin-bottom:1px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#10B981">Chords</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Progr.</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Scales</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">Tuner</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="height:4px"></div><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg><span style="font-family:Outfit;font-weight:600;font-size:9.5px;color:#6B726F">More</span></div>
+            </div>
+            <div style="width:130px;height:5px;border-radius:3px;background:rgba(255,255,255,.28);margin:8px auto 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1c : ANDROID · STUDIO SYNC GUITARE↔CLAVIER (G, FR) ============ -->
+    <div style="flex:none;display:flex;flex-direction:column;gap:12px" id="1c">
+      <div style="display:flex;align-items:baseline;gap:9px;max-width:320px;font:500 11.5px/1.4 'Outfit',sans-serif;color:rgba(0,0,0,.5)"><a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1c">1c</a><span><b>Android · Studio sync.</b> Le cas compositeur : manche + clavier empilés, même accord, verrou de synchro. Material 3.</span></div>
+      <div style="width:320px;height:690px;border-radius:40px;background:linear-gradient(150deg,#26262a,#060606);padding:9px;box-shadow:0 40px 70px -24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05);flex:none">
+        <div style="position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#0A0C0B;display:flex;flex-direction:column;background-image:radial-gradient(120% 55% at 100% 0%,rgba(16,185,129,.13),transparent 52%),radial-gradient(120% 55% at 0% 100%,rgba(240,178,75,.09),transparent 52%)">
+          <!-- android status bar -->
+          <div style="height:32px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative">
+            <span style="font:600 13px 'Outfit';color:#EAF0EC">9:41</span>
+            <div style="position:absolute;left:50%;top:9px;transform:translateX(-50%);width:9px;height:9px;background:#000;border-radius:50%"></div>
+            <div style="display:flex;align-items:center;gap:5px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><path d="M12 3C7 3 3 6 1 9l11 12L23 9c-2-3-6-6-11-6z" opacity=".9"></path></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#EAF0EC"><rect x="4" y="7" width="16" height="10" rx="2"></rect></svg>
+            </div>
+          </div>
+          <!-- material top app bar -->
+          <div style="height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px">
+            <div style="display:flex;flex-direction:column"><span style="font:800 17px 'Outfit';letter-spacing:.3px;color:#EAF0EC">FRETBYW<span style="color:#10B981">OO</span>D</span><span style="font:500 9px 'Outfit';color:#6B726F;letter-spacing:.3px">Studio d'arrangement</span></div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="display:flex;padding:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:20px">
+                <span style="font:700 10px 'Outfit';color:#050505;background:#10B981;padding:3px 8px;border-radius:20px">FR</span>
+                <span style="font:700 10px 'Outfit';color:#6B726F;padding:3px 7px">EN</span>
+              </div>
+            </div>
+          </div>
+          <!-- chord readout -->
+          <div style="margin:2px 16px 0;flex:none;display:flex;align-items:center;gap:14px">
+            <span style="font:800 40px/1 'Outfit';color:#34D399;letter-spacing:-1px">G</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <span style="font:500 10px 'Outfit';color:#9BA3A0">Sol majeur · Tonique <b style="color:#FB7185;font-weight:700">Sol</b></span>
+              <div style="display:flex;gap:5px"><span style="font:700 10px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.22);padding:3px 8px;border-radius:7px">Sol</span><span style="font:700 10px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.22);padding:3px 8px;border-radius:7px">Si</span><span style="font:700 10px 'JetBrains Mono';color:#34D399;background:rgba(16,185,129,.10);border:1px solid rgba(16,185,129,.22);padding:3px 8px;border-radius:7px">Ré</span></div>
+            </div>
+          </div>
+          <!-- GUITAR panel -->
+          <div style="margin:14px 14px 0;flex:none;background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.16);border-radius:20px;padding:12px 12px 10px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="width:7px;height:7px;border-radius:50%;background:#10B981"></span><span style="font:700 9.5px 'Outfit';letter-spacing:1px;text-transform:uppercase;color:#34D399">Guitare</span><span style="margin-left:auto;font:600 9px 'JetBrains Mono';color:#6B726F">E A D G B E</span></div>
+            <svg viewBox="0 0 268 168" style="width:100%;height:auto;display:block">
+              <defs><linearGradient id="woodH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1410"></stop><stop offset=".5" stop-color="#2c211a"></stop><stop offset="1" stop-color="#1c1410"></stop></linearGradient></defs>
+              <rect x="38" y="14" width="220" height="140" rx="10" fill="url(#woodH)" stroke="rgba(255,255,255,.05)"></rect>
+              <circle cx="120" cy="84" r="5.5" fill="rgba(255,255,255,.13)"></circle>
+              <circle cx="200" cy="84" r="5.5" fill="rgba(255,255,255,.13)"></circle>
+              <rect x="38" y="18" width="6" height="132" rx="2" fill="#d9d5cc"></rect>
+              <!-- frets -->
+              <line x1="80" y1="18" x2="80" y2="150" stroke="rgba(210,210,210,.32)" stroke-width="2"></line>
+              <line x1="120" y1="18" x2="120" y2="150" stroke="rgba(210,210,210,.32)" stroke-width="2"></line>
+              <line x1="160" y1="18" x2="160" y2="150" stroke="rgba(210,210,210,.32)" stroke-width="2"></line>
+              <line x1="200" y1="18" x2="200" y2="150" stroke="rgba(210,210,210,.32)" stroke-width="2"></line>
+              <line x1="240" y1="18" x2="240" y2="150" stroke="rgba(210,210,210,.32)" stroke-width="2"></line>
+              <!-- strings -->
+              <line x1="44" y1="24" x2="258" y2="24" stroke="#cfcfcf" stroke-width="1"></line>
+              <line x1="44" y1="48" x2="258" y2="48" stroke="#cfcfcf" stroke-width="1.3"></line>
+              <line x1="44" y1="72" x2="258" y2="72" stroke="#cfcfcf" stroke-width="1.7"></line>
+              <line x1="44" y1="96" x2="258" y2="96" stroke="#c7c7c7" stroke-width="2.1"></line>
+              <line x1="44" y1="120" x2="258" y2="120" stroke="#c7c7c7" stroke-width="2.6"></line>
+              <line x1="44" y1="144" x2="258" y2="144" stroke="#bfbfbf" stroke-width="3.1"></line>
+              <text x="60" y="164" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">1</text><text x="100" y="164" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">2</text><text x="140" y="164" fill="#5a615d" font-family="JetBrains Mono" font-size="9" text-anchor="middle">3</text>
+              <circle cx="26" cy="48" r="6" fill="none" stroke="#34D399" stroke-width="2"></circle><circle cx="26" cy="72" r="6" fill="none" stroke="#FB7185" stroke-width="2"></circle><circle cx="26" cy="96" r="6" fill="none" stroke="#34D399" stroke-width="2"></circle>
+              <g><circle cx="140" cy="24" r="12" fill="#FB7185"></circle><text x="140" y="28" fill="#052018" font-family="Outfit" font-weight="800" font-size="10" text-anchor="middle">Sol</text></g><g><circle cx="100" cy="120" r="12" fill="#34D399"></circle><text x="100" y="124" fill="#052018" font-family="Outfit" font-weight="800" font-size="10" text-anchor="middle">Si</text></g><g><circle cx="140" cy="144" r="12" fill="#FB7185"></circle><text x="140" y="148" fill="#052018" font-family="Outfit" font-weight="800" font-size="10" text-anchor="middle">Sol</text></g>
+            </svg>
+          </div>
+          <!-- sync link -->
+          <div style="flex:none;display:flex;align-items:center;justify-content:center;margin:-1px 0">
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 11px;transform:translateY(-1px)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.2" stroke-linecap="round"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 0 1 0 10h-2"></path><path d="M8 12h8"></path></svg>
+              <span style="font:700 9px 'Outfit';letter-spacing:.6px;color:#C7CFCB">SYNCHRONISÉ</span>
+            </div>
+          </div>
+          <!-- PIANO panel -->
+          <div style="margin:0 14px;flex:none;background:rgba(240,178,75,.05);border:1px solid rgba(240,178,75,.16);border-radius:20px;padding:12px 12px 10px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="width:7px;height:7px;border-radius:50%;background:#F0B24B"></span><span style="font:700 9.5px 'Outfit';letter-spacing:1px;text-transform:uppercase;color:#F0B24B">Clavier</span><span style="margin-left:auto;font:600 9px 'JetBrains Mono';color:#6B726F">Do4 — Do5</span></div>
+            <svg viewBox="0 0 208 80" style="width:100%;height:auto;display:block">
+              <rect x="0" y="0" width="24" height="78" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="26" y="0" width="24" height="78" rx="3" fill="#F0B24B" stroke="#0A0C0B" stroke-width="1"></rect><rect x="52" y="0" width="24" height="78" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="78" y="0" width="24" height="78" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="104" y="0" width="24" height="78" rx="3" fill="#E0952A" stroke="#0A0C0B" stroke-width="1"></rect><rect x="130" y="0" width="24" height="78" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect><rect x="156" y="0" width="24" height="78" rx="3" fill="#F0B24B" stroke="#0A0C0B" stroke-width="1"></rect><rect x="182" y="0" width="24" height="78" rx="3" fill="#EDEBE4" stroke="#0A0C0B" stroke-width="1"></rect>
+              <rect x="17" y="0" width="16" height="48" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="43" y="0" width="16" height="48" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="95" y="0" width="16" height="48" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="121" y="0" width="16" height="48" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect><rect x="147" y="0" width="16" height="48" rx="2.5" fill="#141414" stroke="#0A0C0B"></rect>
+            </svg>
+          </div>
+          <div style="flex:1"></div>
+          <!-- Material FAB add -->
+          <div style="flex:none;padding:0 16px 8px;display:flex;justify-content:flex-end">
+            <div style="display:flex;align-items:center;gap:9px;background:linear-gradient(180deg,#10B981,#059669);color:#052018;font:800 13px 'Outfit';padding:13px 20px;border-radius:18px;box-shadow:0 10px 22px -6px rgba(16,185,129,.55)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#052018" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ajouter à la partition
+            </div>
+          </div>
+          <!-- Material nav bar -->
+          <div style="flex:none;padding:8px 6px 4px;background:rgba(12,14,13,.75);border-top:1px solid rgba(255,255,255,.06)">
+            <div style="display:flex;justify-content:space-between">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:rgba(16,185,129,.18)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v18 M12 3v18 M18 3v18 M3 8h18 M3 14h18"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#10B981">Accords</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 9l10 6 10-6-10-6z M2 15l10 6 10-6"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Suites</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l2.5-7 3 14 3-10 2 3h5.5"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Gammes</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 1 1 16 0 M12 15l4-4"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Accordeur</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="padding:4px 14px;border-radius:16px;background:transparent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B726F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h.01 M12 12h.01 M19 12h.01"></path></svg></div><span style="font-family:Outfit;font-weight:600;font-size:9px;color:#6B726F">Plus</span></div>
+            </div>
+            <div style="width:110px;height:4px;border-radius:3px;background:rgba(255,255,255,.3);margin:6px auto 2px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p style="margin:26px 0 0;font:400 12px/1.6 'Outfit',sans-serif;color:rgba(0,0,0,.5)">À essayer : « je pars sur <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1a">1a</a>, montre-moi Suites, Gammes &amp; Chansonnier » · « le studio sync <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1c">1c</a> mais en iOS » · « fusionne <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1a">1a</a> et <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1b">1b</a> » · « transforme <a style="font:700 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#111;border-radius:6px;text-decoration:none" href="#1a">1a</a> en prototype cliquable »</p>
+</section>
+</body>
+</html>
