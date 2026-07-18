@@ -23,6 +23,7 @@ import { Metronome } from './components/Metronome';
 import { ScaleExplorer } from './components/ScaleExplorer';
 import { Songbook } from './components/Songbook';
 import { AppBar } from './components/AppBar';
+import { AccordsScreen } from './components/AccordsScreen';
 import { TabBar } from './components/TabBar';
 import type { MobileTab } from './components/TabBar';
 import { MoreSheet } from './components/MoreSheet';
@@ -629,8 +630,53 @@ export default function App() {
         />
       ) : (
         <>
-          {/* Main Workspace Layout */}
-          <main className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 w-full">
+          {/* Écran Accords mobile (direction 1c, < 768px) */}
+          <div className="md:hidden">
+            <AccordsScreen
+              lang={lang}
+              detection={detection}
+              activeChordName={activeChordName}
+              selectedChordIdx={selectedChordIdx}
+              onSelectChordIdx={setSelectedChordIdx}
+              inputMode={inputMode}
+              onChangeInputMode={setInputMode}
+              strings={strings}
+              onFretboardChange={handleFretboardChange}
+              playedString={playedString}
+              showRootNote={showRootNote}
+              onToggleShowRoot={() => setShowRootNote(!showRootNote)}
+              effectiveMidis={effectiveMidis}
+              onStrum={() => strumChord()}
+              onResetGuitar={handleResetFretboard}
+              activeMidiNotes={activeMidiNotes}
+              onTogglePianoNote={handleTogglePianoNote}
+              onPlayPianoChord={() => playPianoChord()}
+              onResetPiano={() => setActiveMidiNotes([])}
+              tuningId={tuningId}
+              onChangeTuning={setTuningId}
+              tuningPresets={TUNING_PRESETS}
+              isStandardTuning={isStandardTuning}
+              capo={capo}
+              onChangeCapo={setCapo}
+              tuningNoteNames={effectiveMidis.slice().reverse().map((m) => NOTE_FR[m % 12])}
+              presets={CHORD_PRESETS}
+              onLoadPreset={handleLoadPreset}
+              onAddChord={() => handleAddChord()}
+              onFindProgression={handleFindProgression}
+              onFindScales={handleFindScales}
+              onSelectVoicing={handleSelectVoicing}
+              onPlayVoicing={(voicing) => strumChord(voicing)}
+              onAddGeneratedChord={(voicing, name, root) => {
+                const cleanChord = name.split('(')[0].replace(/5$/, '');
+                const notes = Chord.get(cleanChord).notes;
+                const pianoMidis = suggestPianoVoicing(notes);
+                handleAddChord(voicing, pianoMidis, name, root);
+              }}
+            />
+          </div>
+
+          {/* Main Workspace Layout (desktop, >= 768px) */}
+          <main className="hidden md:grid max-w-[1200px] mx-auto grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 w-full">
         
         {/* Left Area: Instrument & Educational Grid */}
         <div className="flex flex-col gap-6 min-w-0">

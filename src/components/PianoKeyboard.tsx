@@ -3,9 +3,18 @@ import React from 'react';
 interface PianoKeyboardProps {
   activeNotes: number[]; // Array of active MIDI numbers
   onToggleNote: (midi: number) => void;
+  bare?: boolean; // Sans carte ni entête (pour insertion dans un panneau)
+  accent?: 'emerald' | 'amber'; // Couleur des touches actives (mobile piano = ambre)
 }
 
-export const PianoKeyboard: React.FC<PianoKeyboardProps> = ({ activeNotes, onToggleNote }) => {
+export const PianoKeyboard: React.FC<PianoKeyboardProps> = ({ activeNotes, onToggleNote, bare = false, accent = 'emerald' }) => {
+  // Couleurs des touches actives selon l'accent
+  const whiteActive = accent === 'amber'
+    ? 'fill-[#F0B24B] stroke-[#E0952A]'
+    : 'fill-emerald-500 stroke-emerald-600';
+  const blackActive = accent === 'amber'
+    ? 'fill-[#E0952A] hover:fill-[#F0B24B] shadow-lg'
+    : 'fill-emerald-400 hover:fill-emerald-500 shadow-lg';
   // Define note maps
   const whiteKeyChromas = [0, 2, 4, 5, 7, 9, 11]; // C, D, E, F, G, A, B
   const totalWhiteKeys = 21; // 3 octaves (C3 to B5)
@@ -48,21 +57,9 @@ export const PianoKeyboard: React.FC<PianoKeyboardProps> = ({ activeNotes, onTog
     });
   }
 
-  return (
-    <div className="w-full flex flex-col items-center select-none animate-fadeIn">
-      <div className="w-full max-w-[720px] bg-zinc-950/40 p-6 rounded-2xl border border-zinc-800 shadow-xl relative backdrop-blur-md">
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-xs uppercase font-extrabold tracking-wider text-emerald-450 flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
-            Clavier Piano Interactif
-          </span>
-          <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider">
-            Do3 - Si5 (3 Octaves)
-          </span>
-        </div>
-
-        {/* Keyboard SVG Container */}
-        <div className="relative overflow-x-auto w-full py-1">
+  // Le clavier lui-même (SVG scrollable), réutilisé en mode carte ou nu
+  const keyboard = (
+    <div className="relative overflow-x-auto w-full py-1">
           <svg 
             width="672" 
             height="160" 
@@ -83,8 +80,8 @@ export const PianoKeyboard: React.FC<PianoKeyboardProps> = ({ activeNotes, onTog
                     height={160}
                     rx={4}
                     className={`transition-all duration-150 ${
-                      isActive 
-                        ? 'fill-emerald-500 stroke-emerald-600' 
+                      isActive
+                        ? whiteActive
                         : 'fill-zinc-50 stroke-zinc-300 hover:fill-zinc-100'
                     }`}
                     strokeWidth="1"
@@ -129,8 +126,8 @@ export const PianoKeyboard: React.FC<PianoKeyboardProps> = ({ activeNotes, onTog
                   height={98}
                   rx={3}
                   className={`cursor-pointer transition-all duration-150 stroke-zinc-950 ${
-                    isActive 
-                      ? 'fill-emerald-400 hover:fill-emerald-500 shadow-lg' 
+                    isActive
+                      ? blackActive
                       : 'fill-zinc-900 hover:fill-zinc-800'
                   }`}
                   strokeWidth="1"
@@ -142,7 +139,28 @@ export const PianoKeyboard: React.FC<PianoKeyboardProps> = ({ activeNotes, onTog
               );
             })}
           </svg>
+    </div>
+  );
+
+  // Mode nu : le clavier seul, pour insertion dans un panneau (écran Accords mobile)
+  if (bare) {
+    return <div className="w-full select-none animate-fadeIn">{keyboard}</div>;
+  }
+
+  // Mode carte (desktop) : entête + carte glass
+  return (
+    <div className="w-full flex flex-col items-center select-none animate-fadeIn">
+      <div className="w-full max-w-[720px] bg-zinc-950/40 p-6 rounded-2xl border border-zinc-800 shadow-xl relative backdrop-blur-md">
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-xs uppercase font-extrabold tracking-wider text-emerald-450 flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
+            Clavier Piano Interactif
+          </span>
+          <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-wider">
+            Do3 - Si5 (3 Octaves)
+          </span>
         </div>
+        {keyboard}
       </div>
     </div>
   );
