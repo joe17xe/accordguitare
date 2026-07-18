@@ -1,9 +1,9 @@
-import { BookOpen, Timer, X } from 'lucide-react';
+import { BookOpen, Timer, FileText, X } from 'lucide-react';
 import type { Lang } from '../i18n';
 import { t } from '../i18n';
 
 // Destinations accessibles depuis l'onglet « Plus ».
-export type MoreDestination = 'songbook' | 'metronome';
+export type MoreDestination = 'songbook' | 'metronome' | 'sheet';
 
 interface MoreSheetProps {
   lang: Lang;
@@ -21,6 +21,7 @@ interface Entry {
 const ENTRIES: Entry[] = [
   { id: 'songbook', labelKey: 'more.songbook', descKey: 'more.songbook.desc', Icon: BookOpen },
   { id: 'metronome', labelKey: 'more.metronome', descKey: 'more.metronome.desc', Icon: Timer },
+  { id: 'sheet', labelKey: 'more.sheet', descKey: 'more.sheet.desc', Icon: FileText },
 ];
 
 /**

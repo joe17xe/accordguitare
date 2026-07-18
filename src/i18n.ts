@@ -18,6 +18,7 @@ const fr: Dict = {
   'app.subtitle.tuner': 'Accordeur',
   'app.subtitle.songbook': 'Chansonnier',
   'app.subtitle.metronome': 'Métronome',
+  'app.subtitle.sheet': 'Partition',
   // Nav basse
   'nav.chords': 'Accords',
   'nav.progressions': 'Suites',
@@ -31,6 +32,8 @@ const fr: Dict = {
   'more.songbook.desc': 'Accords au-dessus des paroles',
   'more.metronome': 'Métronome',
   'more.metronome.desc': 'Tempo et signature rythmique',
+  'more.sheet': 'Partition',
+  'more.sheet.desc': 'Ta fiche d\'accords, export PDF',
   'more.close': 'Fermer',
 };
 
@@ -41,6 +44,7 @@ const en: Dict = {
   'app.subtitle.tuner': 'Tuner',
   'app.subtitle.songbook': 'Songbook',
   'app.subtitle.metronome': 'Metronome',
+  'app.subtitle.sheet': 'Chord sheet',
   'nav.chords': 'Chords',
   'nav.progressions': 'Progressions',
   'nav.scales': 'Scales',
@@ -52,6 +56,8 @@ const en: Dict = {
   'more.songbook.desc': 'Chords above the lyrics',
   'more.metronome': 'Metronome',
   'more.metronome.desc': 'Tempo and time signature',
+  'more.sheet': 'Chord sheet',
+  'more.sheet.desc': 'Your chord sheet, PDF export',
   'more.close': 'Close',
 };
 

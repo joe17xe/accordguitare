@@ -48,7 +48,7 @@ const CHORD_PRESETS = [
 ];
 
 export default function App() {
-  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook'>('workspace');
+  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook' | 'sheet'>('workspace');
 
   // Langue de l'interface (FR par défaut, persistée) — coquille mobile bilingue
   const [lang, setLang] = useState<Lang>(() => loadLang());
@@ -460,6 +460,7 @@ export default function App() {
     tuner: 'tuner',
     songbook: 'more',
     metronome: 'more',
+    sheet: 'more',
   };
   const activeTab = PAGE_TO_TAB[appPage];
   const appBarSubtitle = t(lang, `app.subtitle.${appPage === 'workspace' ? 'chords' : appPage}`);
@@ -628,6 +629,18 @@ export default function App() {
           }}
           onAddProgressionToSheet={handleAddProgression}
         />
+      ) : appPage === 'sheet' ? (
+        <section className="max-w-[1200px] mx-auto animate-fadeIn">
+          <ChordSheet
+            savedChords={savedChords}
+            onDeleteChord={handleDeleteChord}
+            onClearSheet={handleClearSheet}
+            onMoveChord={handleMoveChord}
+            onAddTextSection={handleAddTextSection}
+            onChangeTextSize={handleChangeTextSize}
+            showRootNote={showRootNote}
+          />
+        </section>
       ) : (
         <>
           {/* Écran Accords mobile (direction 1c, < 768px) */}
@@ -1048,8 +1061,8 @@ export default function App() {
 
       </main>
 
-      {/* Printable / Editable Partition Sheet */}
-      <section className="max-w-[1200px] mx-auto mt-12 animate-fadeIn">
+      {/* Printable / Editable Partition Sheet (desktop ; sur mobile via l'onglet « Plus ») */}
+      <section className="hidden md:block max-w-[1200px] mx-auto mt-12 animate-fadeIn">
         <ChordSheet 
           savedChords={savedChords} 
           onDeleteChord={handleDeleteChord} 
