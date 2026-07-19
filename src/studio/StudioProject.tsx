@@ -186,7 +186,7 @@ export function StudioProject({ projectId, lang, onBack, onChanged }: StudioProj
                 {t(lang, 'studio.result.title')}
                 <span className="font-mono text-[11px] font-medium text-ink-4">· {segCount} {t(lang, 'studio.result.chords')}</span>
               </div>
-              <StudioPlayer projectId={projectId} project={project} lang={lang} />
+              <StudioPlayer projectId={projectId} project={project} lang={lang} onChanged={load} />
               <button
                 type="button"
                 onClick={handleAnalyze}

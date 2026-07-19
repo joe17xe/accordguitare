@@ -93,6 +93,14 @@ const fr: Dict = {
   'studio.pause': 'Pause',
   'studio.transpose.down': 'Transposer -1',
   'studio.transpose.up': 'Transposer +1',
+  'studio.edit': 'Éditer',
+  'studio.edit.done': 'Terminé',
+  'studio.edit.hint': 'Touche un accord pour corriger son nom ou son timing.',
+  'studio.edit.title': 'Corriger l\'accord',
+  'studio.edit.chord': 'Accord',
+  'studio.edit.start': 'Début',
+  'studio.edit.end': 'Fin',
+  'studio.save': 'Enregistrer',
 };
 
 const en: Dict = {
@@ -174,6 +182,14 @@ const en: Dict = {
   'studio.pause': 'Pause',
   'studio.transpose.down': 'Transpose -1',
   'studio.transpose.up': 'Transpose +1',
+  'studio.edit': 'Edit',
+  'studio.edit.done': 'Done',
+  'studio.edit.hint': 'Tap a chord to fix its name or timing.',
+  'studio.edit.title': 'Edit chord',
+  'studio.edit.chord': 'Chord',
+  'studio.edit.start': 'Start',
+  'studio.edit.end': 'End',
+  'studio.save': 'Save',
 };
 
 const DICTS: Record<Lang, Dict> = { fr, en };
