@@ -4,7 +4,7 @@ const config: CapacitorConfig = {
   appId: 'cloud.joefr.fretbywood',
   appName: 'FretByW00d',
   webDir: 'dist',
-  backgroundColor: '#0c0c0e',
+  backgroundColor: '#0A0C0B',
   server: {
     androidScheme: 'https',
   },

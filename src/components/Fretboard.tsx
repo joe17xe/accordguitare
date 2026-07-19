@@ -8,9 +8,10 @@ interface FretboardProps {
   showRootNote?: boolean;
   rootNote?: string;
   tuningMidis?: number[]; // accordage effectif (capo inclus) ; standard par défaut
+  compact?: boolean; // masque les légendes du bas (écran Accords mobile)
 }
 
-export const Fretboard = ({ strings, onChange, playedString, showRootNote, rootNote, tuningMidis }: FretboardProps) => {
+export const Fretboard = ({ strings, onChange, playedString, showRootNote, rootNote, tuningMidis, compact = false }: FretboardProps) => {
   const totalFrets = 24;
 
   // Handle clicking a fret cell
@@ -219,7 +220,7 @@ export const Fretboard = ({ strings, onChange, playedString, showRootNote, rootN
         </div>
 
         {/* Fretboard legends */}
-        <div className="flex justify-between items-center mt-3 text-xs text-zinc-500 px-1">
+        <div className={`${compact ? 'hidden' : 'flex'} justify-between items-center mt-3 text-xs text-zinc-500 px-1`}>
           <div className="flex gap-4">
             <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 border border-emerald-500/50 block"></span> Corde ouverte (O)</span>
             <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-rose-500/10 border border-rose-500/30 block"></span> Corde étouffée (X)</span>

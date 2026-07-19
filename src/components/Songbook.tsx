@@ -101,23 +101,28 @@ function SongView({ song, tr, onChordClick }: SongViewProps) {
             const hasChords = line.segments.some((s) => s.chord);
             return (
               <div key={lIdx} className="mb-1.5">
-                {line.segments.map((seg, i) => (
-                  <span key={i} className="inline-block align-bottom whitespace-pre-wrap">
-                    {hasChords && (
-                      <span
-                        className={`block text-[11px] font-extrabold leading-4 h-4 whitespace-pre ${
-                          seg.chord
-                            ? 'text-emerald-400 cursor-pointer hover:text-emerald-300'
-                            : 'text-transparent select-none'
-                        }`}
-                        onClick={seg.chord ? () => onChordClick(tr(seg.chord!)) : undefined}
-                      >
-                        {seg.chord ? tr(seg.chord) : '\u00A0'}
-                      </span>
-                    )}
-                    <span className="text-zinc-200">{seg.text || '\u00A0'}</span>
-                  </span>
-                ))}
+                {line.segments.map((seg, i) => {
+                  const disp = seg.chord ? tr(seg.chord) : '';
+                  // Accord mineur (m sans \u00EAtre maj/M7\u2026) affich\u00E9 en rose, sinon \u00E9meraude
+                  const isMinor = /m(?!aj)/.test(disp) && !/dim/.test(disp);
+                  return (
+                    <span key={i} className="inline-block align-bottom whitespace-pre-wrap">
+                      {hasChords && (
+                        <span
+                          className={`block font-mono text-[11px] font-bold leading-4 h-4 whitespace-pre ${
+                            seg.chord
+                              ? `cursor-pointer ${isMinor ? 'text-tonic hover:text-tonic/80' : 'text-guitar-light hover:text-guitar'}`
+                              : 'text-transparent select-none'
+                          }`}
+                          onClick={seg.chord ? () => onChordClick(disp) : undefined}
+                        >
+                          {seg.chord ? disp : '\u00A0'}
+                        </span>
+                      )}
+                      <span className="text-ink">{seg.text || '\u00A0'}</span>
+                    </span>
+                  );
+                })}
               </div>
             );
           })}
@@ -512,7 +517,7 @@ export function Songbook() {
 
       {/* Accord en focus : diagramme flottant */}
       {focusChord && (
-        <div className="fixed bottom-4 right-4 z-40 p-3 rounded-2xl glass-panel border border-emerald-500/30 shadow-2xl animate-fadeIn flex flex-col items-center gap-1">
+        <div className="fixed right-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] md:bottom-4 z-40 p-3 rounded-2xl glass-panel border border-emerald-500/30 shadow-2xl animate-fadeIn flex flex-col items-center gap-1">
           <div className="flex items-center justify-between w-full gap-3">
             <span className="font-extrabold text-emerald-400 text-sm">{focusChord}</span>
             <button

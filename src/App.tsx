@@ -22,6 +22,14 @@ import { Tuner } from './components/Tuner';
 import { Metronome } from './components/Metronome';
 import { ScaleExplorer } from './components/ScaleExplorer';
 import { Songbook } from './components/Songbook';
+import { AppBar } from './components/AppBar';
+import { AccordsScreen } from './components/AccordsScreen';
+import { TabBar } from './components/TabBar';
+import type { MobileTab } from './components/TabBar';
+import { MoreSheet } from './components/MoreSheet';
+import type { MoreDestination } from './components/MoreSheet';
+import type { Lang } from './i18n';
+import { t, loadLang, saveLang } from './i18n';
 import { Music, Plus, RotateCcw, Volume2, Sparkles, HelpCircle, Layers, Search, Mic, Timer, AudioLines, BookOpen } from 'lucide-react';
 import { Chord } from 'tonal';
 import { initAudio, getAudioCtx, getGuitar, getPiano } from './utils/audio';
@@ -40,7 +48,14 @@ const CHORD_PRESETS = [
 ];
 
 export default function App() {
-  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook'>('workspace');
+  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook' | 'sheet'>('workspace');
+
+  // Langue de l'interface (FR par défaut, persistée) — coquille mobile bilingue
+  const [lang, setLang] = useState<Lang>(() => loadLang());
+  useEffect(() => { saveLang(lang); }, [lang]);
+
+  // Menu de débordement « Plus » (mobile)
+  const [moreOpen, setMoreOpen] = useState(false);
 
   // Tonalité + gamme suggérée envoyées vers l'explorateur de gammes
   const [scaleTarget, setScaleTarget] = useState<{ root: string; type: string } | null>(null);
@@ -437,10 +452,45 @@ export default function App() {
     setAppPage('workspace');
   };
 
+  // --- Coquille mobile : correspondance page <-> onglet de nav basse ---
+  const PAGE_TO_TAB: Record<typeof appPage, MobileTab> = {
+    workspace: 'chords',
+    progressions: 'progressions',
+    scales: 'scales',
+    tuner: 'tuner',
+    songbook: 'more',
+    metronome: 'more',
+    sheet: 'more',
+  };
+  const activeTab = PAGE_TO_TAB[appPage];
+  const appBarSubtitle = t(lang, `app.subtitle.${appPage === 'workspace' ? 'chords' : appPage}`);
+
+  const handleSelectTab = (tab: MobileTab) => {
+    if (tab === 'more') { setMoreOpen(true); return; }
+    setMoreOpen(false);
+    if (tab === 'chords') setAppPage('workspace');
+    else if (tab === 'progressions') setAppPage('progressions');
+    else if (tab === 'scales') setAppPage('scales');
+    else if (tab === 'tuner') setAppPage('tuner');
+  };
+
+  const handleSelectMore = (dest: MoreDestination) => {
+    setAppPage(dest);
+    setMoreOpen(false);
+  };
+
   return (
-    <div className="w-full min-h-screen pb-16 px-4 md:px-8">
-      {/* Header */}
-      <header className="max-w-[1200px] mx-auto pt-8 pb-6 flex flex-col items-center justify-between border-b border-zinc-800/80 mb-8 gap-6 animate-fadeIn">
+    <div className="w-full min-h-screen px-4 md:px-8 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-16">
+      {/* Coquille mobile : barre d'application (< 768px) */}
+      <AppBar
+        className="md:hidden"
+        lang={lang}
+        subtitle={appBarSubtitle}
+        onChangeLang={setLang}
+      />
+
+      {/* Header (desktop, >= 768px) */}
+      <header className="hidden md:flex max-w-[1200px] mx-auto pt-8 pb-6 flex-col items-center justify-between border-b border-zinc-800/80 mb-8 gap-6 animate-fadeIn">
         <div className="flex flex-col md:flex-row items-center w-full justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-emerald-700 flex items-center justify-center shadow-lg shadow-emerald-500/25 text-zinc-950 font-bold">
@@ -579,10 +629,67 @@ export default function App() {
           }}
           onAddProgressionToSheet={handleAddProgression}
         />
+      ) : appPage === 'sheet' ? (
+        <section className="max-w-[1200px] mx-auto animate-fadeIn">
+          <ChordSheet
+            savedChords={savedChords}
+            onDeleteChord={handleDeleteChord}
+            onClearSheet={handleClearSheet}
+            onMoveChord={handleMoveChord}
+            onAddTextSection={handleAddTextSection}
+            onChangeTextSize={handleChangeTextSize}
+            showRootNote={showRootNote}
+          />
+        </section>
       ) : (
         <>
-          {/* Main Workspace Layout */}
-          <main className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 w-full">
+          {/* Écran Accords mobile (direction 1c, < 768px) */}
+          <div className="md:hidden">
+            <AccordsScreen
+              lang={lang}
+              detection={detection}
+              activeChordName={activeChordName}
+              selectedChordIdx={selectedChordIdx}
+              onSelectChordIdx={setSelectedChordIdx}
+              inputMode={inputMode}
+              onChangeInputMode={setInputMode}
+              strings={strings}
+              onFretboardChange={handleFretboardChange}
+              playedString={playedString}
+              showRootNote={showRootNote}
+              onToggleShowRoot={() => setShowRootNote(!showRootNote)}
+              effectiveMidis={effectiveMidis}
+              onStrum={() => strumChord()}
+              onResetGuitar={handleResetFretboard}
+              activeMidiNotes={activeMidiNotes}
+              onTogglePianoNote={handleTogglePianoNote}
+              onPlayPianoChord={() => playPianoChord()}
+              onResetPiano={() => setActiveMidiNotes([])}
+              tuningId={tuningId}
+              onChangeTuning={setTuningId}
+              tuningPresets={TUNING_PRESETS}
+              isStandardTuning={isStandardTuning}
+              capo={capo}
+              onChangeCapo={setCapo}
+              tuningNoteNames={effectiveMidis.slice().reverse().map((m) => NOTE_FR[m % 12])}
+              presets={CHORD_PRESETS}
+              onLoadPreset={handleLoadPreset}
+              onAddChord={() => handleAddChord()}
+              onFindProgression={handleFindProgression}
+              onFindScales={handleFindScales}
+              onSelectVoicing={handleSelectVoicing}
+              onPlayVoicing={(voicing) => strumChord(voicing)}
+              onAddGeneratedChord={(voicing, name, root) => {
+                const cleanChord = name.split('(')[0].replace(/5$/, '');
+                const notes = Chord.get(cleanChord).notes;
+                const pianoMidis = suggestPianoVoicing(notes);
+                handleAddChord(voicing, pianoMidis, name, root);
+              }}
+            />
+          </div>
+
+          {/* Main Workspace Layout (desktop, >= 768px) */}
+          <main className="hidden md:grid max-w-[1200px] mx-auto grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 w-full">
         
         {/* Left Area: Instrument & Educational Grid */}
         <div className="flex flex-col gap-6 min-w-0">
@@ -954,8 +1061,8 @@ export default function App() {
 
       </main>
 
-      {/* Printable / Editable Partition Sheet */}
-      <section className="max-w-[1200px] mx-auto mt-12 animate-fadeIn">
+      {/* Printable / Editable Partition Sheet (desktop ; sur mobile via l'onglet « Plus ») */}
+      <section className="hidden md:block max-w-[1200px] mx-auto mt-12 animate-fadeIn">
         <ChordSheet 
           savedChords={savedChords} 
           onDeleteChord={handleDeleteChord} 
@@ -968,6 +1075,21 @@ export default function App() {
       </section>
       </>
       )}
+
+      {/* Coquille mobile : menu « Plus » + nav basse fixe (< 768px) */}
+      {moreOpen && (
+        <MoreSheet
+          lang={lang}
+          onSelect={handleSelectMore}
+          onClose={() => setMoreOpen(false)}
+        />
+      )}
+      <TabBar
+        className="md:hidden"
+        active={activeTab}
+        lang={lang}
+        onSelect={handleSelectTab}
+      />
     </div>
   );
 }
