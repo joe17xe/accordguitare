@@ -10,7 +10,12 @@ let audioCtx: AudioContext | null = null;
 let acousticGuitar: Soundfont | null = null;
 let acousticPiano: Soundfont | null = null;
 
-export const initAudio = () => {
+/**
+ * Crée le contexte audio et lance le CHARGEMENT des échantillons (smplr), sans exiger
+ * de geste utilisateur. À appeler au montage de l'app pour que les sons soient prêts
+ * avant le premier tap (sinon la 1re note est silencieuse, le temps du téléchargement).
+ */
+export const warmupAudio = () => {
   if (!audioCtx) {
     const AC = window.AudioContext || (window as any).webkitAudioContext;
     if (!AC) return;
@@ -18,7 +23,12 @@ export const initAudio = () => {
     acousticGuitar = new Soundfont(audioCtx, { instrument: 'acoustic_guitar_steel' });
     acousticPiano = new Soundfont(audioCtx, { instrument: 'acoustic_grand_piano' });
   }
-  if (audioCtx.state === 'suspended') {
+};
+
+/** Prépare le graphe audio ET réveille le contexte (à appeler sur un geste utilisateur). */
+export const initAudio = () => {
+  warmupAudio();
+  if (audioCtx && audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
 };
