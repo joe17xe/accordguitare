@@ -3,13 +3,15 @@
 // Reçoit du PCM + un providerId, renvoie progression réelle puis résultat (ou erreur).
 
 import { MockMusicAnalysisProvider } from './providers/mock';
+import { LocalBrowserProvider } from './providers/localBrowser';
 import type { MusicAnalysisProvider, WorkerRequest, WorkerResponse, AudioInput } from './providers/types';
 import type { ProviderId } from './types';
 
-// Fournisseurs disponibles côté worker. LocalBrowserProvider viendra en AG-IA-007,
-// RemoteProvider est un point d'extension documenté (non implémenté).
+// Fournisseurs disponibles côté worker. RemoteProvider est un point d'extension
+// documenté (non implémenté — traitement serveur futur).
 const providers: Partial<Record<ProviderId, MusicAnalysisProvider>> = {
   mock: new MockMusicAnalysisProvider(),
+  'local-browser': new LocalBrowserProvider(),
 };
 
 const ctx = self as unknown as DedicatedWorkerGlobalScope;

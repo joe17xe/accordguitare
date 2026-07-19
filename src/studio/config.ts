@@ -11,8 +11,8 @@ function num(v: string | undefined, fallback: number): number {
 const env = import.meta.env as Record<string, string | undefined>;
 
 export const STUDIO_CONFIG = {
-  /** Fournisseur d'analyse par défaut (V1 : mock puis local-browser). */
-  provider: (env.VITE_MUSIC_ANALYSIS_PROVIDER as ProviderId) || 'mock',
+  /** Fournisseur d'analyse par défaut (V1 : détection réelle navigateur ; 'mock' surchargeable via env). */
+  provider: (env.VITE_MUSIC_ANALYSIS_PROVIDER as ProviderId) || 'local-browser',
   /** Durée audio maximale acceptée (secondes). */
   maxAudioSec: num(env.VITE_STUDIO_MAX_AUDIO_SEC, 600), // 10 min
   /** Taille de fichier maximale (octets). */
