@@ -19,6 +19,7 @@ const fr: Dict = {
   'app.subtitle.songbook': 'Chansonnier',
   'app.subtitle.metronome': 'Métronome',
   'app.subtitle.sheet': 'Partition',
+  'app.subtitle.studio': 'Studio IA',
   // Nav basse
   'nav.chords': 'Accords',
   'nav.progressions': 'Suites',
@@ -34,7 +35,17 @@ const fr: Dict = {
   'more.metronome.desc': 'Tempo et signature rythmique',
   'more.sheet': 'Partition',
   'more.sheet.desc': 'Ta fiche d\'accords, export PDF',
+  'more.studio': 'Studio IA',
+  'more.studio.desc': 'Analyse un audio en grille d\'accords',
   'more.close': 'Fermer',
+  // Écran Studio IA
+  'studio.title': 'Studio IA',
+  'studio.subtitle': 'Analyse audio → grille d\'accords',
+  'studio.disclaimer': 'Résultat généré par IA : vérifie et corrige avant diffusion. Tout le traitement reste sur ton appareil.',
+  'studio.loading': 'Chargement…',
+  'studio.error': 'Stockage indisponible :',
+  'studio.empty.title': 'Aucun projet pour l\'instant',
+  'studio.empty.desc': 'La création de projets arrive dans la prochaine étape.',
 };
 
 const en: Dict = {
@@ -45,6 +56,7 @@ const en: Dict = {
   'app.subtitle.songbook': 'Songbook',
   'app.subtitle.metronome': 'Metronome',
   'app.subtitle.sheet': 'Chord sheet',
+  'app.subtitle.studio': 'AI Studio',
   'nav.chords': 'Chords',
   'nav.progressions': 'Progressions',
   'nav.scales': 'Scales',
@@ -58,7 +70,16 @@ const en: Dict = {
   'more.metronome.desc': 'Tempo and time signature',
   'more.sheet': 'Chord sheet',
   'more.sheet.desc': 'Your chord sheet, PDF export',
+  'more.studio': 'AI Studio',
+  'more.studio.desc': 'Turn audio into a chord chart',
   'more.close': 'Close',
+  'studio.title': 'AI Studio',
+  'studio.subtitle': 'Audio → chord chart',
+  'studio.disclaimer': 'AI-generated result: review and correct before sharing. All processing stays on your device.',
+  'studio.loading': 'Loading…',
+  'studio.error': 'Storage unavailable:',
+  'studio.empty.title': 'No projects yet',
+  'studio.empty.desc': 'Project creation arrives in the next step.',
 };
 
 const DICTS: Record<Lang, Dict> = { fr, en };

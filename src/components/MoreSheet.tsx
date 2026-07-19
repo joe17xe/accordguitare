@@ -1,9 +1,9 @@
-import { BookOpen, Timer, FileText, X } from 'lucide-react';
+import { BookOpen, Timer, FileText, Sparkles, X } from 'lucide-react';
 import type { Lang } from '../i18n';
 import { t } from '../i18n';
 
 // Destinations accessibles depuis l'onglet « Plus ».
-export type MoreDestination = 'songbook' | 'metronome' | 'sheet';
+export type MoreDestination = 'studio' | 'songbook' | 'metronome' | 'sheet';
 
 interface MoreSheetProps {
   lang: Lang;
@@ -19,6 +19,7 @@ interface Entry {
 }
 
 const ENTRIES: Entry[] = [
+  { id: 'studio', labelKey: 'more.studio', descKey: 'more.studio.desc', Icon: Sparkles },
   { id: 'songbook', labelKey: 'more.songbook', descKey: 'more.songbook.desc', Icon: BookOpen },
   { id: 'metronome', labelKey: 'more.metronome', descKey: 'more.metronome.desc', Icon: Timer },
   { id: 'sheet', labelKey: 'more.sheet', descKey: 'more.sheet.desc', Icon: FileText },

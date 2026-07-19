@@ -28,6 +28,7 @@ import { TabBar } from './components/TabBar';
 import type { MobileTab } from './components/TabBar';
 import { MoreSheet } from './components/MoreSheet';
 import type { MoreDestination } from './components/MoreSheet';
+import { StudioScreen } from './studio/StudioScreen';
 import type { Lang } from './i18n';
 import { t, loadLang, saveLang } from './i18n';
 import { Music, Plus, RotateCcw, Volume2, Sparkles, HelpCircle, Layers, Search, Mic, Timer, AudioLines, BookOpen } from 'lucide-react';
@@ -48,7 +49,7 @@ const CHORD_PRESETS = [
 ];
 
 export default function App() {
-  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook' | 'sheet'>('workspace');
+  const [appPage, setAppPage] = useState<'workspace' | 'progressions' | 'tuner' | 'metronome' | 'scales' | 'songbook' | 'sheet' | 'studio'>('workspace');
 
   // Langue de l'interface (FR par défaut, persistée) — coquille mobile bilingue
   const [lang, setLang] = useState<Lang>(() => loadLang());
@@ -461,6 +462,7 @@ export default function App() {
     songbook: 'more',
     metronome: 'more',
     sheet: 'more',
+    studio: 'more',
   };
   const activeTab = PAGE_TO_TAB[appPage];
   const appBarSubtitle = t(lang, `app.subtitle.${appPage === 'workspace' ? 'chords' : appPage}`);
@@ -641,6 +643,8 @@ export default function App() {
             showRootNote={showRootNote}
           />
         </section>
+      ) : appPage === 'studio' ? (
+        <StudioScreen lang={lang} />
       ) : (
         <>
           {/* Écran Accords mobile (direction 1c, < 768px) */}
