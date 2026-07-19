@@ -7,6 +7,7 @@ import { getProject, updateProject, putAudioBlob, getAudioBlob, listChordSegment
 import { validateAudioFile, decodeDuration, startRecording, canRecord, AudioValidationError } from './audioSource';
 import type { Recorder } from './audioSource';
 import { runChordAnalysis } from './runAnalysis';
+import { StudioPlayer } from './StudioPlayer';
 
 interface StudioProjectProps {
   projectId: string;
@@ -178,30 +179,14 @@ export function StudioProject({ projectId, lang, onBack, onChanged }: StudioProj
               </div>
             </div>
           ) : project?.status === 'completed' ? (
-            // Résultat
+            // Résultat : lecteur synchronisé
             <div className="flex flex-col gap-3">
-              <div className="rounded-2xl border border-guitar/25 bg-guitar/8 p-4">
-                <div className="mb-2 flex items-center gap-2 text-sm font-extrabold text-ink">
-                  <CheckCircle2 className="h-4 w-4 text-guitar-light" />
-                  {t(lang, 'studio.result.title')}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-ink-2">
-                    {segCount} {t(lang, 'studio.result.chords')}
-                  </span>
-                  {project.detectedKey && (
-                    <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-ink-2">
-                      {t(lang, 'studio.result.key')} {project.detectedKey}
-                    </span>
-                  )}
-                  {project.detectedBpm != null && (
-                    <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-ink-2">
-                      {project.detectedBpm} {t(lang, 'studio.result.bpm')}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-2 text-[12px] text-ink-4">{t(lang, 'studio.result.next')}</p>
+              <div className="flex items-center gap-2 text-sm font-extrabold text-ink">
+                <CheckCircle2 className="h-4 w-4 text-guitar-light" />
+                {t(lang, 'studio.result.title')}
+                <span className="font-mono text-[11px] font-medium text-ink-4">· {segCount} {t(lang, 'studio.result.chords')}</span>
               </div>
+              <StudioPlayer projectId={projectId} project={project} lang={lang} />
               <button
                 type="button"
                 onClick={handleAnalyze}

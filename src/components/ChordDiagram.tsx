@@ -9,9 +9,10 @@ interface ChordDiagramProps {
   showRootNote?: boolean;
   scale?: number;
   tuningMidis?: number[]; // accordage utilisé au moment de la sauvegarde de l'accord
+  leftHanded?: boolean; // diagramme gaucher (miroir horizontal)
 }
 
-export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, lightMode = false, rootNote, showRootNote = false, scale = 1.0, tuningMidis }) => {
+export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, lightMode = false, rootNote, showRootNote = false, scale = 1.0, tuningMidis, leftHanded = false }) => {
   // 1. Map to layout array: Standard vertical diagrams are Low E (string 6) on the left to High E (string 1) on the right.
   // So we reverse the strings state array.
   const displayStrings = [...strings].reverse();
@@ -72,6 +73,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, light
       {/* SVG Diagram wrapped in scaled container */}
       <div style={{ width: `${90.72 * scale}px` }}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`} className="w-full h-auto block">
+        <g transform={leftHanded ? `translate(${width},0) scale(-1,1)` : undefined}>
         {/* Draw Frets (Horizontal lines) */}
         {Array.from({ length: numFrets + 1 }).map((_, i) => {
           const y = yStart + i * ySpacing;
@@ -99,6 +101,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, light
             fontWeight="bold"
             fill={lightMode ? '#18181b' : '#10b981'}
             textAnchor="middle"
+            transform={leftHanded ? `translate(${2 * (xStart - 12)},0) scale(-1,1)` : undefined}
           >
             {startFret}fr
           </text>
@@ -230,6 +233,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ strings, name, light
           }
           return null;
         })}
+        </g>
         </svg>
       </div>
     </div>
