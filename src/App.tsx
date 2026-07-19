@@ -32,7 +32,7 @@ import type { Lang } from './i18n';
 import { t, loadLang, saveLang } from './i18n';
 import { Music, Plus, RotateCcw, Volume2, Sparkles, HelpCircle, Layers, Search, Mic, Timer, AudioLines, BookOpen } from 'lucide-react';
 import { Chord } from 'tonal';
-import { initAudio, getAudioCtx, getGuitar, getPiano } from './utils/audio';
+import { initAudio, warmupAudio, getAudioCtx, getGuitar, getPiano } from './utils/audio';
 
 // Audio Context and Samplers Initialization
 
@@ -53,6 +53,15 @@ export default function App() {
   // Langue de l'interface (FR par défaut, persistée) — coquille mobile bilingue
   const [lang, setLang] = useState<Lang>(() => loadLang());
   useEffect(() => { saveLang(lang); }, [lang]);
+
+  // Audio : précharger les samples dès l'ouverture, réveiller le contexte au 1er geste
+  // (évite la 1re note silencieuse — le contexte démarre suspendu par la politique navigateur).
+  useEffect(() => {
+    warmupAudio();
+    const wake = () => initAudio();
+    window.addEventListener('pointerdown', wake, { once: true });
+    return () => window.removeEventListener('pointerdown', wake);
+  }, []);
 
   // Menu de débordement « Plus » (mobile)
   const [moreOpen, setMoreOpen] = useState(false);
@@ -685,6 +694,10 @@ export default function App() {
                 const pianoMidis = suggestPianoVoicing(notes);
                 handleAddChord(voicing, pianoMidis, name, root);
               }}
+              savedChords={savedChords}
+              onMoveChord={handleMoveChord}
+              onDeleteChord={handleDeleteChord}
+              onOpenSheet={() => setAppPage('sheet')}
             />
           </div>
 

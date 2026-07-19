@@ -1,8 +1,9 @@
-import { Guitar, Piano, Search, Volume2, RotateCcw, Plus, Layers, AudioLines, Link2 } from 'lucide-react';
+import { Guitar, Piano, Search, Volume2, RotateCcw, Plus, Layers, AudioLines, Link2, ChevronLeft, ChevronRight, Trash2, FileText } from 'lucide-react';
 import { Fretboard } from './Fretboard';
 import { PianoKeyboard } from './PianoKeyboard';
 import { ChordGenerator } from './ChordGenerator';
 import type { StringState } from '../utils/music';
+import type { SavedChord } from './ChordSheet';
 import type { Lang } from '../i18n';
 
 type InputMode = 'guitar' | 'piano' | 'generator';
@@ -64,6 +65,12 @@ export interface AccordsScreenProps {
   onSelectVoicing: (voicing: StringState[], name: string) => void;
   onPlayVoicing: (voicing: StringState[]) => void;
   onAddGeneratedChord: (voicing: StringState[], name: string, root: string) => void;
+
+  // Partition « live » (composer au fil de l'eau)
+  savedChords: SavedChord[];
+  onMoveChord: (id: string, direction: 'left' | 'right') => void;
+  onDeleteChord: (id: string) => void;
+  onOpenSheet: () => void;
 }
 
 const noteChipCls =
@@ -85,6 +92,7 @@ export function AccordsScreen(props: AccordsScreenProps) {
     presets, onLoadPreset,
     onAddChord, onFindProgression, onFindScales,
     onSelectVoicing, onPlayVoicing, onAddGeneratedChord,
+    savedChords, onMoveChord, onDeleteChord, onOpenSheet,
   } = props;
 
   const hasChord = detection.chords.length > 0;
@@ -302,6 +310,71 @@ export function AccordsScreen(props: AccordsScreenProps) {
           </button>
         </div>
       </div>
+
+      {/* Ma partition « live » — composer au fil de l'eau */}
+      <section className="mt-1 rounded-2xl border border-white/8 bg-white/[0.03] p-3">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3">
+            Ma partition <span className="font-mono text-ink-4">({savedChords.length})</span>
+          </span>
+          <button
+            type="button"
+            onClick={onOpenSheet}
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-guitar/25 bg-guitar/10 px-2.5 py-1 text-[11px] font-bold text-guitar-light transition active:scale-95"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Ouvrir · PDF
+          </button>
+        </div>
+
+        {savedChords.length === 0 ? (
+          <p className="py-3 text-center text-[12px] text-ink-4">
+            Ajoute des accords ci-dessus : ils apparaissent ici et tu peux les réorganiser.
+          </p>
+        ) : (
+          <ul className="flex flex-col gap-1.5">
+            {savedChords.map((item, idx) => (
+              <li
+                key={item.id}
+                className="flex items-center gap-2 rounded-xl border border-white/8 bg-white/[0.04] px-2 py-1.5"
+              >
+                <span className="w-6 text-center font-mono text-[11px] text-ink-4">{idx + 1}</span>
+                <span className={`min-w-0 flex-1 truncate text-sm font-bold ${item.type === 'text' ? 'italic text-ink-3' : 'text-ink'}`}>
+                  {item.name || '—'}
+                </span>
+                <div className="flex items-center gap-0.5">
+                  <button
+                    type="button"
+                    onClick={() => onMoveChord(item.id, 'left')}
+                    disabled={idx === 0}
+                    aria-label="Reculer"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-ink-3 transition hover:bg-white/8 active:scale-95 disabled:opacity-30"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onMoveChord(item.id, 'right')}
+                    disabled={idx === savedChords.length - 1}
+                    aria-label="Avancer"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-ink-3 transition hover:bg-white/8 active:scale-95 disabled:opacity-30"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onDeleteChord(item.id)}
+                    aria-label="Supprimer"
+                    className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-ink-3 transition hover:text-tonic active:scale-95"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }
