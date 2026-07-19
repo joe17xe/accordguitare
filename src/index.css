@@ -170,3 +170,30 @@ body {
 .pdf-chord-diagram-name {
   color: #18181b !important;
 }
+
+/* ——— UX-003 : impression des gammes (A4 paysage) ——— */
+.scale-print-sheet {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+  body.printing-scale #root {
+    display: none !important;
+  }
+  body.printing-scale {
+    background: #fff !important;
+  }
+  body.printing-scale .scale-print-sheet {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 96vh;
+    background: #fff;
+    color: #000;
+  }
+}
