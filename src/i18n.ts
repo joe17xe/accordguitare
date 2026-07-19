@@ -61,6 +61,21 @@ const fr: Dict = {
   'studio.status.analyzing': 'Analyse…',
   'studio.status.completed': 'Terminé',
   'studio.status.failed': 'Échec',
+  'studio.back': 'Retour',
+  'studio.audio.consent': 'Je certifie détenir les droits sur ce fichier audio (composition personnelle ou autorisation). L\'audio reste sur mon appareil.',
+  'studio.audio.import': 'Importer un fichier',
+  'studio.audio.record': 'Enregistrer au micro',
+  'studio.audio.stop': 'Arrêter l\'enregistrement',
+  'studio.audio.checking': 'Vérification de l\'audio…',
+  'studio.audio.ready': 'Audio prêt à analyser',
+  'studio.audio.replace': 'Remplacer',
+  'studio.audio.next': 'L\'analyse en grille d\'accords arrive dans la prochaine étape.',
+  'studio.audio.err.size': 'Fichier trop volumineux.',
+  'studio.audio.err.type': 'Format audio non pris en charge.',
+  'studio.audio.err.duration': 'Audio trop long.',
+  'studio.audio.err.decode': 'Impossible de lire cet audio.',
+  'studio.audio.err.empty': 'Fichier vide.',
+  'studio.audio.err.mic': 'Accès au micro refusé ou indisponible.',
 };
 
 const en: Dict = {
@@ -110,6 +125,21 @@ const en: Dict = {
   'studio.status.analyzing': 'Analysing…',
   'studio.status.completed': 'Done',
   'studio.status.failed': 'Failed',
+  'studio.back': 'Back',
+  'studio.audio.consent': 'I certify I hold the rights to this audio (my own work or authorised). The audio stays on my device.',
+  'studio.audio.import': 'Import a file',
+  'studio.audio.record': 'Record from mic',
+  'studio.audio.stop': 'Stop recording',
+  'studio.audio.checking': 'Checking audio…',
+  'studio.audio.ready': 'Audio ready to analyse',
+  'studio.audio.replace': 'Replace',
+  'studio.audio.next': 'Chord-chart analysis arrives in the next step.',
+  'studio.audio.err.size': 'File too large.',
+  'studio.audio.err.type': 'Unsupported audio format.',
+  'studio.audio.err.duration': 'Audio too long.',
+  'studio.audio.err.decode': 'Could not read this audio.',
+  'studio.audio.err.empty': 'Empty file.',
+  'studio.audio.err.mic': 'Microphone access denied or unavailable.',
 };
 
 const DICTS: Record<Lang, Dict> = { fr, en };

@@ -4,6 +4,7 @@ import type { Lang } from '../i18n';
 import { t } from '../i18n';
 import type { Project, ProjectStatus } from './types';
 import { listProjects, createProject, deleteProject, persistStorage } from './db';
+import { StudioProject } from './StudioProject';
 
 interface StudioScreenProps {
   lang: Lang;
@@ -28,6 +29,7 @@ export function StudioScreen({ lang }: StudioScreenProps) {
   const [creating, setCreating] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [busy, setBusy] = useState(false);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const refresh = () => {
     listProjects()
@@ -39,6 +41,18 @@ export function StudioScreen({ lang }: StudioScreenProps) {
     persistStorage();
     refresh();
   }, []);
+
+  // Vue projet (source audio, analyse…)
+  if (openId) {
+    return (
+      <StudioProject
+        projectId={openId}
+        lang={lang}
+        onBack={() => { setOpenId(null); refresh(); }}
+        onChanged={refresh}
+      />
+    );
+  }
 
   const handleCreate = async () => {
     const title = newTitle.trim() || t(lang, 'studio.title.placeholder');
@@ -121,18 +135,24 @@ export function StudioScreen({ lang }: StudioScreenProps) {
               key={p.id}
               className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.045] p-3"
             >
-              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-guitar/10 text-guitar-light">
-                <AudioLines className="h-4.5 w-4.5" />
-              </span>
-              <div className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate text-sm font-bold text-ink">{p.title}</span>
-                <div className="mt-0.5 flex items-center gap-2">
-                  <span className={`rounded-md border px-1.5 py-[1px] text-[10px] font-bold ${STATUS_CLS[p.status]}`}>
-                    {t(lang, `studio.status.${p.status}`)}
-                  </span>
-                  <span className="font-mono text-[10px] text-ink-4">{fmtDate(p.updatedAt)}</span>
+              <button
+                type="button"
+                onClick={() => setOpenId(p.id)}
+                className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 text-left transition active:scale-[0.99]"
+              >
+                <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-guitar/10 text-guitar-light">
+                  <AudioLines className="h-4.5 w-4.5" />
+                </span>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="truncate text-sm font-bold text-ink">{p.title}</span>
+                  <div className="mt-0.5 flex items-center gap-2">
+                    <span className={`rounded-md border px-1.5 py-[1px] text-[10px] font-bold ${STATUS_CLS[p.status]}`}>
+                      {t(lang, `studio.status.${p.status}`)}
+                    </span>
+                    <span className="font-mono text-[10px] text-ink-4">{fmtDate(p.updatedAt)}</span>
+                  </div>
                 </div>
-              </div>
+              </button>
               <button
                 type="button"
                 onClick={() => handleDelete(p.id)}
