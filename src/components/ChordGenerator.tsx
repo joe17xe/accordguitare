@@ -4,6 +4,7 @@ import { generateGuitarVoicings, getNoteAtFret, suggestPianoVoicing } from '../u
 import type { StringState } from '../utils/music';
 import { ChordDiagram } from './ChordDiagram';
 import { PianoDiagram } from './PianoDiagram';
+import { QualityPicker } from './QualityPicker';
 import { Volume2, Plus, Check, Sparkles } from 'lucide-react';
 
 interface ChordGeneratorProps {
@@ -27,45 +28,6 @@ const ROOTS = [
   { pc: 'A', label: 'La (A)' },
   { pc: 'A#', label: 'La# (A#)' },
   { pc: 'B', label: 'Si (B)' },
-];
-
-const QUALITIES = [
-  {
-    category: 'Triades',
-    items: [
-      { suffix: '', name: 'Majeur' },
-      { suffix: 'm', name: 'Mineur' },
-      { suffix: 'dim', name: 'Diminué' },
-      { suffix: 'aug', name: 'Augmenté' },
-      { suffix: 'sus2', name: 'Sus2' },
-      { suffix: 'sus4', name: 'Sus4' },
-      { suffix: '5', name: 'Power (5)' },
-    ],
-  },
-  {
-    category: 'Septièmes',
-    items: [
-      { suffix: '7', name: '7e Dominante' },
-      { suffix: 'maj7', name: '7e Majeure' },
-      { suffix: 'm7', name: '7e Mineure' },
-      { suffix: 'm7b5', name: 'Demi-diminué' },
-      { suffix: 'dim7', name: 'Diminué 7' },
-      { suffix: 'mMaj7', name: 'Min-Maj 7' },
-    ],
-  },
-  {
-    category: 'Enrichissements / Degrés',
-    items: [
-      { suffix: '6', name: '6ème' },
-      { suffix: 'm6', name: 'Mineur 6' },
-      { suffix: 'add9', name: 'Add 9' },
-      { suffix: '9', name: '9ème dominant' },
-      { suffix: 'maj9', name: 'Majeur 9' },
-      { suffix: 'm9', name: 'Mineur 9' },
-      { suffix: '11', name: '11ème' },
-      { suffix: '13', name: '13ème' },
-    ],
-  },
 ];
 
 export const ChordGenerator: React.FC<ChordGeneratorProps> = ({
@@ -147,33 +109,9 @@ export const ChordGenerator: React.FC<ChordGeneratorProps> = ({
           </div>
         </div>
 
-        {/* Qualities selection */}
-        <div className="flex flex-col gap-4 border-t border-zinc-800/80 pt-4">
-          {QUALITIES.map((group) => (
-            <div key={group.category}>
-              <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-2">
-                {group.category}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {group.items.map((q) => {
-                  const isSelected = selectedSuffix === q.suffix;
-                  return (
-                    <button
-                      key={q.suffix}
-                      onClick={() => setSelectedSuffix(q.suffix)}
-                      className={`py-1.5 px-3 text-xs font-semibold rounded-lg transition cursor-pointer border ${
-                        isSelected
-                          ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/45 font-bold'
-                          : 'bg-zinc-900/40 border-zinc-850 hover:border-zinc-800 text-zinc-455 hover:text-zinc-200'
-                      }`}
-                    >
-                      {q.name} <span className="text-[9px] opacity-75 font-mono">({q.suffix || 'M'})</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+        {/* Qualité combinable : famille puis extension */}
+        <div className="border-t border-zinc-800/80 pt-4">
+          <QualityPicker suffix={selectedSuffix} onChange={setSelectedSuffix} />
         </div>
       </div>
 

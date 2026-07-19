@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Plus, ChevronRight, X, Layers, Settings2, CheckCircle2, Repeat } from 'lucide-react';
 import { ProgressionPlayer } from './ProgressionPlayer';
+import { QualityPicker } from './QualityPicker';
 import { Chord, Progression, RomanNumeral, Note, Interval } from 'tonal';
 
 interface ChordProgressionsProps {
@@ -16,31 +17,6 @@ const ROOTS = [
   { pc: 'D#', label: 'Ré# (D#)' }, { pc: 'E', label: 'Mi (E)' }, { pc: 'F', label: 'Fa (F)' },
   { pc: 'F#', label: 'Fa# (F#)' }, { pc: 'G', label: 'Sol (G)' }, { pc: 'G#', label: 'Sol# (G#)' },
   { pc: 'A', label: 'La (A)' }, { pc: 'A#', label: 'La# (A#)' }, { pc: 'B', label: 'Si (B)' },
-];
-
-const QUALITIES = [
-  {
-    category: 'Triades',
-    items: [
-      { suffix: '', name: 'Majeur' }, { suffix: 'm', name: 'Mineur' }, { suffix: 'dim', name: 'Diminué' },
-      { suffix: 'aug', name: 'Augmenté' }, { suffix: 'sus2', name: 'Sus2' }, { suffix: 'sus4', name: 'Sus4' },
-    ],
-  },
-  {
-    category: 'Septièmes',
-    items: [
-      { suffix: '7', name: '7e Dominante' }, { suffix: 'maj7', name: '7e Majeure' }, { suffix: 'm7', name: '7e Mineure' },
-      { suffix: 'm7b5', name: 'Demi-diminué' }, { suffix: 'dim7', name: 'Diminué 7' }, { suffix: 'mMaj7', name: 'Min-Maj 7' },
-    ],
-  },
-  {
-    category: 'Enrichissements',
-    items: [
-      { suffix: '6', name: '6ème' }, { suffix: 'm6', name: 'Mineur 6' }, { suffix: 'add9', name: 'Add 9' },
-      { suffix: '9', name: '9ème dominant' }, { suffix: 'maj9', name: 'Majeur 9' }, { suffix: 'm9', name: 'Mineur 9' },
-      { suffix: '11', name: '11ème' }, { suffix: '13', name: '13ème' },
-    ],
-  },
 ];
 
 // Added 'pivotDegree' to strictly align the user's chosen chord to the right degree
@@ -272,33 +248,9 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
                   </div>
                 </div>
 
-                {/* Qualities */}
-                <div className="flex flex-col gap-4 border-t border-zinc-800/80 pt-4">
-                  {QUALITIES.map((group) => (
-                    <div key={group.category}>
-                      <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-2">
-                        {group.category}
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {group.items.map((item) => {
-                          const isSelected = activeSuffix === item.suffix;
-                          return (
-                            <button
-                              key={item.name}
-                              onClick={() => setActiveSuffix(item.suffix)}
-                              className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
-                                isSelected
-                                  ? 'bg-emerald-500 text-zinc-950 border-emerald-400 shadow-md shadow-emerald-500/20'
-                                  : 'bg-zinc-950 border-zinc-800 hover:border-emerald-500/50 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
-                              }`}
-                            >
-                              {item.name}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
+                {/* Qualité combinable : famille puis extension */}
+                <div className="border-t border-zinc-800/80 pt-4">
+                  <QualityPicker suffix={activeSuffix} onChange={setActiveSuffix} compact />
                 </div>
 
               </div>
