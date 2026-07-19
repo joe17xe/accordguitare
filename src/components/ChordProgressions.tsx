@@ -378,12 +378,12 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
         {/* CUSTOM BUILDER SECTION */}
         {customProgression.length > 0 && (
           <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-5 mb-8 animate-fadeIn">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <h3 className="text-sm font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4" />
                 Votre Suite Personnalisée
               </h3>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setCustomProgression([])}
                   className="p-2 rounded-lg bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-zinc-800 hover:border-rose-500/50 transition-all cursor-pointer"

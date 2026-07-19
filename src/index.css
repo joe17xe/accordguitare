@@ -48,6 +48,9 @@ body {
   background-color: #0A0C0B;
   color: #EAF0EC;
   min-height: 100vh;
+  /* Garde-fou : aucun débordement horizontal ne doit dézoomer la page.
+     Les zones larges (manche, fiche PDF) gèrent leur propre overflow-x. */
+  overflow-x: hidden;
   background-image:
     radial-gradient(130% 55% at 100% 0%, rgba(16, 185, 129, 0.14), transparent 55%),
     radial-gradient(120% 55% at 0% 100%, rgba(240, 178, 75, 0.08), transparent 55%);
