@@ -3,6 +3,8 @@ import { Play, Plus, ChevronRight, X, Layers, Settings2, CheckCircle2, Repeat } 
 import { ProgressionPlayer } from './ProgressionPlayer';
 import { QualityPicker } from './QualityPicker';
 import { Chord, Progression, RomanNumeral, Note, Interval } from 'tonal';
+import { PROGRESSION_PRESETS, STYLES } from '../data/progressions';
+import type { StyleId } from '../data/progressions';
 
 interface ChordProgressionsProps {
   initialChord: string;
@@ -19,47 +21,21 @@ const ROOTS = [
   { pc: 'A', label: 'La (A)' }, { pc: 'A#', label: 'La# (A#)' }, { pc: 'B', label: 'Si (B)' },
 ];
 
-// Added 'pivotDegree' to strictly align the user's chosen chord to the right degree
-const PROGRESSION_PRESETS: { name: string; degrees: string[]; type: ScaleMode; pivotDegree?: string }[] = [
-  // Majeur
-  { name: 'Pop Punk (4 Chords)', degrees: ['I', 'V', 'VIm', 'IV'], type: 'Majeur', pivotDegree: 'I' },
-  { name: 'Blues / Rock', degrees: ['I', 'IV', 'V', 'I'], type: 'Majeur', pivotDegree: 'I' },
-  { name: 'Doo-Wop des années 50', degrees: ['I', 'VIm', 'IV', 'V'], type: 'Majeur', pivotDegree: 'I' },
-  { name: 'Descente Classique', degrees: ['I', 'V', 'VIm', 'IIIm', 'IV', 'I', 'IV', 'V'], type: 'Majeur', pivotDegree: 'I' },
-  
-  // Mineur
-  { name: 'Pop Mineure Standard', degrees: ['Im', 'VI', 'III', 'VII'], type: 'Mineur', pivotDegree: 'Im' },
-  { name: 'Andalouse (Flamenco)', degrees: ['Im', 'VII', 'VI', 'V'], type: 'Mineur', pivotDegree: 'Im' },
-  { name: 'Ballade Sombre', degrees: ['Im', 'IVm', 'VII', 'III'], type: 'Mineur', pivotDegree: 'Im' },
-  { name: 'Descente Mineure Épique', degrees: ['Im', 'Vm', 'VI', 'IVm', 'Im'], type: 'Mineur', pivotDegree: 'Im' },
-  
-  // Jazz Majeur
-  { name: 'Jazz Standard (ii-V-I)', degrees: ['IIm7', 'V7', 'Imaj7'], type: 'Jazz Majeur', pivotDegree: 'Imaj7' },
-  { name: 'Anatole Jazz (I-vi-ii-V)', degrees: ['Imaj7', 'VIm7', 'IIm7', 'V7'], type: 'Jazz Majeur', pivotDegree: 'Imaj7' },
-  { name: 'Modulation Jazz', degrees: ['Imaj7', 'IVmaj7', 'IIIm7', 'V7'], type: 'Jazz Majeur', pivotDegree: 'Imaj7' },
-  
-  // Jazz Mineur
-  { name: 'Neo-Soul Mineur', degrees: ['Im7', 'IVm7', 'V7b9'], type: 'Jazz Mineur', pivotDegree: 'Im7' },
-  { name: 'Descente Soul', degrees: ['Im7', 'bVII7', 'bVImaj7', 'V7b9'], type: 'Jazz Mineur', pivotDegree: 'Im7' },
-  
-  // Dominant
-  { name: 'Blues 12 Mesures (Base)', degrees: ['I7', 'IV7', 'I7', 'V7', 'IV7', 'I7'], type: 'Dominant', pivotDegree: 'I7' },
-  { name: 'Turnaround Blues', degrees: ['I7', 'VI7', 'II7', 'V7'], type: 'Dominant', pivotDegree: 'I7' },
-  
-  // Suspendu
-  { name: 'Résolution Pop (sus4)', degrees: ['Isus4', 'I', 'IV', 'V'], type: 'Suspendu', pivotDegree: 'Isus4' },
-  { name: 'Tension Suspendue', degrees: ['Isus2', 'V', 'VIm', 'IV'], type: 'Suspendu', pivotDegree: 'Isus2' },
-  
-  // Diminué
-  { name: 'Passage Diminué vers le ii', degrees: ['Imaj7', 'I#dim7', 'IIm7', 'V7'], type: 'Diminué', pivotDegree: 'I#dim7' },
-  { name: 'Jazz ii°-V-i', degrees: ['IIm7b5', 'V7b9', 'Im7'], type: 'Diminué', pivotDegree: 'IIm7b5' },
-  
-  // Augmenté
-  { name: 'Cliché Augmenté', degrees: ['I', 'Iaug', 'I6', 'I7'], type: 'Augmenté', pivotDegree: 'Iaug' },
-  { name: 'Tension Augmentée', degrees: ['Iaug', 'IV', 'V'], type: 'Augmenté', pivotDegree: 'Iaug' },
-];
+// Orthographe enharmonique lisible : Db (5 bémols) plutôt que C# (7 dièses)…
+// Un musicien n'écrit jamais E#m7 ou B#m7b5.
+const SPELL_MAJ: Record<string, string> = { 'C#': 'Db', 'D#': 'Eb', 'G#': 'Ab', 'A#': 'Bb' };
+const SPELL_MIN: Record<string, string> = { 'D#': 'Eb', 'A#': 'Bb' };
 
-const MODES: ScaleMode[] = ['Majeur', 'Mineur', 'Jazz Majeur', 'Jazz Mineur', 'Dominant', 'Suspendu', 'Diminué', 'Augmenté'];
+// Fondamentales théoriques mais imprononçables → équivalent courant (usage tablatures)
+const READABLE: Record<string, string> = { 'E#': 'F', 'B#': 'C', 'Cb': 'B', 'Fb': 'E' };
+function readableChord(name: string): string {
+  const tonic = Chord.get(name).tonic;
+  if (!tonic) return name;
+  const pc = Note.get(tonic).pc;
+  const better =
+    READABLE[pc] ?? (pc.includes('##') || pc.includes('bb') ? Note.enharmonic(pc) : undefined);
+  return better ? better + name.slice(tonic.length) : name;
+}
 
 // Diatonic scales definitions
 const DIATONIC_DEGREES = {
@@ -87,7 +63,8 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
   
   // New Toggles & Filters
   const [isEnriched, setIsEnriched] = useState<boolean>(true);
-  const [lengthFilter, setLengthFilter] = useState<'Toutes' | '3' | '4' | '5+'>('Toutes');
+  const [lengthFilter, setLengthFilter] = useState<'Toutes' | '3' | '4' | '5-6' | '7+'>('Toutes');
+  const [styleFilter, setStyleFilter] = useState<'Tous' | StyleId>('Tous');
   const [customProgression, setCustomProgression] = useState<string[]>([]);
   const [isEditingTonic, setIsEditingTonic] = useState<boolean>(false);
 
@@ -159,23 +136,43 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
 
   // Generate the 7 diatonic chords for the grid based on current pivot tonic
   const baseModeForGrid = (scaleType.includes('Mineur') || scaleType === 'Diminué') ? 'Mineur' : 'Majeur';
-  const diatonicScaleDegrees = [...DIATONIC_DEGREES[baseModeForGrid][isEnriched ? 'enriched' : 'simple']];
-  const diatonicChords = Progression.fromRomanNumerals(activeRoot, diatonicScaleDegrees);
 
-  // Force the user's exact chosen chord into the palette so they can use it
+  // Un accord de dominante (C#9, G7…) est le V7 de sa tonalité : l'alphabet juste
+  // est celui de la tonalité une quarte au-dessus (C#9 → F# majeur).
+  const isDominantPivot = scaleType === 'Dominant';
+  const alphabetRootRaw = isDominantPivot
+    ? Note.simplify(Note.transpose(activeRoot, '4P')) || activeRoot
+    : activeRoot;
+  const alphabetRoot =
+    (baseModeForGrid === 'Majeur' ? SPELL_MAJ : SPELL_MIN)[alphabetRootRaw] ?? alphabetRootRaw;
+
+  const diatonicScaleDegrees = [...DIATONIC_DEGREES[baseModeForGrid][isEnriched ? 'enriched' : 'simple']];
+  const diatonicChords = Progression.fromRomanNumerals(alphabetRoot, diatonicScaleDegrees).map(readableChord);
+
+  // Place l'accord pivot exact sur SON degré (même fondamentale), sinon en tête
   if (!diatonicChords.includes(activeChordName)) {
-    diatonicChords[0] = activeChordName;
-    diatonicScaleDegrees[0] = 'Pivot';
+    const pivotChroma = Note.chroma(activeRoot);
+    let pivotIdx = diatonicChords.findIndex(
+      (c) => Note.chroma(Chord.get(c).tonic ?? '') === pivotChroma
+    );
+    if (pivotIdx === -1) pivotIdx = 0;
+    diatonicChords[pivotIdx] = activeChordName;
+    diatonicScaleDegrees[pivotIdx] = `${diatonicScaleDegrees[pivotIdx]} · Pivot`;
   }
 
-  // Filter Presets
-  const filteredProgressions = PROGRESSION_PRESETS.filter(p => {
-    if (p.type !== scaleType) return false;
-    if (lengthFilter === '3') return p.degrees.length === 3;
-    if (lengthFilter === '4') return p.degrees.length === 4;
-    if (lengthFilter === '5+') return p.degrees.length >= 5;
+  // Filtres des suites préfabriquées (style + longueur)
+  const filteredProgressions = PROGRESSION_PRESETS.filter((p) => {
+    if (styleFilter !== 'Tous' && p.style !== styleFilter) return false;
+    const n = p.degrees.length;
+    if (lengthFilter === '3') return n === 3;
+    if (lengthFilter === '4') return n === 4;
+    if (lengthFilter === '5-6') return n === 5 || n === 6;
+    if (lengthFilter === '7+') return n >= 7;
     return true;
   });
+  const styleGroups = STYLES
+    .map((s) => ({ style: s, items: filteredProgressions.filter((p) => p.style === s.id) }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <div className="w-full max-w-[1200px] mx-auto animate-fadeIn pb-12 space-y-8">
@@ -263,7 +260,7 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-2">
               <Settings2 className="w-4 h-4 text-emerald-500" />
-              L'Alphabet de votre Tonalité ({activeRoot} {baseModeForGrid})
+              L'Alphabet de votre Tonalité ({alphabetRoot} {baseModeForGrid})
             </h3>
             <div className="flex items-center gap-2 bg-zinc-950 rounded-lg p-1 border border-zinc-800">
               <button
@@ -285,6 +282,14 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
             </div>
           </div>
           
+          {isDominantPivot && (
+            <p className="text-xs text-zinc-500 mb-3 -mt-2">
+              Votre <span className="text-emerald-400 font-bold">{activeChordName}</span> est le
+              V7 (dominante) de <span className="text-zinc-300 font-bold">{alphabetRoot} majeur</span> —
+              voici ses compagnons naturels.
+            </p>
+          )}
+
           <div className="grid grid-cols-2 md:grid-cols-7 gap-3">
             {diatonicChords.map((chord, idx) => (
               <div
@@ -413,33 +418,33 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
           
           <div className="flex flex-wrap gap-4">
             <div>
-              <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">Mode Harmonique</label>
+              <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">Style</label>
               <div className="flex flex-wrap gap-1.5 bg-zinc-950 p-1 rounded-xl border border-zinc-800">
-                {MODES.map(mode => (
+                {(['Tous', ...STYLES.map((s) => s.id)] as ('Tous' | StyleId)[]).map((id) => (
                   <button
-                    key={mode}
-                    onClick={() => setScaleType(mode)}
+                    key={id}
+                    onClick={() => setStyleFilter(id)}
                     className={`py-1.5 px-3 rounded-lg font-bold text-xs transition-all cursor-pointer ${
-                      scaleType === mode 
-                        ? 'bg-emerald-500 text-zinc-950 shadow-md' 
+                      styleFilter === id
+                        ? 'bg-emerald-500 text-zinc-950 shadow-md'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
                     }`}
                   >
-                    {mode}
+                    {id === 'Tous' ? 'Tous' : STYLES.find((s) => s.id === id)?.label}
                   </button>
                 ))}
               </div>
             </div>
             <div>
-              <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">Longueur</label>
+              <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">Nombre d'accords</label>
               <div className="flex gap-1.5 bg-zinc-950 p-1 rounded-xl border border-zinc-800">
-                {['Toutes', '3', '4', '5+'].map(len => (
+                {(['Toutes', '3', '4', '5-6', '7+'] as const).map(len => (
                   <button
                     key={len}
-                    onClick={() => setLengthFilter(len as any)}
+                    onClick={() => setLengthFilter(len)}
                     className={`py-1.5 px-3 rounded-lg font-bold text-xs transition-all cursor-pointer ${
-                      lengthFilter === len 
-                        ? 'bg-zinc-700 text-zinc-100 shadow' 
+                      lengthFilter === len
+                        ? 'bg-zinc-700 text-zinc-100 shadow'
                         : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
                     }`}
                   >
@@ -451,27 +456,44 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
           </div>
         </div>
 
-        <div className="space-y-4">
-          {filteredProgressions.length === 0 && (
+        <div className="space-y-8">
+          {styleGroups.length === 0 && (
             <div className="text-center py-12 border-2 border-dashed border-zinc-800 rounded-2xl">
-              <p className="text-zinc-500 text-sm font-medium">Aucune progression classique trouvée pour ces filtres.</p>
+              <p className="text-zinc-500 text-sm font-medium">Aucune progression trouvée pour ces filtres.</p>
             </div>
           )}
-          {filteredProgressions.map((prog, idx) => {
+          {styleGroups.map((group) => (
+            <div key={group.style.id}>
+              <h4 className="flex items-center gap-2 mb-3">
+                <span className="text-sm font-black text-emerald-400 uppercase tracking-wider">{group.style.label}</span>
+                <span className="text-[10px] font-mono text-zinc-600">
+                  {group.items.length} suite{group.items.length > 1 ? 's' : ''}
+                </span>
+                <span className="flex-1 h-px bg-zinc-800" aria-hidden />
+              </h4>
+              <div className="space-y-4">
+          {group.items.map((prog, idx) => {
             const pivotRn = RomanNumeral.get(prog.pivotDegree || prog.degrees[0]);
-            const progressionTonic = Note.transpose(activeRoot, Interval.invert(pivotRn.interval || '1P')) || activeRoot;
-            const chords = Progression.fromRomanNumerals(progressionTonic, prog.degrees);
-            
+            let progressionTonic = Note.simplify(Note.transpose(activeRoot, Interval.invert(pivotRn.interval || '1P'))) || activeRoot;
+            progressionTonic = (prog.base === 'Majeur' ? SPELL_MAJ : SPELL_MIN)[progressionTonic] ?? progressionTonic;
+            const chords = Progression.fromRomanNumerals(progressionTonic, prog.degrees).map(readableChord);
+
             return (
               <div key={idx} className="bg-zinc-850 border border-zinc-800 rounded-2xl p-5 transition-all hover:border-emerald-500/30 hover:bg-zinc-800/80 group">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                   <div>
-                    <h4 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                    <h4 className="text-lg font-bold text-zinc-100 flex flex-wrap items-center gap-2">
                       {prog.name}
                       <span className="text-[10px] font-mono bg-zinc-950 text-zinc-500 px-2 py-0.5 rounded border border-zinc-800">
-                        Clé de {progressionTonic} {prog.type}
+                        Clé de {progressionTonic} {prog.base}
+                      </span>
+                      <span className="text-[10px] font-mono bg-zinc-950 text-zinc-500 px-2 py-0.5 rounded border border-zinc-800">
+                        {prog.degrees.length} accords
                       </span>
                     </h4>
+                    {prog.hint && (
+                      <p className="text-xs text-zinc-500 mt-1">{prog.hint}</p>
+                    )}
                   </div>
                   <div className="flex gap-2">
                     <button
@@ -541,6 +563,9 @@ export const ChordProgressions: React.FC<ChordProgressionsProps> = ({
               </div>
             );
           })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
