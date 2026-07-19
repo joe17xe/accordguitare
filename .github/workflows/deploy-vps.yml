@@ -1,0 +1,102 @@
+# CI/CD — Déploiement automatique sur le VPS (accordguitare.joefr.cloud)
+# ---------------------------------------------------------------------
+# À chaque merge/push sur `main` : build de production puis rsync de `dist/`
+# vers la racine web Nginx du VPS, par SSH.
+#
+# Secrets à configurer une seule fois (Settings → Secrets and variables →
+# Actions → New repository secret) :
+#   VPS_HOST      hôte ou IP du VPS (ex. accordguitare.joefr.cloud)
+#   VPS_USER      utilisateur SSH (ex. root ou deploy)
+#   VPS_SSH_KEY   clé PRIVÉE ed25519 dédiée (la clé publique va dans
+#                 ~/.ssh/authorized_keys de cet utilisateur sur le VPS)
+#   VPS_PORT      (optionnel) port SSH, défaut 22
+#   VPS_WEB_ROOT  (optionnel) racine web, défaut /var/www/accordguitare
+#
+# Tant que les secrets ne sont pas configurés, le job se termine en vert
+# avec un avertissement — aucun échec parasite.
+
+name: 🚀 Déploiement VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: true
+
+jobs:
+  deploy-vps:
+    name: Build & déploiement sur le VPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔎 Secrets configurés ?
+        id: check
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ] || [ -z "$VPS_SSH_KEY" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Secrets VPS_HOST / VPS_USER / VPS_SSH_KEY absents — déploiement VPS ignoré. Configurez-les dans Settings → Secrets and variables → Actions."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 📥 Checkout
+        if: steps.check.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - name: 🟢 Node.js
+        if: steps.check.outputs.ready == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 📦 Dépendances
+        if: steps.check.outputs.ready == 'true'
+        # --ignore-scripts : évite la compilation native de sharp
+        # (@capacitor/assets), inutile pour un build web.
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: 🔨 Build de production
+        if: steps.check.outputs.ready == 'true'
+        run: npm run build
+        env:
+          VITE_APP_BASE_PATH: /
+
+      - name: 🔑 Clé SSH
+        if: steps.check.outputs.ready == 'true'
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: 📤 Rsync dist/ → racine web
+        if: steps.check.outputs.ready == 'true'
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_WEB_ROOT: ${{ secrets.VPS_WEB_ROOT }}
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT:-22}" \
+            dist/ "$VPS_USER@$VPS_HOST:${VPS_WEB_ROOT:-/var/www/accordguitare}/"
+          echo "✓ dist/ déployé vers ${VPS_WEB_ROOT:-/var/www/accordguitare}"
+
+      - name: 🌐 Vérification du site
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          sleep 2
+          code=$(curl -s -o /dev/null -w '%{http_code}' "https://accordguitare.joefr.cloud/")
+          echo "HTTP $code"
+          [ "$code" = "200" ] || { echo "::error::Le site ne répond pas en 200 après déploiement."; exit 1; }
