@@ -197,3 +197,23 @@ body {
     color: #000;
   }
 }
+
+/* ——— UX-004 : impression du chansonnier (A4 portrait) ——— */
+.song-print-sheet {
+  display: none;
+}
+
+@media print {
+  body.printing-song #root {
+    display: none !important;
+  }
+  body.printing-song {
+    background: #fff !important;
+  }
+  body.printing-song .song-print-sheet {
+    display: block;
+    width: 100%;
+    background: #fff;
+    color: #000;
+  }
+}

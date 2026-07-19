@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Plus, Trash2, Pencil, Eye, ArrowLeft, Play, X, ChevronsDown, RotateCcw, BookOpen } from 'lucide-react';
+import { Plus, Trash2, Pencil, Eye, ArrowLeft, Play, X, ChevronsDown, RotateCcw, BookOpen, Printer } from 'lucide-react';
 import { Chord } from 'tonal';
 import { parseChordPro, transposeChordName, collectChords, prefersFlats } from '../utils/chordpro';
 import type { ParsedSong } from '../utils/chordpro';
+import { chordProToSimple, simpleToChordPro } from '../utils/simpleformat';
+import type { SimpleSong } from '../utils/simpleformat';
+import { SongPrintSheet } from './SongPrintSheet';
 import { suggestGuitarVoicing, suggestPianoVoicing, STANDARD_MIDIS } from '../utils/music';
 import { initAudio, getAudioCtx, strumGuitarAt, playPianoChordAt } from '../utils/audio';
 import { ChordDiagram } from './ChordDiagram';
@@ -136,6 +139,9 @@ export function Songbook() {
   const [songs, setSongs] = useState<StoredSong[]>(loadSongs);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [mode, setMode] = useState<'view' | 'edit'>('view');
+  const [editorTab, setEditorTab] = useState<'simple' | 'chordpro'>('simple');
+  const [simple, setSimple] = useState<SimpleSong>({ title: '', artist: '', key: '', body: '' });
+  const [printOpen, setPrintOpen] = useState(false);
   const [focusChord, setFocusChord] = useState<string | null>(null);
   const [autoScroll, setAutoScroll] = useState(false);
   const [scrollSpeed, setScrollSpeed] = useState(3);
@@ -213,6 +219,20 @@ export function Songbook() {
     setSongs((prev) =>
       prev.map((s) => (s.id === selectedId ? { ...s, content: value, updatedAt: Date.now() } : s))
     );
+  };
+
+  // Mode simple : (re)génère le texte « accords au-dessus » quand on entre en édition
+  useEffect(() => {
+    if (mode === 'edit' && editorTab === 'simple' && selected) {
+      setSimple(chordProToSimple(selected.content));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, editorTab, selectedId]);
+
+  const updateSimple = (patch: Partial<SimpleSong>) => {
+    const next = { ...simple, ...patch };
+    setSimple(next);
+    updateContent(simpleToChordPro(next));
   };
 
   const nudgeTranspose = (delta: number) => {
@@ -439,6 +459,14 @@ export function Songbook() {
 
             <div className="flex items-center gap-2">
               <button
+                onClick={() => setPrintOpen(true)}
+                className="flex items-center gap-1.5 py-1 px-2.5 rounded-lg text-xs font-bold border bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-emerald-400 hover:border-emerald-500/40 transition cursor-pointer"
+                title="Imprimer ou enregistrer en PDF"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                PDF
+              </button>
+              <button
                 onClick={() => setAutoScroll(!autoScroll)}
                 className={`flex items-center gap-1.5 py-1 px-2.5 rounded-lg text-xs font-bold border transition cursor-pointer ${
                   autoScroll
@@ -483,24 +511,88 @@ export function Songbook() {
       {mode === 'edit' ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
-            <p className="text-[11px] text-zinc-500 mb-2 leading-relaxed">
-              <span className="font-bold text-zinc-400">Syntaxe ChordPro :</span> accords entre
-              crochets dans les paroles <span className="text-emerald-500">[Am7]</span> ·
-              directives <span className="text-emerald-500">{'{title: …}'}</span>{' '}
-              <span className="text-emerald-500">{'{artist: …}'}</span>{' '}
-              <span className="text-emerald-500">{'{key: …}'}</span>{' '}
-              <span className="text-emerald-500">{'{c: commentaire}'}</span> · refrain entre{' '}
-              <span className="text-emerald-500">{'{soc}'}</span> et{' '}
-              <span className="text-emerald-500">{'{eoc}'}</span>, pont entre{' '}
-              <span className="text-emerald-500">{'{sob}'}</span> et{' '}
-              <span className="text-emerald-500">{'{eob}'}</span>.
-            </p>
-            <textarea
-              value={selected.content}
-              onChange={(e) => updateContent(e.target.value)}
-              spellCheck={false}
-              className="w-full min-h-[440px] bg-zinc-950/80 border border-zinc-800 rounded-xl p-4 font-mono text-[13px] leading-relaxed text-zinc-200 resize-y focus:outline-none focus:border-emerald-500/50"
-            />
+            {/* Choix du mode d'édition */}
+            <div className="flex bg-zinc-900/80 p-0.5 rounded-lg border border-zinc-800 w-fit mb-3">
+              <button
+                onClick={() => setEditorTab('simple')}
+                className={`py-1 px-3 rounded-md text-xs font-bold transition cursor-pointer ${
+                  editorTab === 'simple' ? 'bg-emerald-500 text-zinc-950' : 'text-zinc-400 hover:text-zinc-200'
+                }`}
+              >
+                Simple
+              </button>
+              <button
+                onClick={() => setEditorTab('chordpro')}
+                className={`py-1 px-3 rounded-md text-xs font-bold transition cursor-pointer ${
+                  editorTab === 'chordpro' ? 'bg-emerald-500 text-zinc-950' : 'text-zinc-400 hover:text-zinc-200'
+                }`}
+              >
+                ChordPro (avancé)
+              </button>
+            </div>
+
+            {editorTab === 'simple' ? (
+              <>
+                <p className="text-[11px] text-zinc-500 mb-2 leading-relaxed">
+                  <span className="font-bold text-zinc-400">Sans prise de tête :</span> écrivez vos
+                  paroles, et sur la ligne <span className="text-emerald-500 font-bold">au-dessus</span>,
+                  placez chaque accord au-dessus du mot où il tombe (la police à espacement fixe
+                  garde tout aligné). Encadrez le refrain avec{' '}
+                  <span className="text-emerald-500">[REFRAIN]</span> …{' '}
+                  <span className="text-emerald-500">[/REFRAIN]</span>, le pont avec{' '}
+                  <span className="text-emerald-500">[PONT]</span> …{' '}
+                  <span className="text-emerald-500">[/PONT]</span>.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
+                  <input
+                    value={simple.title}
+                    onChange={(e) => updateSimple({ title: e.target.value })}
+                    placeholder="Titre"
+                    className="bg-zinc-950/80 border border-zinc-800 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500/50"
+                  />
+                  <input
+                    value={simple.artist}
+                    onChange={(e) => updateSimple({ artist: e.target.value })}
+                    placeholder="Artiste"
+                    className="bg-zinc-950/80 border border-zinc-800 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500/50"
+                  />
+                  <input
+                    value={simple.key}
+                    onChange={(e) => updateSimple({ key: e.target.value })}
+                    placeholder="Tonalité (ex. G)"
+                    className="bg-zinc-950/80 border border-zinc-800 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500/50"
+                  />
+                </div>
+                <textarea
+                  value={simple.body}
+                  onChange={(e) => updateSimple({ body: e.target.value })}
+                  spellCheck={false}
+                  placeholder={'G          D\nÀ la claire fontaine,'}
+                  className="w-full min-h-[400px] bg-zinc-950/80 border border-zinc-800 rounded-xl p-4 font-mono text-[13px] leading-relaxed text-zinc-200 resize-y focus:outline-none focus:border-emerald-500/50 whitespace-pre overflow-x-auto"
+                />
+              </>
+            ) : (
+              <>
+                <p className="text-[11px] text-zinc-500 mb-2 leading-relaxed">
+                  <span className="font-bold text-zinc-400">Syntaxe ChordPro :</span> accords entre
+                  crochets dans les paroles <span className="text-emerald-500">[Am7]</span> ·
+                  directives <span className="text-emerald-500">{'{title: …}'}</span>{' '}
+                  <span className="text-emerald-500">{'{artist: …}'}</span>{' '}
+                  <span className="text-emerald-500">{'{key: …}'}</span>{' '}
+                  <span className="text-emerald-500">{'{c: commentaire}'}</span> · refrain entre{' '}
+                  <span className="text-emerald-500">{'{soc}'}</span> et{' '}
+                  <span className="text-emerald-500">{'{eoc}'}</span>, pont entre{' '}
+                  <span className="text-emerald-500">{'{sob}'}</span> et{' '}
+                  <span className="text-emerald-500">{'{eob}'}</span>.
+                </p>
+                <textarea
+                  value={selected.content}
+                  onChange={(e) => updateContent(e.target.value)}
+                  spellCheck={false}
+                  className="w-full min-h-[440px] bg-zinc-950/80 border border-zinc-800 rounded-xl p-4 font-mono text-[13px] leading-relaxed text-zinc-200 resize-y focus:outline-none focus:border-emerald-500/50"
+                />
+              </>
+            )}
           </div>
           <div className="p-5 rounded-2xl glass-panel overflow-x-auto">
             <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-3">
@@ -543,6 +635,16 @@ export function Songbook() {
             Réécouter
           </button>
         </div>
+      )}
+
+      {/* Feuille d'impression (invisible à l'écran, A4 portrait) */}
+      {printOpen && parsed && (
+        <SongPrintSheet
+          song={parsed}
+          tr={tr}
+          transpose={t}
+          onDone={() => setPrintOpen(false)}
+        />
       )}
     </main>
   );
