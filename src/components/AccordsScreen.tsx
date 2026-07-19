@@ -231,11 +231,12 @@ export function AccordsScreen(props: AccordsScreenProps) {
             </div>
           </section>
 
-          {/* Lien de synchronisation */}
+          {/* Indicateur d'état (non interactif) : la synchro guitare↔piano est automatique */}
           <div className="-my-1.5 flex justify-center">
-            <div className="flex items-center gap-1.5 rounded-full border border-white/12 bg-white/6 px-3 py-1">
+            <div className="flex items-center gap-1.5 rounded-full border border-guitar/25 bg-guitar/8 px-3 py-1" aria-live="polite">
+              <span className="h-1.5 w-1.5 rounded-full bg-guitar animate-pulse" />
               <Link2 className="h-3 w-3 text-guitar-light" strokeWidth={2.2} />
-              <span className="text-[9px] font-bold uppercase tracking-[0.6px] text-ink-2">Synchronisé</span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.6px] text-guitar-light">Guitare &amp; piano synchronisés</span>
             </div>
           </div>
 
