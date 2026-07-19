@@ -685,6 +685,10 @@ export default function App() {
                 const pianoMidis = suggestPianoVoicing(notes);
                 handleAddChord(voicing, pianoMidis, name, root);
               }}
+              savedChords={savedChords}
+              onMoveChord={handleMoveChord}
+              onDeleteChord={handleDeleteChord}
+              onOpenSheet={() => setAppPage('sheet')}
             />
           </div>
 
