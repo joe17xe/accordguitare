@@ -76,6 +76,16 @@ const fr: Dict = {
   'studio.audio.err.decode': 'Impossible de lire cet audio.',
   'studio.audio.err.empty': 'Fichier vide.',
   'studio.audio.err.mic': 'Accès au micro refusé ou indisponible.',
+  'studio.analyze': 'Analyser l\'audio',
+  'studio.analyze.again': 'Ré-analyser',
+  'studio.analyze.err': 'Échec de l\'analyse :',
+  'studio.decoding': 'Décodage de l\'audio…',
+  'studio.analyzing': 'Analyse en cours…',
+  'studio.result.title': 'Analyse terminée',
+  'studio.result.chords': 'accords',
+  'studio.result.key': 'Clé',
+  'studio.result.bpm': 'BPM',
+  'studio.result.next': 'Le lecteur synchronisé (grille jouable) arrive à l\'étape suivante.',
 };
 
 const en: Dict = {
@@ -140,6 +150,16 @@ const en: Dict = {
   'studio.audio.err.decode': 'Could not read this audio.',
   'studio.audio.err.empty': 'Empty file.',
   'studio.audio.err.mic': 'Microphone access denied or unavailable.',
+  'studio.analyze': 'Analyse audio',
+  'studio.analyze.again': 'Re-analyse',
+  'studio.analyze.err': 'Analysis failed:',
+  'studio.decoding': 'Decoding audio…',
+  'studio.analyzing': 'Analysing…',
+  'studio.result.title': 'Analysis complete',
+  'studio.result.chords': 'chords',
+  'studio.result.key': 'Key',
+  'studio.result.bpm': 'BPM',
+  'studio.result.next': 'The synchronised, playable grid arrives in the next step.',
 };
 
 const DICTS: Record<Lang, Dict> = { fr, en };
