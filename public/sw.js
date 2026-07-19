@@ -46,10 +46,12 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // Navigations : réseau d'abord (fraîcheur), coquille en secours (offline)
+  // Navigations : réseau d'abord (fraîcheur), coquille en secours (offline).
+  // cache: 'reload' → on contourne le cache HTTP pour toujours obtenir l'index.html à jour
+  // après un déploiement (sinon un index.html mis en cache renverrait vers l'ancien bundle).
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'reload' })
         .then((res) => {
           const copy = res.clone();
           caches.open(SHELL).then((c) => c.put('./index.html', copy)).catch(() => {});
