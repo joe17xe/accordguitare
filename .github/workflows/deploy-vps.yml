@@ -44,6 +44,10 @@ jobs:
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
+          # Tolère un VPS_HOST collé sous forme d'URL (https://hote/…) : on n'en
+          # garde que le nom d'hôte pour SSH.
+          clean=$(printf '%s' "$VPS_HOST" | sed -E 's#^[a-zA-Z]+://##; s#/.*$##; s#^ +##; s# +$##')
+          echo "SSH_HOST=$clean" >> "$GITHUB_ENV"
 
       - name: 📥 Checkout
         if: steps.check.outputs.ready == 'true'
@@ -72,25 +76,29 @@ jobs:
         if: steps.check.outputs.ready == 'true'
         env:
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
           mkdir -p ~/.ssh
           printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          port="${VPS_PORT:-22}"
+          echo "Test de joignabilité de $SSH_HOST:$port…"
+          if ! timeout 10 bash -c "cat < /dev/null > /dev/tcp/$SSH_HOST/$port" 2>/dev/null; then
+            echo "::error::Impossible de joindre $SSH_HOST sur le port $port. Vérifiez que VPS_HOST est l'IP du VPS ou un nom d'hôte SSH direct (PAS une URL, PAS un domaine derrière le proxy Cloudflare — dans ce cas mettez l'IP), que le port SSH est le bon (secret VPS_PORT sinon 22) et que le pare-feu du VPS accepte les connexions entrantes."
+            exit 1
+          fi
+          ssh-keyscan -p "$port" -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
       - name: 📤 Rsync dist/ → racine web
         if: steps.check.outputs.ready == 'true'
         env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
           VPS_WEB_ROOT: ${{ secrets.VPS_WEB_ROOT }}
         run: |
           rsync -az --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT:-22}" \
-            dist/ "$VPS_USER@$VPS_HOST:${VPS_WEB_ROOT:-/var/www/accordguitare}/"
+            dist/ "$VPS_USER@$SSH_HOST:${VPS_WEB_ROOT:-/var/www/accordguitare}/"
           echo "✓ dist/ déployé vers ${VPS_WEB_ROOT:-/var/www/accordguitare}"
 
       - name: 🌐 Vérification du site
