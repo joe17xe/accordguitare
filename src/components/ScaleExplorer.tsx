@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Play } from 'lucide-react';
+import { Play, Printer } from 'lucide-react';
 import { Scale, Note, Interval } from 'tonal';
 import { STANDARD_MIDIS } from '../utils/music';
 import { NOTE_FR, NOTE_EN } from '../utils/pitch';
 import { PianoDiagram } from './PianoDiagram';
+import { ScalePrintSheet } from './ScalePrintSheet';
+import type { PrintMode } from './ScalePrintSheet';
 
 interface ScaleExplorerProps {
   initialRoot?: string;
@@ -63,6 +65,8 @@ export function ScaleExplorer({ initialRoot, initialType, onPlayNote, tuningMidi
   });
   const [type, setType] = useState<string>(initialType || 'minor pentatonic');
   const [labelMode, setLabelMode] = useState<'degrees' | 'names'>('degrees');
+  const [printMenu, setPrintMenu] = useState(false);
+  const [printMode, setPrintMode] = useState<PrintMode | null>(null);
 
   // Suit la tonalité envoyée depuis l'atelier (« Gammes pour improviser »)
   useEffect(() => {
@@ -105,6 +109,7 @@ export function ScaleExplorer({ initialRoot, initialType, onPlayNote, tuningMidi
 
   const scaleNotesFr = scaleInfo.semis.map((s) => NOTE_FR[(rootPc + s) % 12]);
   const degreesSeq = scaleInfo.intervals.map(degreeLabel);
+  const scaleLabel = SCALE_GROUPS.flatMap((g) => g.scales).find((s) => s.type === type)?.label ?? type;
 
   return (
     <main className="max-w-[1200px] mx-auto animate-fadeIn flex flex-col gap-6">
@@ -119,13 +124,49 @@ export function ScaleExplorer({ initialRoot, initialType, onPlayNote, tuningMidi
               </span>
             )}
           </div>
-          <button
-            onClick={playScale}
-            className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/50 text-xs font-bold transition cursor-pointer"
-          >
-            <Play className="w-4 h-4" />
-            Écouter la gamme
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={playScale}
+              className="flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/50 text-xs font-bold transition cursor-pointer"
+            >
+              <Play className="w-4 h-4" />
+              Écouter la gamme
+            </button>
+            <div className="relative">
+              <button
+                onClick={() => setPrintMenu(!printMenu)}
+                className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg border text-xs font-bold transition cursor-pointer ${
+                  printMenu
+                    ? 'bg-emerald-500 text-zinc-950 border-emerald-400'
+                    : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-zinc-700 hover:border-emerald-500/50'
+                }`}
+                title="Imprimer ou enregistrer en PDF (format paysage)"
+              >
+                <Printer className="w-4 h-4" />
+                Imprimer
+              </button>
+              {printMenu && (
+                <div className="absolute top-full right-0 mt-2 p-2 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl z-50 flex flex-col gap-1 w-44 animate-fadeIn">
+                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider px-2 pt-1">
+                    Page paysage avec…
+                  </span>
+                  {([
+                    ['degrees', 'Degrés (R, b3, 5…)'],
+                    ['names', 'Noms des notes'],
+                    ['both', 'Les deux'],
+                  ] as [PrintMode, string][]).map(([m, label]) => (
+                    <button
+                      key={m}
+                      onClick={() => { setPrintMenu(false); setPrintMode(m); }}
+                      className="text-left py-1.5 px-2 rounded-lg text-xs font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-emerald-400 transition cursor-pointer"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Choix de la tonique */}
@@ -301,6 +342,18 @@ export function ScaleExplorer({ initialRoot, initialType, onPlayNote, tuningMidi
           <PianoDiagram notes={pianoMidis} scale={1.9} />
         </div>
       </div>
+
+      {/* Feuille d'impression (invisible à l'écran, pleine page A4 paysage) */}
+      {printMode && (
+        <ScalePrintSheet
+          title={`Gamme de ${NOTE_FR[rootPc]} — ${scaleLabel}`}
+          subtitle={`${scaleNotesFr.join(' · ')}   (${degreesSeq.join(' - ')})`}
+          midis={midis}
+          pcToDegree={scaleInfo.pcToDegree}
+          mode={printMode}
+          onDone={() => setPrintMode(null)}
+        />
+      )}
     </main>
   );
 }
