@@ -86,6 +86,13 @@ const fr: Dict = {
   'studio.result.key': 'Clé',
   'studio.result.bpm': 'BPM',
   'studio.result.next': 'Le lecteur synchronisé (grille jouable) arrive à l\'étape suivante.',
+  'studio.transpose': 'Transpo.',
+  'studio.righty': 'Droitier',
+  'studio.lefty': 'Gaucher',
+  'studio.play': 'Lecture',
+  'studio.pause': 'Pause',
+  'studio.transpose.down': 'Transposer -1',
+  'studio.transpose.up': 'Transposer +1',
 };
 
 const en: Dict = {
@@ -160,6 +167,13 @@ const en: Dict = {
   'studio.result.key': 'Key',
   'studio.result.bpm': 'BPM',
   'studio.result.next': 'The synchronised, playable grid arrives in the next step.',
+  'studio.transpose': 'Transpose',
+  'studio.righty': 'Right-handed',
+  'studio.lefty': 'Left-handed',
+  'studio.play': 'Play',
+  'studio.pause': 'Pause',
+  'studio.transpose.down': 'Transpose -1',
+  'studio.transpose.up': 'Transpose +1',
 };
 
 const DICTS: Record<Lang, Dict> = { fr, en };
