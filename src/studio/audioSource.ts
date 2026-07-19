@@ -68,6 +68,15 @@ export async function validateAudioFile(file: File): Promise<ValidatedAudio> {
   return { blob: file, durationSec };
 }
 
+/** Décode entièrement l'audio en AudioBuffer (thread principal). Lève 'decode' en cas d'échec. */
+export async function decodeToAudioBuffer(arrayBuffer: ArrayBuffer): Promise<AudioBuffer> {
+  try {
+    return await getDecodeCtx().decodeAudioData(arrayBuffer);
+  } catch {
+    throw new AudioValidationError('decode');
+  }
+}
+
 /** Décode l'audio pour en extraire la durée ; valide aussi que le contenu est décodable. */
 export async function decodeDuration(arrayBuffer: ArrayBuffer): Promise<number> {
   let audioBuffer: AudioBuffer;

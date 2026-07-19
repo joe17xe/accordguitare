@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Upload, Mic, Square, CheckCircle2, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Upload, Mic, Square, CheckCircle2, RefreshCw, Sparkles, Loader2 } from 'lucide-react';
 import type { Lang } from '../i18n';
 import { t } from '../i18n';
 import type { Project } from './types';
-import { getProject, updateProject, putAudioBlob, getAudioBlob } from './db';
+import { getProject, updateProject, putAudioBlob, getAudioBlob, listChordSegments } from './db';
 import { validateAudioFile, decodeDuration, startRecording, canRecord, AudioValidationError } from './audioSource';
 import type { Recorder } from './audioSource';
+import { runChordAnalysis } from './runAnalysis';
 
 interface StudioProjectProps {
   projectId: string;
@@ -35,14 +36,38 @@ export function StudioProject({ projectId, lang, onBack, onChanged }: StudioProj
   const recorderRef = useRef<Recorder | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
+  // Analyse (job)
+  const [job, setJob] = useState<'idle' | 'decoding' | 'analyzing'>('idle');
+  const [progress, setProgress] = useState(0);
+  const [segCount, setSegCount] = useState(0);
+  const [analyzeError, setAnalyzeError] = useState<string | null>(null);
+
   const load = () => {
     getProject(projectId).then((p) => {
       setProject(p ?? null);
       setHasAudio(!!p?.audioBlobRef);
     });
     getAudioBlob(projectId).then((b) => setHasAudio(!!b));
+    listChordSegments(projectId).then((s) => setSegCount(s.length));
   };
   useEffect(load, [projectId]);
+
+  const handleAnalyze = async () => {
+    setAnalyzeError(null);
+    setProgress(0);
+    try {
+      await runChordAnalysis(projectId, {
+        onState: (s) => setJob(s),
+        onProgress: (r) => setProgress(r),
+      });
+    } catch (e) {
+      setAnalyzeError(String((e as Error)?.message ?? e));
+    } finally {
+      setJob('idle');
+      load();
+      onChanged();
+    }
+  };
 
   const errMsg = (code: string) => t(lang, `studio.audio.err.${code}`);
 
@@ -137,9 +162,72 @@ export function StudioProject({ projectId, lang, onBack, onChanged }: StudioProj
               {t(lang, 'studio.audio.replace')}
             </button>
           </div>
-          <p className="rounded-2xl border border-white/8 bg-white/[0.03] p-4 text-center text-[13px] text-ink-4">
-            {t(lang, 'studio.audio.next')}
-          </p>
+
+          {/* Analyse en cours */}
+          {job !== 'idle' ? (
+            <div className="rounded-2xl border border-guitar/20 bg-guitar/5 p-4">
+              <div className="mb-2 flex items-center gap-2 text-sm font-bold text-guitar-light">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                {t(lang, job === 'decoding' ? 'studio.decoding' : 'studio.analyzing')}
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/8">
+                <div
+                  className="h-full rounded-full bg-guitar transition-all"
+                  style={{ width: job === 'analyzing' ? `${Math.round(progress * 100)}%` : '15%' }}
+                />
+              </div>
+            </div>
+          ) : project?.status === 'completed' ? (
+            // Résultat
+            <div className="flex flex-col gap-3">
+              <div className="rounded-2xl border border-guitar/25 bg-guitar/8 p-4">
+                <div className="mb-2 flex items-center gap-2 text-sm font-extrabold text-ink">
+                  <CheckCircle2 className="h-4 w-4 text-guitar-light" />
+                  {t(lang, 'studio.result.title')}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-ink-2">
+                    {segCount} {t(lang, 'studio.result.chords')}
+                  </span>
+                  {project.detectedKey && (
+                    <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-ink-2">
+                      {t(lang, 'studio.result.key')} {project.detectedKey}
+                    </span>
+                  )}
+                  {project.detectedBpm != null && (
+                    <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-ink-2">
+                      {project.detectedBpm} {t(lang, 'studio.result.bpm')}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-[12px] text-ink-4">{t(lang, 'studio.result.next')}</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleAnalyze}
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-guitar/25 bg-white/[0.04] py-2.5 text-sm font-bold text-guitar-light transition active:scale-[0.99]"
+              >
+                <RefreshCw className="h-4 w-4" />
+                {t(lang, 'studio.analyze.again')}
+              </button>
+            </div>
+          ) : (
+            // Prêt à analyser
+            <button
+              type="button"
+              onClick={handleAnalyze}
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gradient-to-b from-guitar to-guitar-deep py-3 text-sm font-extrabold text-guitar-ink shadow-lg shadow-guitar/30 transition active:scale-[0.99]"
+            >
+              <Sparkles className="h-4.5 w-4.5" strokeWidth={2.4} />
+              {t(lang, 'studio.analyze')}
+            </button>
+          )}
+
+          {analyzeError && (
+            <div className="rounded-2xl border border-tonic/25 bg-tonic/10 p-3 text-sm font-semibold text-tonic">
+              {t(lang, 'studio.analyze.err')} {analyzeError}
+            </div>
+          )}
         </div>
       ) : (
         // Choix de la source
